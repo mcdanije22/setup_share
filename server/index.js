@@ -12,6 +12,7 @@ app.prepare().then(() => {
   server.use(bodyParser.json());
   // add custom path here
   // server.post('/request/custom', custom);
+  server.get("/ping", (req, res) => console.log("test"));
 
   server.get("*", (req, res) => {
     return handle(req, res);
