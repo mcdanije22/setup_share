@@ -1,3 +1,5 @@
+const testHandler = require("./controllers/testHandler");
+
 const express = require("express");
 const next = require("next");
 const bodyParser = require("body-parser");
@@ -13,6 +15,11 @@ app.prepare().then(() => {
   // add custom path here
   // server.post('/request/custom', custom);
   server.get("/ping", (req, res) => console.log("test"));
+  // server.get("/ping/:id", (req, res) => {
+  //   const id = req.params.id;
+  //   res.send({ id });
+  // });
+  server.get("/ping/:id", testHandler);
 
   server.get("*", (req, res) => {
     return handle(req, res);

@@ -14,7 +14,7 @@ export default function Home() {
         <Button
           type="primary"
           onClick={() => {
-            axios.get("/ping");
+            axios.get("/ping/100");
           }}
         >
           Primary Button
