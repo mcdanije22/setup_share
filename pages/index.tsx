@@ -12,6 +12,7 @@ export default function Home() {
   const uploadFile = async (values) => {
     const data = new FormData();
     data.append("image-file", values.imageFile.file.originFileObj);
+    console.log(values);
     await axios
       .post("http://localhost:5000/images", data, {
         headers: {
@@ -19,14 +20,16 @@ export default function Home() {
         },
       })
       .then((res) => {
+        console.log(res);
         message.success("sucess");
       })
       .catch((error) => {
         message.error(error);
       });
+    setFileList([...imageList, values.imageFile.file.originFileObj]);
   };
-  const dummyRequest = (values) => {
-    setFileList([...imageList, values]);
+  const dummyRequest = () => {
+    console.log("test");
   };
   console.log(imageList);
   return (
@@ -40,8 +43,8 @@ export default function Home() {
           <Form.Item name="imageFile">
             <Dragger
               name="image"
-              multiple={true}
-              maxCount={3}
+              multiple={false}
+              maxCount={1}
               customRequest={dummyRequest}
               fileList={imageList}
             >
@@ -56,6 +59,9 @@ export default function Home() {
                 uploading company data or other band files
               </p>
             </Dragger>
+            {/* <Upload fileList={imageList}>
+              <Button>Select File</Button>
+            </Upload> */}
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
