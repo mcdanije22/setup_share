@@ -1,10 +1,26 @@
 import Head from "next/head";
+import React from "react";
 import { Button, Upload, message, Form } from "antd";
 import { ConsoleSqlOutlined, InboxOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 export default function Home() {
+  const Map = React.useMemo(
+    () =>
+      dynamic(
+        () => import("../components/Map"), // replace '@components/map' with your component's location
+        {
+          loading: () => <p>A map is loading</p>,
+          ssr: false, // This line is important. It's what prevents server-side render
+        }
+      ),
+    [
+      /* list variables which should trigger a re-render here */
+    ]
+  );
+
   const [imageList, setFileList] = useState([]);
   const [isLoading, setLoadingStatus] = useState(false);
   const { Dragger } = Upload;
@@ -36,6 +52,15 @@ export default function Home() {
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        />
+        <script
+          src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+          integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        ></script>
       </Head>
       <main>
         <Form name="file-upload-form" onFinish={uploadFile}>
@@ -45,7 +70,6 @@ export default function Home() {
               multiple={false}
               maxCount={1}
               customRequest={dummyRequest}
-              fileList={[]}
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -65,6 +89,7 @@ export default function Home() {
             </Button>
           </Form.Item>
         </Form>
+        <Map />
         {/* <img src="https://share-set-up-uploads.s3.us-east-2.amazonaws.com/front+view" /> */}
       </main>
 
