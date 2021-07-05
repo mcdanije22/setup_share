@@ -6,32 +6,31 @@ import { useState } from "react";
 
 export default function Home() {
   const [imageList, setFileList] = useState([]);
-  const [uploading, setUploadingStatus] = useState(false);
+  const [isLoading, setLoadingStatus] = useState(false);
   const { Dragger } = Upload;
 
   const uploadFile = async (values) => {
+    setLoadingStatus(true);
     const data = new FormData();
     data.append("image-file", values.imageFile.file.originFileObj);
-    console.log(values);
-    await axios
-      .post("http://localhost:5000/images", data, {
+    try {
+      const result = await axios.post("http://localhost:5000/images", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      })
-      .then((res) => {
-        console.log(res);
-        message.success("sucess");
-      })
-      .catch((error) => {
-        message.error(error);
       });
-    setFileList([...imageList, values.imageFile.file.originFileObj]);
+      console.log(result);
+      message.success("sucess");
+    } catch (error) {
+      console.log(error);
+    }
+    setLoadingStatus(false);
+    //likely wont need this list tracking, will look to have custom preview images and single uploads
+    // setFileList([...imageList, values.imageFile.file.originFileObj]);
   };
-  const dummyRequest = () => {
-    console.log("test");
+  const dummyRequest = (file) => {
+    console.log(file);
   };
-  console.log(imageList);
   return (
     <div>
       <Head>
@@ -46,7 +45,7 @@ export default function Home() {
               multiple={false}
               maxCount={1}
               customRequest={dummyRequest}
-              fileList={imageList}
+              fileList={[]}
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -59,12 +58,9 @@ export default function Home() {
                 uploading company data or other band files
               </p>
             </Dragger>
-            {/* <Upload fileList={imageList}>
-              <Button>Select File</Button>
-            </Upload> */}
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isLoading}>
               submit
             </Button>
           </Form.Item>

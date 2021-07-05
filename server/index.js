@@ -22,10 +22,5 @@ app.get("/ping", (req, res) => {
 app.get("/ping/:id", testHandler);
 app.get("/upload", uploadHandler);
 app.post("/images", upload.single("image-file"), multerUploadHandler);
-// app.post("/images", upload.single("image-file"), async (req, res) => {
-//   const file = req.file;
-//   const result = await uploadFile(file);
-//   res.send({ imagePath: `/images/${result.key}` });
-// });
 
 app.listen(PORT, () => console.log(`server started successfully on ${PORT}`));
