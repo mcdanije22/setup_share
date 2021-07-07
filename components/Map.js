@@ -3,21 +3,25 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
 import * as L from "leaflet";
 import "leaflet-defaulticon-compatibility";
-import { CaretDownOutlined } from "@ant-design/icons";
 
 const Map = () => {
-  const icon = L.icon({ iconUrl: <CaretDownOutlined /> });
-
   return (
     <MapContainer
       center={[51.505, -0.09]}
-      zoom={13}
+      zoom={0}
       scrollWheelZoom={false}
-      style={{ height: 400, width: "100%" }}
+      //   style={{ height: 400, width: "512" }}
+      style={{ height: "100vh", width: "100wh" }}
+      zoomControl={false}
+      attributionControl={false}
+      dragging={false}
     >
       <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        // attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        tileSize={512}
+        noWrap={true}
+        url="https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
       />
       <Marker position={[51.505, -0.09]}>
         <Popup>

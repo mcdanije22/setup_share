@@ -23,7 +23,15 @@ export default function Home() {
 
   const [imageList, setFileList] = useState([]);
   const [isLoading, setLoadingStatus] = useState(false);
+  const [x, setXCoord] = useState(0);
+  const [y, setYCoord] = useState(0);
+
   const { Dragger } = Upload;
+
+  const onMove = (e) => {
+    setXCoord(e.nativeEvent.offsetX);
+    setYCoord(e.nativeEvent.offsetY);
+  };
 
   const uploadFile = async (values) => {
     setLoadingStatus(true);
@@ -89,8 +97,14 @@ export default function Home() {
             </Button>
           </Form.Item>
         </Form>
-        <Map />
+        {/* <Map /> */}
+        <img
+          onMouseDown={onMove}
+          src="https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
+        />
         {/* <img src="https://share-set-up-uploads.s3.us-east-2.amazonaws.com/front+view" /> */}
+        <p>{x}</p>
+        <p>{y}</p>
       </main>
 
       <footer></footer>
