@@ -1,37 +1,15 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Upload, message, Form } from "antd";
-import { ConsoleSqlOutlined, InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { useState } from "react";
-import dynamic from "next/dynamic";
+import CanvasImg from "../components/CanvasImg";
 
 export default function Home() {
-  const Map = React.useMemo(
-    () =>
-      dynamic(
-        () => import("../components/Map"), // replace '@components/map' with your component's location
-        {
-          loading: () => <p>A map is loading</p>,
-          ssr: false, // This line is important. It's what prevents server-side render
-        }
-      ),
-    [
-      /* list variables which should trigger a re-render here */
-    ]
-  );
-
   const [imageList, setFileList] = useState([]);
   const [isLoading, setLoadingStatus] = useState(false);
-  const [x, setXCoord] = useState(0);
-  const [y, setYCoord] = useState(0);
 
   const { Dragger } = Upload;
-
-  const onMove = (e) => {
-    setXCoord(e.nativeEvent.offsetX);
-    setYCoord(e.nativeEvent.offsetY);
-  };
 
   const uploadFile = async (values) => {
     setLoadingStatus(true);
@@ -60,15 +38,6 @@ export default function Home() {
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        />
-        <script
-          src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-          integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        ></script>
       </Head>
       <main>
         <Form name="file-upload-form" onFinish={uploadFile}>
@@ -98,13 +67,9 @@ export default function Home() {
           </Form.Item>
         </Form>
         {/* <Map /> */}
-        <img
-          onMouseDown={onMove}
-          src="https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
-        />
+
         {/* <img src="https://share-set-up-uploads.s3.us-east-2.amazonaws.com/front+view" /> */}
-        <p>{x}</p>
-        <p>{y}</p>
+        <CanvasImg />
       </main>
 
       <footer></footer>
