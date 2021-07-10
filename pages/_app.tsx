@@ -1,5 +1,4 @@
 import "antd/dist/antd.css";
-import "../components/CanvasImg";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {

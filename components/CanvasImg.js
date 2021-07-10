@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-// import "./canvasimg.css";
+import styles from "./Canvasimg.module.scss";
 
 const CanvasImg = () => {
   const [x, setXCoord] = useState(0);
@@ -13,7 +13,7 @@ const CanvasImg = () => {
     // context.fillStyle = "#000000";
     // context.fillRect(0, 0, context.canvas.width, context.canvas.height);
     context.beginPath();
-    context.moveTo(218, 77);
+    context.lineTo(218, 77);
     context.lineTo(214, 120);
     context.lineTo(264, 119);
     context.lineTo(251, 79);
@@ -37,14 +37,18 @@ const CanvasImg = () => {
     setXCoord(e.nativeEvent.offsetX);
     setYCoord(e.nativeEvent.offsetY);
   };
+
   return (
-    <div id="image-container">
-      {/* <img
-        className="img"
-        onMouseDown={onMove}
-        src="https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
-      /> */}
-      <canvas
+    <>
+      <div id={styles.imageContainer}>
+        <img
+          className={styles.img}
+          onMouseDown={onMove}
+          src="https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
+        />
+        <canvas id="myCanvas" width="800" height="480" ref={canvasRef}></canvas>
+
+        {/* <canvas
         onMouseDown={onMove}
         id="myCanvas"
         width="500"
@@ -56,11 +60,11 @@ const CanvasImg = () => {
         }}
       >
         Your browser does not support the HTML5 canvas tag.
-      </canvas>
-
+      </canvas> */}
+      </div>
       <p>{x}</p>
       <p>{y}</p>
-    </div>
+    </>
   );
 };
 export default CanvasImg;
