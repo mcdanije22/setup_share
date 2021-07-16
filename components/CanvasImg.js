@@ -6,6 +6,8 @@ const CanvasImg = () => {
   const [x, setXCoord] = useState(0);
   const [y, setYCoord] = useState(0);
   const [coordList, setCoordList] = useState([]);
+  const [editStatus, setEditStatus] = useState(false);
+  const [testList, setList] = useState([218, 77, 214, 120, 264, 119]);
   //   const canvasRef = useRef(null);
   const URL = "https://c1.staticflickr.com/5/4052/4503898393_303cfbc9fd_b.jpg";
   const MAP = {
@@ -39,13 +41,25 @@ const CanvasImg = () => {
       { name: "5", shape: "circle", coords: [170, 100, 25] },
     ],
   };
+  //   const MAP2 = {
+  //     name: "my-map",
+  //     areas: [
+  //       {
+  //         name: "1",
+  //         shape: "poly",
+  //         coords: [218, 77, 214, 120, 264, 119],
+  //         preFillColor: "green",
+  //         fillColor: "blue",
+  //       },
+  //     ],
+  //   };
   const MAP2 = {
     name: "my-map",
     areas: [
       {
         name: "1",
         shape: "poly",
-        coords: [218, 77, 214, 120, 264, 119, 251, 79],
+        coords: [...testList],
         preFillColor: "green",
         fillColor: "blue",
       },
@@ -86,6 +100,12 @@ const CanvasImg = () => {
     setYCoord(e.nativeEvent.offsetY);
   };
 
+  const addTo = (coords) => {
+    //   251, 79
+    // MAP2.areas[0].coords.push(...coords);
+    setList([...testList, ...coords]);
+    console.log(testList);
+  };
   return (
     <div id="imgContainer">
       {/* <img
@@ -105,12 +125,28 @@ const CanvasImg = () => {
           }}
         />
       </map> */}
+      <button
+        onClick={() => {
+          addTo([251, 79]);
+          console.log(MAP2);
+        }}
+      >
+        add coords
+      </button>
       <ImageMapper
         src={
-          "https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
+          "https://share-set-up-uploads.s3.us-east-2.amazonaws.com/8790871738a4a28f6cfb60a9bb4e4c60"
         }
         map={MAP2}
-        width={800}
+        width={500}
+        onMouseEnter={(area) => {
+          alert("test");
+        }}
+        onImageClick={(e) => {
+          console.log(e.nativeEvent.offsetX);
+          console.log(e.nativeEvent.offsetY);
+          addTo([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+        }}
       />
       <ImageMapper src={URL} map={MAP} width={500} />
 
