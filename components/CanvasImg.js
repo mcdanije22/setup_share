@@ -8,6 +8,18 @@ const CanvasImg = () => {
   const [coordList, setCoordList] = useState([]);
   const [editStatus, setEditStatus] = useState(false);
   const [testList, setList] = useState([218, 77, 214, 120, 264, 119]);
+  const [imgMap, setMap] = useState({
+    name: "my-map",
+    areas: [
+      {
+        name: "1",
+        shape: "poly",
+        coords: [...testList],
+        preFillColor: "green",
+        fillColor: "blue",
+      },
+    ],
+  });
   //   const canvasRef = useRef(null);
   const URL = "https://c1.staticflickr.com/5/4052/4503898393_303cfbc9fd_b.jpg";
   const MAP = {
@@ -79,7 +91,6 @@ const CanvasImg = () => {
     // context.stroke();
     // context.fillStyle = "red";
     // context.fill();
-
     // context.beginPath();
     // context.moveTo(21, 20);
     // context.lineTo(20, 100);
@@ -89,10 +100,9 @@ const CanvasImg = () => {
     // context.stroke();
     // context.fillStyle = "blue";
     // context.fill();
-
-    $(function () {
-      $(".map").maphilight();
-    });
+    // $(function () {
+    //   $(".map").maphilight();
+    // });\
   }, []);
 
   const onMove = (e) => {
@@ -101,8 +111,6 @@ const CanvasImg = () => {
   };
 
   const addTo = (coords) => {
-    //   251, 79
-    // MAP2.areas[0].coords.push(...coords);
     setList([...testList, ...coords]);
     console.log(testList);
   };
@@ -125,14 +133,6 @@ const CanvasImg = () => {
           }}
         />
       </map> */}
-      <button
-        onClick={() => {
-          addTo([251, 79]);
-          console.log(MAP2);
-        }}
-      >
-        add coords
-      </button>
       <ImageMapper
         src={
           "https://share-set-up-uploads.s3.us-east-2.amazonaws.com/8790871738a4a28f6cfb60a9bb4e4c60"
@@ -143,19 +143,14 @@ const CanvasImg = () => {
           alert("test");
         }}
         onImageClick={(e) => {
-          console.log(e.nativeEvent.offsetX);
-          console.log(e.nativeEvent.offsetY);
           addTo([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+          console.log(MAP2.areas[0]);
+          MAP2.areas[0].coords.push(286, 77);
         }}
       />
       <ImageMapper src={URL} map={MAP} width={500} />
 
       <div id={styles.imageContainer}>
-        {/* <img
-          className={styles.img}
-          onMouseDown={onMove}
-          src="https://png.pngtree.com/thumb_back/fh260/background/20190625/pngtree-large-data-ray-abstraction-background-image_215660.jpg"
-        /> */}
         <img
           className={styles.img}
           onMouseDown={onMove}
