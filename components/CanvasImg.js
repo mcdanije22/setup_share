@@ -145,7 +145,11 @@ const CanvasImg = () => {
         onImageClick={(e) => {
           addTo([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
           console.log(MAP2.areas[0]);
-          MAP2.areas[0].coords.push(286, 77);
+          //fixes lagging state for preview by updating local MAP2 object and state in same function
+          MAP2.areas[0].coords.push(
+            e.nativeEvent.offsetX,
+            e.nativeEvent.offsetY
+          );
         }}
       />
       <ImageMapper src={URL} map={MAP} width={500} />
