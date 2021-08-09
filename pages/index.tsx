@@ -16,11 +16,16 @@ export default function Home() {
     const data = new FormData();
     data.append("image-file", values.imageFile.file.originFileObj);
     try {
-      const result = await axios.post("http://localhost:5000/images", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // const result = await axios.post("http://localhost:5000/images", data, {
+      const result = await axios.post(
+        "http://localhost:5000/image/upload",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(result);
       message.success("sucess");
     } catch (error) {
