@@ -6,9 +6,11 @@ import createUserHandler from "./controllers/createUserHandler";
 import db from "./services/dbConnection";
 import testRoutes from "./routes/testRoutes";
 import imageRoutes from "./routes/imageRoutes";
+import userRoutes from "./routes/userRouters";
 
 import express, { Router } from "express";
 import bodyParser from "body-parser";
+import jwt from "jsonwebtoken";
 import cors from "cors";
 import multer from "multer";
 const upload = multer({ dest: "uploads/" });
@@ -21,6 +23,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use("/test", testRoutes);
 app.use("/image", imageRoutes);
+app.use("/user", userRoutes);
 
 // app.get("/ping", (req, res) => {
 //   const testFunction = async () => {
