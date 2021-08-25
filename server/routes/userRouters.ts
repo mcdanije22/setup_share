@@ -14,15 +14,13 @@ userRouter.post("/register", (req, res) => {
   bcrypt.hash(createdPassword, saltRounds, function (err, hash) {
     (async function () {
       try {
-        const createUser = db("users")
-          .insert({
-            username,
-            email,
-            password: hash,
-            first_name,
-            last_name,
-          })
-          .returning("*");
+        const createUser = db("users").insert({
+          username,
+          email,
+          password: hash,
+          first_name,
+          last_name,
+        });
         const data = await createUser;
         res.send({ data });
       } catch (error) {
@@ -40,9 +38,30 @@ userRouter.post("/register", (req, res) => {
 });
 userRouter.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const getUserHash = () => {
-    const userHash = db("users").select("password").where("email", email);
-    return userHash;
+  const getUserHash = async () => {
+    const userHash = await db("users").select("password").where("email", email);
+    if (userHash.length !== 0) {
+      return userHash;
+    } else {
+      //send null if querry does not found an account
+      return null;
+    }
+  };
+  const createCookie = (token) => {
+    res.cookie("token", token, {
+      maxAge: 900000,
+      httpOnly: true,
+    });
+  };
+  const createJWTToken = (uniqueData) => {
+    const token = jwt.sign(
+      {
+        data: uniqueData,
+      },
+      "secret", //change this to much longer string and make .env var
+      { expiresIn: "1h" }
+    );
+    createCookie(token);
   };
   const logUserIn = async () => {
     const user = await db("users")
@@ -56,34 +75,26 @@ userRouter.post("/login", (req, res) => {
         "subscription_exp_date"
       )
       .where("email", email);
-    createToken(user[0].userID);
+    createJWTToken(user[0].userID);
     res.send({ user });
-  };
-  const createToken = (uniqueData) => {
-    const token = jwt.sign(
-      {
-        data: uniqueData,
-      },
-      "secret", //change this to much longer string and make .env var
-      { expiresIn: "1h" }
-    );
-    res.cookie("token", token, {
-      maxAge: 900000,
-      httpOnly: true,
-    });
   };
 
   (async function () {
     const dbHashPassword = await getUserHash();
-    const hashedPassword = await dbHashPassword[0].password;
-    bcrypt.compare(password, hashedPassword, function (err, result) {
-      if (result) {
-        console.log("success");
-        logUserIn();
-      } else {
-        res.send({ message: "Incorrect password!" });
-      }
-    });
+    if (!dbHashPassword) {
+      //receives null if no account found
+      res.send({ message: "No account for email" });
+    } else {
+      const hashedPassword = await dbHashPassword[0].password;
+      bcrypt.compare(password, hashedPassword, function (err, result) {
+        if (result) {
+          console.log("success");
+          logUserIn();
+        } else {
+          res.send({ message: "Incorrect password!" });
+        }
+      });
+    }
   })();
 });
 
