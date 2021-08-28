@@ -8,6 +8,10 @@ express().use(cookieParser());
 
 const userRouter = Router();
 
+userRouter.get("/test", (req, res) => {
+  console.log(req.cookies);
+});
+
 userRouter.post("/register", (req, res) => {
   const saltRounds = 10;
   const { username, email, createdPassword, first_name, last_name } = req.body;
