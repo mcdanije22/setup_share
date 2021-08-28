@@ -9,7 +9,17 @@ express().use(cookieParser());
 const userRouter = Router();
 
 userRouter.get("/test", (req, res) => {
-  console.log(req.cookies);
+  //route to test cookie access and jwt token verify
+  const cookie = req.headers.cookie.replace("token=", "");
+  jwt.verify(cookie, "secdret", function (err, decoded) {
+    if (decoded) {
+      console.log("good token");
+    } else {
+      //bycrypt compare fails(false) has does not equal password entered
+      console.log("bad token");
+    }
+  });
+  res.send({ cookie });
 });
 
 userRouter.post("/register", (req, res) => {
@@ -80,7 +90,7 @@ userRouter.post("/login", (req, res) => {
       )
       .where("email", email);
     createJWTToken(user[0].userID);
-    res.send({ user });
+    res.send({ user: user[0] });
   };
 
   (async function () {
