@@ -4,16 +4,12 @@ import multerUploadHandler from "./controllers/multerUploadHandler";
 import uploadFile from "./services/s3_bucket";
 import createUserHandler from "./controllers/createUserHandler";
 import db from "./services/dbConnection";
-import testRoutes from "./routes/testRoutes";
 import imageRoutes from "./routes/imageRoutes";
 import userRoutes from "./routes/userRouters";
 
-import express, { Router } from "express";
+import express from "express";
 import bodyParser from "body-parser";
-import jwt from "jsonwebtoken";
 import cors from "cors";
-import multer from "multer";
-const upload = multer({ dest: "uploads/" });
 
 const app = express();
 
@@ -22,7 +18,6 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json());
 // need to make sure to specify origin or cors will block cookies
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-app.use("/test", testRoutes);
 app.use("/image", imageRoutes);
 app.use("/user", userRoutes);
 

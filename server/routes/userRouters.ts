@@ -3,33 +3,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../services/dbConnection";
 import cookieParser from "cookie-parser";
+import { RegisterUser, LoginUser, Token, passwordHash } from "../../types";
 
 express().use(cookieParser());
 
 const userRouter = Router();
-
-interface RegisterUser {
-  username: string;
-  email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
-}
-
-interface LoginUser {
-  email: string;
-  password: string;
-}
-
-interface Token {
-  data: string;
-  iat: number;
-  exp: number;
-}
-
-interface passwordHash {
-  password: string;
-}
 
 userRouter.get("/test", (req: express.Request, res: express.Response) => {
   if (req.headers.cookie) {
@@ -90,7 +68,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
       return null;
     }
   };
-  const createCookie = (token: Token) => {
+  const createCookie = (token) => {
     var now = new Date();
     now.setTime(now.getTime() + 1 * 3600 * 1000);
     res.cookie("token", token, {
@@ -100,7 +78,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
     });
   };
   const createJWTToken = (uniqueData: string) => {
-    const token: Token = jwt.sign(
+    const token = jwt.sign(
       {
         data: uniqueData,
       },
