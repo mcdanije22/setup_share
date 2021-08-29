@@ -8,24 +8,53 @@ express().use(cookieParser());
 
 const userRouter = Router();
 
-userRouter.get("/test", (req, res) => {
-  //route to test cookie access and jwt token verify
-  const cookie = req.headers.cookie.replace("token=", "");
-  jwt.verify(cookie, "secdret", function (err, decoded) {
-    if (decoded) {
-      console.log("good token");
-    } else {
-      //bycrypt compare fails(false) has does not equal password entered
-      console.log("bad token");
-    }
-  });
-  res.send({ cookie });
+interface RegisterUser {
+  username: string;
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+}
+
+interface LoginUser {
+  email: string;
+  password: string;
+}
+
+interface Token {
+  data: string;
+  iat: number;
+  exp: number;
+}
+
+interface passwordHash {
+  password: string;
+}
+
+userRouter.get("/test", (req: express.Request, res: express.Response) => {
+  if (req.headers.cookie) {
+    //route to test cookie access and jwt token verify
+    const cookie = req.headers.cookie.replace("token=", "");
+    jwt.verify(cookie, "secret", function (err, decoded: Token) {
+      if (decoded) {
+        console.log("good token");
+        res.send({ message: "good token" });
+      } else {
+        //bycrypt compare fails(false) has does not equal password entered
+        console.log("bad token");
+        res.send({ message: "bad token" });
+      }
+    });
+  } else {
+    console.log("need to re-verify log in and obtain cookie");
+    res.send({ message: 'need to re-verify log in and obtain cookie"' });
+  }
 });
 
-userRouter.post("/register", (req, res) => {
+userRouter.post("/register", (req: express.Request, res: express.Response) => {
   const saltRounds = 10;
-  const { username, email, createdPassword, first_name, last_name } = req.body;
-  bcrypt.hash(createdPassword, saltRounds, function (err, hash) {
+  const { username, email, first_name, last_name }: RegisterUser = req.body;
+  bcrypt.hash(req.body.password, saltRounds, function (err, hash: string) {
     (async function () {
       try {
         const createUser = db("users").insert({
@@ -36,7 +65,7 @@ userRouter.post("/register", (req, res) => {
           last_name,
         });
         const data = await createUser;
-        res.send({ data });
+        res.send({ message: "user registered" });
       } catch (error) {
         console.log(error);
         if (error.constraint === "users_email_unique") {
@@ -50,8 +79,8 @@ userRouter.post("/register", (req, res) => {
     })();
   });
 });
-userRouter.post("/login", (req, res) => {
-  const { email, password } = req.body;
+userRouter.post("/login", (req: express.Request, res: express.Response) => {
+  const { email, password }: LoginUser = req.body;
   const getUserHash = async () => {
     const userHash = await db("users").select("password").where("email", email);
     if (userHash.length !== 0) {
@@ -61,19 +90,22 @@ userRouter.post("/login", (req, res) => {
       return null;
     }
   };
-  const createCookie = (token) => {
+  const createCookie = (token: Token) => {
+    var now = new Date();
+    now.setTime(now.getTime() + 1 * 3600 * 1000);
     res.cookie("token", token, {
-      maxAge: 900000,
+      //sets cookie exp for 6hs
+      maxAge: 6 * 60 * 60 * 1000,
       httpOnly: true,
     });
   };
-  const createJWTToken = (uniqueData) => {
-    const token = jwt.sign(
+  const createJWTToken = (uniqueData: string) => {
+    const token: Token = jwt.sign(
       {
         data: uniqueData,
       },
       "secret", //change this to much longer string and make .env var
-      { expiresIn: "1h" }
+      { expiresIn: "6h" }
     );
     createCookie(token);
   };
@@ -94,13 +126,13 @@ userRouter.post("/login", (req, res) => {
   };
 
   (async function () {
-    const dbHashPassword = await getUserHash();
+    const dbHashPassword: Array<passwordHash> = await getUserHash();
     if (!dbHashPassword) {
       //receives null if no account found
       res.send({ message: "No account for email" });
     } else {
       const hashedPassword = await dbHashPassword[0].password;
-      bcrypt.compare(password, hashedPassword, function (err, result) {
+      bcrypt.compare(password, hashedPassword, function (err, result: boolean) {
         if (result) {
           console.log("success");
           logUserIn();

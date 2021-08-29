@@ -18,11 +18,6 @@ export default function LoginPage() {
     console.log(response);
   };
   const test = async () => {
-    // const getTest = await axios.get("http://localhost:5000/user/test", {
-    //   withCredentials: true,
-    // });
-    // const data = getTest;
-
     const getTest = await axios.get("http://localhost:5000/user/test", {
       withCredentials: true,
     });
