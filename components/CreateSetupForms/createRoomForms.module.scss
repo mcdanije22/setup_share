@@ -1,13 +1,22 @@
 #stepTwoFormContainer {
   :global {
     .ant-upload-list-picture-card-container {
-      width: 200px;
-      height: 200px;
+      width: 75px;
+      height: 75px;
       display: flex;
+      margin: 1rem 0;
     }
     .ant-upload-list-picture .ant-upload-list-item,
     .ant-upload-list-picture-card .ant-upload-list-item {
       padding: 0;
+    }
+    .ant-upload-list-picture .ant-upload-list-item-info,
+    .ant-upload-list-picture-card .ant-upload-list-item-info {
+      padding: 0.5rem;
+    }
+    .ant-upload.ant-upload-drag {
+      height: 10rem;
+      width: 100%;
     }
   }
 }
