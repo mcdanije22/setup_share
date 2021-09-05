@@ -12,6 +12,7 @@ import {
 } from "antd";
 import axios from "axios";
 import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupStepOneForm";
+import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
 
 const { Title } = Typography;
 
@@ -19,12 +20,26 @@ export default function CreateRoomPage() {
   const [stepOneForm, setStepOneForm] = useState({});
   const [stepTwoForm, setStepTwoForm] = useState({});
   const [stepThreeForm, setStepThreeForm] = useState({});
-  console.log(stepOneForm);
+  const [currentStep, setCurrentStep] = useState(2);
+
+  const handleNextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+  console.log(currentStep);
   return (
     <div id="container">
       <Row justify="center">
         <Col xs={{ span: 20 }} sm={{ span: 16 }}>
-          <CreateSetupStepOneForm setStepOneForm={setStepOneForm} />
+          {currentStep === 1 ? (
+            <CreateSetupStepOneForm
+              setStepOneForm={setStepOneForm}
+              handleNextStep={handleNextStep}
+            />
+          ) : currentStep === 2 ? (
+            <CreateSetupStepTwoForm />
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </div>

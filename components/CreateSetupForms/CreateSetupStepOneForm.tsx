@@ -10,9 +10,10 @@ interface StepOne {
   description: string;
 }
 
-const CreateSetupStepOneForm = ({ setStepOneForm }) => {
+const CreateSetupStepOneForm = ({ setStepOneForm, handleNextStep }) => {
   const handleStepOneForm = (values: StepOne) => {
     setStepOneForm({ stepOne: { ...values } });
+    handleNextStep();
   };
   return (
     <div id="stepOneFormContainer">
@@ -28,7 +29,12 @@ const CreateSetupStepOneForm = ({ setStepOneForm }) => {
       >
         <Space size={30} direction="vertical" style={{ width: "100%" }}>
           <Col sm={24}>
-            <Title style={{ textAlign: "center" }}>New Setup</Title>
+            <Title
+              level={2}
+              style={{ textAlign: "center", paddingTop: "2rem" }}
+            >
+              New Setup
+            </Title>
           </Col>
           <Form.Item
             name="title"
