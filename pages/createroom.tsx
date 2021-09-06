@@ -14,14 +14,15 @@ import axios from "axios";
 import Layout from "../components/Layout/Layout";
 import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupStepOneForm";
 import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
+import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetupStepThreeForm";
 
 const { Title } = Typography;
 
 export default function CreateRoomPage() {
   const [stepOneForm, setStepOneForm] = useState(null);
-  const [stepTwoForm, setStepTwoForm] = useState([]);
+  const [stepTwoForm, setStepTwoForm] = useState(null);
   const [stepThreeForm, setStepThreeForm] = useState({});
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -29,7 +30,7 @@ export default function CreateRoomPage() {
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-  console.log(stepOneForm);
+  console.log("two", stepTwoForm);
   return (
     <Layout title="Create Room">
       <div id="container">
@@ -46,6 +47,14 @@ export default function CreateRoomPage() {
                 setStepTwoForm={setStepTwoForm}
                 handleNextStep={handleNextStep}
                 handlePrevStep={handlePrevStep}
+                stepTwoForm={stepTwoForm}
+              />
+            ) : currentStep === 3 ? (
+              <CreateSetupStepThreeForm
+                setStepThreeForm={setStepThreeForm}
+                handleNextStep={handleNextStep}
+                handlePrevStep={handlePrevStep}
+                stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
               />
             ) : (

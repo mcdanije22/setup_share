@@ -16,24 +16,20 @@ const CreateSetupStepOneForm = ({
   handleNextStep,
   stepOneForm,
 }) => {
-  const [prevInput, setPrevInput] = useState({ title: "", description: "" });
+  useEffect(() => {
+    if (stepOneForm) {
+    }
+  }, []);
   const handleStepOneForm = (values: StepOne) => {
     setStepOneForm({ stepOne: { ...values } });
     handleNextStep();
   };
-  useEffect(() => {
-    if (stepOneForm) {
-      setPrevInput({
-        ...stepOneForm,
-      });
-    }
-  });
   return (
     <div id="stepOneFormContainer">
       <Form
         initialValues={{
-          title: prevInput.title,
-          description: prevInput.description,
+          title: `${stepOneForm ? stepOneForm.stepOne.title : ""}`,
+          description: `${stepOneForm ? stepOneForm.stepOne.description : ""}`,
         }}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 24 }}

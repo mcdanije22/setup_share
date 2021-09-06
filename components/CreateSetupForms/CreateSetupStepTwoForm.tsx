@@ -28,14 +28,13 @@ const CreateSetupStepTwoForm = ({
   stepTwoForm,
 }) => {
   const [fileList, setFileList] = useState([]);
-  const [modalStatus, setModalStatus] = useState(false);
+  const [modalStatus, setModalStatus] = useState<boolean>(false);
 
   useEffect(() => {
-    //cant test this until I have step 3 form set up
-    if (stepTwoForm.length !== 0) {
-      setFileList(stepTwoForm);
+    if (stepTwoForm) {
+      setFileList([...stepTwoForm]);
     }
-  });
+  }, []);
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -63,6 +62,7 @@ const CreateSetupStepTwoForm = ({
       return true;
     }
   };
+  console.log(fileList);
 
   const sendFormTwoData = () => {
     setStepTwoForm([...fileList]);
