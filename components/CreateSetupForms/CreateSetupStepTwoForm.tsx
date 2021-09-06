@@ -33,6 +33,14 @@ const CreateSetupStepTwoForm = () => {
     const imgWindow = window.open(src);
     imgWindow.document.write(image.outerHTML);
   };
+  const beforeUpload = () => {
+    if (fileList.length >= 3) {
+      message.error("Delete image first before trying to add a new one");
+      return false;
+    } else {
+      return true;
+    }
+  };
   console.log(fileList);
   return (
     <div id={styles.stepTwoFormContainer}>
@@ -48,35 +56,36 @@ const CreateSetupStepTwoForm = () => {
         </Col>
         <Row justify="center" style={{ paddingBottom: "2rem" }}>
           <Col style={{ width: "100%" }}>
-            <ImgCrop rotate>
-              <Dragger
-                // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                listType="picture"
-                fileList={fileList}
-                onChange={onChange}
-                onPreview={onPreview}
-              >
-                {fileList.length < 3 && (
-                  <>
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">Drag and Drop or Browse</p>
-                  </>
-                )}
-                {fileList.length >= 3 && (
-                  <>
-                    <p className="ant-upload-drag-icon">
-                      <CheckCircleTwoTone twoToneColor="#52c41a" />
-                    </p>
-                    <p className="ant-upload-text">Max photos selected</p>
-                    <p className="ant-upload-text">
-                      Delete Photo(s) or Continue
-                    </p>
-                  </>
-                )}
-              </Dragger>
-            </ImgCrop>
+            {/* <ImgCrop> */}
+            <Dragger
+              // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture"
+              fileList={fileList}
+              onChange={onChange}
+              onPreview={onPreview}
+              maxCount={3}
+              beforeUpload={beforeUpload}
+              // disabled={fileList.length > 3 ? false : true}
+            >
+              {fileList.length < 3 && (
+                <>
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">Drag and Drop or Browse</p>
+                </>
+              )}
+              {fileList.length >= 3 && (
+                <>
+                  <p className="ant-upload-drag-icon">
+                    <CheckCircleTwoTone twoToneColor="#52c41a" />
+                  </p>
+                  <p className="ant-upload-text">Max photos selected</p>
+                  <p className="ant-upload-hint">Delete Photo(s) or Continue</p>
+                </>
+              )}
+            </Dragger>
+            {/* </ImgCrop> */}
           </Col>
         </Row>
         <Row

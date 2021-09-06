@@ -11,6 +11,7 @@ import {
   Space,
 } from "antd";
 import axios from "axios";
+import Layout from "../components/Layout/Layout";
 import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupStepOneForm";
 import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
 
@@ -27,21 +28,23 @@ export default function CreateRoomPage() {
   };
   console.log(currentStep);
   return (
-    <div id="container">
-      <Row justify="center">
-        <Col xs={{ span: 20 }} sm={{ span: 16 }}>
-          {currentStep === 1 ? (
-            <CreateSetupStepOneForm
-              setStepOneForm={setStepOneForm}
-              handleNextStep={handleNextStep}
-            />
-          ) : currentStep === 2 ? (
-            <CreateSetupStepTwoForm />
-          ) : (
-            ""
-          )}
-        </Col>
-      </Row>
-    </div>
+    <Layout>
+      <div id="container">
+        <Row justify="center">
+          <Col xs={{ span: 20 }} sm={{ span: 16 }}>
+            {currentStep === 1 ? (
+              <CreateSetupStepOneForm
+                setStepOneForm={setStepOneForm}
+                handleNextStep={handleNextStep}
+              />
+            ) : currentStep === 2 ? (
+              <CreateSetupStepTwoForm />
+            ) : (
+              ""
+            )}
+          </Col>
+        </Row>
+      </div>
+    </Layout>
   );
 }
