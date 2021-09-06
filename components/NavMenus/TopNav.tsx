@@ -4,7 +4,7 @@ import { Button, Drawer, Col, Row, Typography, Space } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import styles from "./topNavBar.module.scss";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const TopNavBar: React.FC<any> = () => {
   const [drawerStatus, showDrawer] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const TopNavBar: React.FC<any> = () => {
   return (
     <div id="landingPageContainer">
       <Drawer
-        title="Plan Code"
+        title="ShareStation"
         placement="right"
         closable={true}
         onClose={closeDrawer}
@@ -38,21 +38,21 @@ const TopNavBar: React.FC<any> = () => {
           </Col>
           <Col span={24}>
             <Link href="/signup">
-              <a style={{ color: "black" }}>Sign up</a>
+              <a style={{ color: "black" }}>Register</a>
             </Link>
           </Col>
         </Row>
       </Drawer>
 
-      <Row justify="space-between">
+      <Row justify="space-between" style={{ padding: "1rem" }}>
         <Col xs={{ flex: "auto" }} lg={{ span: 8 }}>
-          <Title level={3} key="1" style={{ padding: "1rem 0" }}>
+          <Title level={3} key="1">
             <Link href="/" key="2">
-              <a style={{ color: "black" }}>Plan Code</a>
+              <a style={{ color: "black" }}>ShareStation</a>
             </Link>
           </Title>
         </Col>
-        <Col xs={{ span: 0 }} lg={{ span: 8 }}>
+        <Col xs={{ span: 0 }} md={{ span: 8 }}>
           <Row justify="end">
             <Space size="large">
               <Col>
@@ -62,7 +62,7 @@ const TopNavBar: React.FC<any> = () => {
               </Col>
               <Col>
                 <Link href="/signup">
-                  <a style={{ color: "black" }}>Sign up</a>
+                  <a style={{ color: "black" }}>Register</a>
                 </Link>
               </Col>
               <Col>
@@ -77,7 +77,7 @@ const TopNavBar: React.FC<any> = () => {
             </Space>
           </Row>
         </Col>
-        <Col xs={{ span: 2 }} lg={{ span: 0 }}>
+        <Col xs={{ span: 2 }} md={{ span: 0 }} style={{ alignSelf: "center" }}>
           <MenuOutlined style={{ fontSize: "1.2rem" }} onClick={openDrawer} />
         </Col>
       </Row>

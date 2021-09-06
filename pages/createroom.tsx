@@ -18,17 +18,20 @@ import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupSt
 const { Title } = Typography;
 
 export default function CreateRoomPage() {
-  const [stepOneForm, setStepOneForm] = useState({});
-  const [stepTwoForm, setStepTwoForm] = useState({});
+  const [stepOneForm, setStepOneForm] = useState(null);
+  const [stepTwoForm, setStepTwoForm] = useState([]);
   const [stepThreeForm, setStepThreeForm] = useState({});
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
   };
-  console.log(currentStep);
+  const handlePrevStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+  console.log(stepOneForm);
   return (
-    <Layout>
+    <Layout title="Create Room">
       <div id="container">
         <Row justify="center">
           <Col xs={{ span: 20 }} sm={{ span: 16 }}>
@@ -36,9 +39,15 @@ export default function CreateRoomPage() {
               <CreateSetupStepOneForm
                 setStepOneForm={setStepOneForm}
                 handleNextStep={handleNextStep}
+                stepOneForm={stepOneForm}
               />
             ) : currentStep === 2 ? (
-              <CreateSetupStepTwoForm />
+              <CreateSetupStepTwoForm
+                setStepTwoForm={setStepTwoForm}
+                handleNextStep={handleNextStep}
+                handlePrevStep={handlePrevStep}
+                stepTwoForm={stepTwoForm}
+              />
             ) : (
               ""
             )}

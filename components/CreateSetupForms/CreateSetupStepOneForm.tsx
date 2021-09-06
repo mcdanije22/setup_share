@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Form, Input, Button, Typography, Space } from "antd";
 import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -10,19 +11,34 @@ interface StepOne {
   description: string;
 }
 
-const CreateSetupStepOneForm = ({ setStepOneForm, handleNextStep }) => {
+const CreateSetupStepOneForm = ({
+  setStepOneForm,
+  handleNextStep,
+  stepOneForm,
+}) => {
+  const [prevInput, setPrevInput] = useState({ title: "", description: "" });
   const handleStepOneForm = (values: StepOne) => {
     setStepOneForm({ stepOne: { ...values } });
     handleNextStep();
   };
+  useEffect(() => {
+    if (stepOneForm) {
+      setPrevInput({
+        ...stepOneForm,
+      });
+    }
+  });
   return (
     <div id="stepOneFormContainer">
       <Form
+        initialValues={{
+          title: prevInput.title,
+          description: prevInput.description,
+        }}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 24 }}
         layout="vertical"
         name="CreateSetupStepOneForm"
-        initialValues={{ remember: true }}
         onFinish={handleStepOneForm}
         style={{ height: "100vh" }}
         // onFinishFailed={onFinishFailed}
