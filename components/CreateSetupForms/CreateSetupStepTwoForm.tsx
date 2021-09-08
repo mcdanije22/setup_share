@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import {
   Upload,
   Row,
@@ -21,13 +21,20 @@ import {
 const { Title, Text } = Typography;
 const { Dragger } = Upload;
 
-const CreateSetupStepTwoForm = ({
+interface Props {
+  setStepTwoForm: Dispatch<SetStateAction<object>>;
+  handleNextStep(): void;
+  handlePrevStep(): void;
+  stepTwoForm: Array<object>;
+}
+
+const CreateSetupStepTwoForm: React.FC<Props> = ({
   setStepTwoForm,
   handleNextStep,
   handlePrevStep,
   stepTwoForm,
 }) => {
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<Array<any>>([]);
   const [modalStatus, setModalStatus] = useState<boolean>(false);
 
   useEffect(() => {
@@ -36,11 +43,11 @@ const CreateSetupStepTwoForm = ({
     }
   }, []);
 
-  const onChange = ({ fileList: newFileList }) => {
+  const onChange = ({ fileList: newFileList }: any) => {
     setFileList(newFileList);
   };
 
-  const onPreview = async (file) => {
+  const onPreview = async (file: any) => {
     let src = file.url;
     if (!src) {
       src = await new Promise((resolve) => {
@@ -51,7 +58,8 @@ const CreateSetupStepTwoForm = ({
     }
     const image = new Image();
     image.src = src;
-    const imgWindow = window.open(src);
+    const imgWindow: any = window.open(src);
+    console.log(imgWindow);
     imgWindow.document.write(image.outerHTML);
   };
   const beforeUpload = () => {

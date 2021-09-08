@@ -22,7 +22,7 @@ export default function CreateRoomPage() {
   const [stepOneForm, setStepOneForm] = useState(null);
   const [stepTwoForm, setStepTwoForm] = useState(null);
   const [stepThreeForm, setStepThreeForm] = useState({});
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -30,7 +30,7 @@ export default function CreateRoomPage() {
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-  console.log("two", stepTwoForm);
+
   return (
     <Layout title="Create Room">
       <div id="container">

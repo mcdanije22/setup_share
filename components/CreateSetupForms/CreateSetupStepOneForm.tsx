@@ -1,25 +1,27 @@
 import React from "react";
 import { Row, Col, Form, Input, Button, Typography, Space } from "antd";
 import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 
 const { TextArea } = Input;
 const { Title } = Typography;
+
+interface Props {
+  setStepOneForm: Dispatch<SetStateAction<object>>;
+  handleNextStep(): void;
+  stepOneForm: Array<object>;
+}
 
 interface StepOne {
   title: string;
   description: string;
 }
 
-const CreateSetupStepOneForm = ({
+const CreateSetupStepOneForm: React.FC<Props> = ({
   setStepOneForm,
   handleNextStep,
   stepOneForm,
 }) => {
-  useEffect(() => {
-    if (stepOneForm) {
-    }
-  }, []);
   const handleStepOneForm = (values: StepOne) => {
     setStepOneForm({ stepOne: { ...values } });
     handleNextStep();

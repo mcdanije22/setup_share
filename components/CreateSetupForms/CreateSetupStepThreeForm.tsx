@@ -1,9 +1,17 @@
-import { useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useState } from "react";
 import NextImage from "next/image";
 import { Row, Col } from "antd";
 
-const CreateSetupStepThreeForm = ({
+interface Props {
+  setStepThreeForm: Dispatch<SetStateAction<object>>;
+  handleNextStep: Dispatch<SetStateAction<number>>;
+  handlePrevStep: Dispatch<SetStateAction<number>>;
+  stepThreeForm: object;
+  stepTwoForm: any;
+}
+
+const CreateSetupStepThreeForm: React.FC<Props> = ({
   setStepThreeForm,
   handleNextStep,
   handlePrevStep,
@@ -35,7 +43,12 @@ const CreateSetupStepThreeForm = ({
   if (image) {
     return (
       <div id="stepThreeFormContainer">
-        <NextImage src={image} layout="responsive" width={800} height={800} />
+        <NextImage
+          src={image || ""}
+          layout="responsive"
+          width={800}
+          height={800}
+        />
       </div>
     );
   } else {
