@@ -2,7 +2,16 @@ import { Row, Col, Form, Input, Button, Checkbox, PageHeader } from "antd";
 import axios from "axios";
 
 export default function RegisterPage() {
-  const userRegistration = async (values) => {
+  interface User {
+    first_name: string;
+    last_name: string;
+    username: string;
+    email: string;
+    password: string;
+    confrim_password: string;
+  }
+
+  const userRegistration = async (values: User) => {
     const {
       first_name,
       last_name,

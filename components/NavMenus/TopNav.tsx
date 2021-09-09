@@ -6,7 +6,7 @@ import styles from "./topNavBar.module.scss";
 
 const { Title } = Typography;
 
-const TopNavBar: React.FC<any> = () => {
+const TopNavBar: React.FC = () => {
   const [drawerStatus, showDrawer] = useState<boolean>(false);
 
   const openDrawer = () => {

@@ -9,7 +9,7 @@ type Props = {
   title?: string;
 };
 
-const LayoutComponent = ({ children, title = "Project Plann" }: Props) => {
+const LayoutComponent = ({ children, title = "ShareStation" }: Props) => {
   return (
     <div id="layoutcontainer">
       <Head>

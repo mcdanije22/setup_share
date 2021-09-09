@@ -1,8 +1,13 @@
-import { Row, Col, Form, Input, Button, Checkbox, PageHeader } from "antd";
+import { Row, Col, Form, Input, Button, Checkbox } from "antd";
 import axios from "axios";
 
+interface User {
+  email: string;
+  password: string;
+}
+
 export default function LoginPage() {
-  const userLogin = async (values) => {
+  const userLogin = async (values: User) => {
     const { email, password } = values;
     const getUser = await axios.post(
       "http://localhost:5000/user/login",

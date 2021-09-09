@@ -3,11 +3,30 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../services/dbConnection";
 import cookieParser from "cookie-parser";
-import { RegisterUser, LoginUser, Token, passwordHash } from "../../types";
 
 express().use(cookieParser());
 
 const userRouter = Router();
+
+interface RegisterUser {
+  username: string;
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+}
+interface LoginUser {
+  email: string;
+  password: string;
+}
+interface Token {
+  data: string;
+  iat: number;
+  exp: number;
+}
+interface passwordHash {
+  password: string;
+}
 
 userRouter.get("/test", (req: express.Request, res: express.Response) => {
   if (req.headers.cookie) {

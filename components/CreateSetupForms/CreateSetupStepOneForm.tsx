@@ -7,9 +7,9 @@ const { TextArea } = Input;
 const { Title } = Typography;
 
 interface Props {
-  setStepOneForm: Dispatch<SetStateAction<object>>;
+  setStepOneForm: Dispatch<SetStateAction<StepOne>>;
   handleNextStep(): void;
-  stepOneForm: Array<object>;
+  stepOneForm: StepOne;
 }
 
 interface StepOne {
@@ -23,15 +23,15 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
   stepOneForm,
 }) => {
   const handleStepOneForm = (values: StepOne) => {
-    setStepOneForm({ stepOne: { ...values } });
+    setStepOneForm({ ...values });
     handleNextStep();
   };
   return (
     <div id="stepOneFormContainer">
       <Form
         initialValues={{
-          title: `${stepOneForm ? stepOneForm.stepOne.title : ""}`,
-          description: `${stepOneForm ? stepOneForm.stepOne.description : ""}`,
+          title: `${stepOneForm ? stepOneForm.title : ""}`,
+          description: `${stepOneForm ? stepOneForm.description : ""}`,
         }}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 24 }}
