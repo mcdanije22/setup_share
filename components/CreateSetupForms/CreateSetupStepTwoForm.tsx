@@ -111,11 +111,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
           <Text> Do you wish to continue?</Text>
         </div>
       </Modal>
-      <Space
-        size={30}
-        direction="vertical"
-        style={{ width: "100%", minHeight: "80vh" }}
-      >
+      <Space size={30} direction="vertical" style={{ width: "100%" }}>
         <Col sm={24}>
           <Title level={2} style={{ textAlign: "center", paddingTop: "2rem" }}>
             Upload Three Photos

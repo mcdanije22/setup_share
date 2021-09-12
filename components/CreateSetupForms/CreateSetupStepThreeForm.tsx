@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useState } from "react";
 import NextImage from "next/image";
 import { Row, Col } from "antd";
+import CanvasImg from "../CanvasImg";
 
 interface Props {
   setStepThreeForm: Dispatch<SetStateAction<object>>;
@@ -33,8 +34,6 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     image.src = src;
     setImage(src);
     setLoading(false);
-    //    const imgWindow = window.open(src);
-    //    imgWindow.document.write(image.outerHTML);
   };
   console.log(image);
   useEffect(() => {
@@ -43,12 +42,13 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   if (image) {
     return (
       <div id="stepThreeFormContainer">
-        <NextImage
+        {/* <NextImage
           src={image || ""}
           layout="responsive"
           width={800}
           height={800}
-        />
+        /> */}
+        <CanvasImg imgSource={image} />
       </div>
     );
   } else {

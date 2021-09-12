@@ -30,7 +30,7 @@ export default function CreateRoomPage() {
   });
   const [stepTwoForm, setStepTwoForm] = useState<any>(null);
   const [stepThreeForm, setStepThreeForm] = useState({});
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -42,8 +42,8 @@ export default function CreateRoomPage() {
   return (
     <Layout title="Create Room">
       <div id="container">
-        <Row justify="center">
-          <Col xs={{ span: 20 }} sm={{ span: 16 }}>
+        <Row justify="center" style={{ minHeight: "100vh" }}>
+          <Col xs={{ span: 24 }} sm={{ span: 16 }}>
             {currentStep === 1 ? (
               <CreateSetupStepOneForm
                 setStepOneForm={setStepOneForm}
