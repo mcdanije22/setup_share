@@ -1,7 +1,13 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useState } from "react";
 import NextImage from "next/image";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
+import {
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
+  InboxOutlined,
+  CheckCircleTwoTone,
+} from "@ant-design/icons";
 import CanvasImg from "../CanvasImg";
 
 interface Props {
@@ -35,10 +41,13 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     setImage(src);
     setLoading(false);
   };
-  console.log(image);
   useEffect(() => {
     onPreview();
   }, []);
+
+  const buildImageItemData = (data) => {
+    setStepThreeForm(data);
+  };
   if (image) {
     return (
       <div id="stepThreeFormContainer">
@@ -48,7 +57,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
           width={800}
           height={800}
         /> */}
-        <CanvasImg imgSource={image} />
+        <CanvasImg imgSource={image} buildImageItemData={buildImageItemData} />
       </div>
     );
   } else {

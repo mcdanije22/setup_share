@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, Input, Row, Col } from "antd";
+import { Button, Form, Input, Row, Col, List, Space } from "antd";
 import styles from "./Canvasimg.module.scss";
 import ImageMapper from "react-image-mapper";
 import { v4 as uuidv4 } from "uuid";
 
-const CanvasImg = ({ imgSource }: any) => {
+const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
   const [tempCoordList, setTempCoordList] = useState([]);
   const [drawingStatus, setDrawingStatus] = useState(false);
   const [addItemStatus, setAddItemStatus] = useState(false);
@@ -29,6 +29,14 @@ const CanvasImg = ({ imgSource }: any) => {
       ...tempAreas,
     ]);
     setAddItemStatus(true);
+  };
+  const cancelItemAdd = () => {
+    //not great, mutating state directly
+    tempAreas.shift();
+    console.log(tempAreas);
+
+    setAddItemStatus(false);
+    console.log(MAP2);
   };
   const startDrawing = () => {
     setDrawingStatus(true);
@@ -59,87 +67,110 @@ const CanvasImg = ({ imgSource }: any) => {
   console.log(MAP2);
   return (
     <div id="imgContainer">
-      <Row justify="center">
-        <Col>
-          <ImageMapper
-            src={imgSource}
-            map={MAP2}
-            width={375}
-            onMouseEnter={(area) => {
-              alert("test");
-            }}
-            onImageClick={(e) => {
-              if (drawingStatus) {
-                addCoordToItem([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
-                //fixes lagging state for preview by updating local MAP2 object and state in same function
-                MAP2.areas[0].coords.push(
-                  e.nativeEvent.offsetX,
-                  e.nativeEvent.offsetY
-                );
-              }
-            }}
-          />
-        </Col>
-      </Row>
-      <Row justify="center">
-        <Col span={20}>
-          <Form
-            name="basic"
-            form={form}
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            onFinish={finishAddItem}
-          >
-            {addItemStatus ? (
-              //form would be in fragments instead
-              <>
-                <Form.Item
-                  label="Name"
-                  name="name"
-                  rules={[
-                    { required: true, message: "Please input a item name" },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  label="Url"
-                  name="url"
-                  rules={[{ required: true, message: "Please input a url" }]}
-                >
-                  <Input />
-                </Form.Item>
-              </>
-            ) : (
-              <Button type="primary" onClick={startItemAdd}>
-                Add Item
-              </Button>
-            )}
-            {addItemStatus && !drawingStatus ? (
-              <Button type="primary" onClick={startDrawing}>
-                Draw outline
-              </Button>
-            ) : drawingStatus ? (
-              <Row justify="space-between">
-                <Col>
-                  <Button danger onClick={undoLastCoord}>
-                    Undo Last point
-                  </Button>
-                </Col>
-                <Col>
-                  <Form.Item>
-                    <Button htmlType="submit" type="primary">
-                      Submit Item
-                    </Button>
+      <Space size={30} direction="vertical">
+        <Row justify="center">
+          <Col>
+            <ImageMapper
+              src={imgSource}
+              map={MAP2}
+              width={375}
+              onMouseEnter={(area) => {
+                alert("test");
+              }}
+              onImageClick={(e) => {
+                if (drawingStatus) {
+                  addCoordToItem([
+                    e.nativeEvent.offsetX,
+                    e.nativeEvent.offsetY,
+                  ]);
+                  //fixes lagging state for preview by updating local MAP2 object and state in same function
+                  MAP2.areas[0].coords.push(
+                    e.nativeEvent.offsetX,
+                    e.nativeEvent.offsetY
+                  );
+                }
+              }}
+            />
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col span={20}>
+            <Form
+              name="basic"
+              form={form}
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              onFinish={finishAddItem}
+            >
+              {addItemStatus ? (
+                //form would be in fragments instead
+                <>
+                  <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[
+                      { required: true, message: "Please input a item name" },
+                    ]}
+                  >
+                    <Input />
                   </Form.Item>
-                </Col>
-              </Row>
-            ) : (
+                  <Form.Item
+                    label="Url"
+                    name="url"
+                    rules={[{ required: true, message: "Please input a url" }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </>
+              ) : (
+                <Button type="primary" onClick={startItemAdd}>
+                  Add Item
+                </Button>
+              )}
+              {addItemStatus && !drawingStatus ? (
+                <Row justify="space-between">
+                  <Button danger onClick={cancelItemAdd}>
+                    Cancel Add
+                  </Button>
+                  <Button type="primary" onClick={startDrawing}>
+                    Draw outline
+                  </Button>
+                </Row>
+              ) : drawingStatus ? (
+                <Row justify="space-between">
+                  <Col>
+                    <Button danger onClick={undoLastCoord}>
+                      Undo Last point
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Form.Item>
+                      <Button htmlType="submit" type="primary">
+                        Submit Item
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              ) : (
+                ""
+              )}
+            </Form>
+            {addItemStatus ? (
               ""
+            ) : (
+              <List style={{ marginTop: "1rem" }}>
+                {tempAreas.map((item) => {
+                  return (
+                    <List.Item key={item.id}>
+                      <List.Item.Meta title={item.name} />
+                    </List.Item>
+                  );
+                })}
+              </List>
             )}
-          </Form>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Space>
     </div>
   );
 };
