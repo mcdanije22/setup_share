@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Input, Row, Col, List, Space } from "antd";
+import { DeleteTwoTone } from "@ant-design/icons";
+
 import styles from "./Canvasimg.module.scss";
 import ImageMapper from "react-image-mapper";
 import { v4 as uuidv4 } from "uuid";
@@ -33,10 +35,11 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
   const cancelItemAdd = () => {
     //not great, mutating state directly
     tempAreas.shift();
-    console.log(tempAreas);
-
+    MAP2.areas.shift();
+    setTempCoordList([]);
     setAddItemStatus(false);
-    console.log(MAP2);
+    setDrawingStatus(false);
+    onReset();
   };
   const startDrawing = () => {
     setDrawingStatus(true);
@@ -55,122 +58,137 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
     form.resetFields();
   };
   const finishAddItem = (values) => {
+    console.log("test");
     tempAreas[0].name = values.name;
     tempAreas[0].url = values.url;
-    // setTempAreas((tempAreas[0] = updatedArea));
-    console.log(tempAreas);
     setAddItemStatus(false);
     setDrawingStatus(false);
     setTempCoordList([]);
     onReset();
   };
+  const removeItem = (id) => {
+    const currentArea = tempAreas;
+    const filteredList = currentArea.filter((item) => item.id !== id);
+    setTempAreas(filteredList);
+    MAP2.areas = filteredList;
+  };
   console.log(MAP2);
   return (
     <div id="imgContainer">
-      <Space size={30} direction="vertical">
-        <Row justify="center">
-          <Col>
-            <ImageMapper
-              src={imgSource}
-              map={MAP2}
-              width={375}
-              onMouseEnter={(area) => {
-                alert("test");
-              }}
-              onImageClick={(e) => {
-                if (drawingStatus) {
-                  addCoordToItem([
-                    e.nativeEvent.offsetX,
-                    e.nativeEvent.offsetY,
-                  ]);
-                  //fixes lagging state for preview by updating local MAP2 object and state in same function
-                  MAP2.areas[0].coords.push(
-                    e.nativeEvent.offsetX,
-                    e.nativeEvent.offsetY
-                  );
-                }
-              }}
-            />
-          </Col>
-        </Row>
-        <Row justify="center">
-          <Col span={20}>
-            <Form
-              name="basic"
-              form={form}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              onFinish={finishAddItem}
-            >
-              {addItemStatus ? (
-                //form would be in fragments instead
-                <>
-                  <Form.Item
-                    label="Name"
-                    name="name"
-                    rules={[
-                      { required: true, message: "Please input a item name" },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    label="Url"
-                    name="url"
-                    rules={[{ required: true, message: "Please input a url" }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </>
-              ) : (
-                <Button type="primary" onClick={startItemAdd}>
-                  Add Item
-                </Button>
-              )}
-              {addItemStatus && !drawingStatus ? (
-                <Row justify="space-between">
-                  <Button danger onClick={cancelItemAdd}>
+      <Row justify="center">
+        <Col>
+          <ImageMapper
+            src={imgSource}
+            map={MAP2}
+            width={375}
+            onMouseEnter={(area) => {
+              alert("test");
+            }}
+            onImageClick={(e) => {
+              if (drawingStatus) {
+                addCoordToItem([e.nativeEvent.offsetX, e.nativeEvent.offsetY]);
+                //fixes lagging state for preview by updating local MAP2 object and state in same function
+                MAP2.areas[0].coords.push(
+                  e.nativeEvent.offsetX,
+                  e.nativeEvent.offsetY
+                );
+              }
+            }}
+          />
+        </Col>
+      </Row>
+      <Row justify="center" style={{ marginTop: "2rem" }}>
+        <Col span={20}>
+          <Form
+            name="form"
+            form={form}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+            onFinish={finishAddItem}
+          >
+            {addItemStatus ? (
+              //form would be in fragments instead
+              <>
+                <Form.Item
+                  label="Name"
+                  name="name"
+                  rules={[
+                    { required: true, message: "Please input a item name" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Url"
+                  name="url"
+                  rules={[{ required: true, message: "Please input a url" }]}
+                >
+                  <Input />
+                </Form.Item>
+              </>
+            ) : (
+              <Button type="primary" block onClick={startItemAdd} shape="round">
+                Add Item
+              </Button>
+            )}
+            {drawingStatus ? (
+              <Row justify="space-between">
+                <Space direction="vertical" size={30} style={{ width: "100%" }}>
+                  <Button type="primary" block shape="round" htmlType="submit">
+                    Submit Item
+                  </Button>
+                  <Button danger block shape="round" onClick={undoLastCoord}>
+                    Undo Last point
+                  </Button>
+                  <Button danger block shape="round" onClick={cancelItemAdd}>
                     Cancel Add
                   </Button>
-                  <Button type="primary" onClick={startDrawing}>
-                    Draw outline
-                  </Button>
-                </Row>
-              ) : drawingStatus ? (
-                <Row justify="space-between">
-                  <Col>
-                    <Button danger onClick={undoLastCoord}>
-                      Undo Last point
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Form.Item>
-                      <Button htmlType="submit" type="primary">
-                        Submit Item
-                      </Button>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              ) : (
-                ""
-              )}
-            </Form>
-            {addItemStatus ? (
-              ""
+                </Space>
+              </Row>
             ) : (
-              <List style={{ marginTop: "1rem" }}>
-                {tempAreas.map((item) => {
-                  return (
-                    <List.Item key={item.id}>
-                      <List.Item.Meta title={item.name} />
-                    </List.Item>
-                  );
-                })}
-              </List>
+              ""
             )}
-          </Col>
-        </Row>
-      </Space>
+          </Form>
+          {addItemStatus && !drawingStatus ? (
+            <Row justify="space-between">
+              <Space direction="vertical" size={30} style={{ width: "100%" }}>
+                <Button
+                  type="primary"
+                  block
+                  shape="round"
+                  onClick={startDrawing}
+                >
+                  Draw outline
+                </Button>
+                <Button danger block shape="round" onClick={cancelItemAdd}>
+                  Cancel Add
+                </Button>
+              </Space>
+            </Row>
+          ) : (
+            ""
+          )}
+          {addItemStatus ? (
+            ""
+          ) : (
+            <List style={{ marginTop: "1rem" }} itemLayout="horizontal">
+              {tempAreas.map((item) => {
+                return (
+                  <List.Item
+                    key={item.id}
+                    actions={[<DeleteTwoTone />]}
+                    onClick={() => {
+                      removeItem(item.id);
+                    }}
+                  >
+                    <List.Item.Meta title={item.name} />
+                  </List.Item>
+                );
+              })}
+            </List>
+          )}
+        </Col>
+      </Row>
     </div>
   );
 };
