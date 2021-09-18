@@ -1,12 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Input, Row, Col, List, Space, message } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
-
+import {
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
+  InboxOutlined,
+  CheckCircleTwoTone,
+} from "@ant-design/icons";
 import styles from "./Canvasimg.module.scss";
 import ImageMapper from "react-image-mapper";
 import { v4 as uuidv4 } from "uuid";
 
-const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
+interface Props {
+  setStepThreeForm: Dispatch<SetStateAction<object>>;
+  handleNextStep: Dispatch<SetStateAction<number>>;
+  handlePrevStep: Dispatch<SetStateAction<number>>;
+  stepThreeForm: object;
+  stepTwoForm: any;
+}
+
+const CanvasImg = ({ imgSource }: any) => {
   const [tempCoordList, setTempCoordList] = useState([]);
   const [drawingStatus, setDrawingStatus] = useState(false);
   const [addItemStatus, setAddItemStatus] = useState(false);
@@ -101,7 +114,7 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
           />
         </Col>
       </Row>
-      <Row justify="center" style={{ marginTop: "2rem" }}>
+      <Row justify="center" style={{ marginTop: "2rem", minHeight: "20vh" }}>
         <Col span={20}>
           <Form
             name="form"
@@ -111,7 +124,6 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
             onFinish={finishAddItem}
           >
             {addItemStatus ? (
-              //form would be in fragments instead
               <>
                 <Form.Item
                   label="Name"
@@ -131,20 +143,44 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
                 </Form.Item>
               </>
             ) : (
-              <Button type="primary" block onClick={startItemAdd} shape="round">
+              <Button
+                type="primary"
+                block
+                onClick={startItemAdd}
+                size="large"
+                shape="round"
+              >
                 Add Item
               </Button>
             )}
             {drawingStatus ? (
               <Row justify="space-between">
                 <Space direction="vertical" size={30} style={{ width: "100%" }}>
-                  <Button type="primary" block shape="round" htmlType="submit">
+                  <Button
+                    type="primary"
+                    block
+                    shape="round"
+                    size="large"
+                    htmlType="submit"
+                  >
                     Submit Item
                   </Button>
-                  <Button danger block shape="round" onClick={undoLastCoord}>
+                  <Button
+                    danger
+                    block
+                    shape="round"
+                    size="large"
+                    onClick={undoLastCoord}
+                  >
                     Undo Last point
                   </Button>
-                  <Button danger block shape="round" onClick={cancelItemAdd}>
+                  <Button
+                    danger
+                    block
+                    shape="round"
+                    size="large"
+                    onClick={cancelItemAdd}
+                  >
                     Cancel Add
                   </Button>
                 </Space>
@@ -160,11 +196,18 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
                   type="primary"
                   block
                   shape="round"
+                  size="large"
                   onClick={startDrawing}
                 >
                   Draw outline
                 </Button>
-                <Button danger block shape="round" onClick={cancelItemAdd}>
+                <Button
+                  danger
+                  block
+                  size="large"
+                  shape="round"
+                  onClick={cancelItemAdd}
+                >
                   Cancel Add
                 </Button>
               </Space>
@@ -192,6 +235,30 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
             </List>
           )}
         </Col>
+      </Row>
+      <Row
+        justify="space-between"
+        style={{
+          marginTop: "4rem",
+        }}
+      >
+        <Button
+          // onClick={handlePrevStep}
+          danger
+          htmlType="submit"
+          shape="circle"
+          size="large"
+          icon={<ArrowLeftOutlined />}
+        />
+
+        <Button
+          // onClick={handleStepTwoData}
+          type="primary"
+          htmlType="submit"
+          shape="circle"
+          size="large"
+          icon={<ArrowRightOutlined />}
+        />
       </Row>
     </div>
   );

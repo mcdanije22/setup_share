@@ -29,7 +29,12 @@ export default function CreateRoomPage() {
     description: "",
   });
   const [stepTwoForm, setStepTwoForm] = useState<any>(null);
-  const [stepThreeForm, setStepThreeForm] = useState({});
+  const [stepThreeForm, setStepThreeForm] = useState({
+    //other option array full of objects with image type. main, left, right
+    imageOne: {},
+    imageTwo: {},
+    imageThree: {},
+  });
   const [currentStep, setCurrentStep] = useState(2);
 
   const handleNextStep = () => {

@@ -80,7 +80,6 @@ export default function Home() {
         {/* <Map /> */}
 
         {/* <img src="https://share-set-up-uploads.s3.us-east-2.amazonaws.com/front+view" /> */}
-        <CanvasImg />
       </main>
 
       <footer></footer>
