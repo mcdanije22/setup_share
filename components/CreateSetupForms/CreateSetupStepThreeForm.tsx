@@ -58,6 +58,28 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
           height={800}
         /> */}
         <CanvasImg imgSource={image} buildImageItemData={buildImageItemData} />
+        <Row
+          justify="space-between"
+          style={{ position: "absolute", bottom: "0", width: "100%" }}
+        >
+          <Button
+            onClick={handlePrevStep}
+            danger
+            htmlType="submit"
+            shape="circle"
+            size="large"
+            icon={<ArrowLeftOutlined />}
+          />
+
+          <Button
+            onClick={handleStepTwoData}
+            type="primary"
+            htmlType="submit"
+            shape="circle"
+            size="large"
+            icon={<ArrowRightOutlined />}
+          />
+        </Row>
       </div>
     );
   } else {

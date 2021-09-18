@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, Input, Row, Col, List, Space } from "antd";
+import { Button, Form, Input, Row, Col, List, Space, message } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
 
 import styles from "./Canvasimg.module.scss";
@@ -58,13 +58,17 @@ const CanvasImg = ({ imgSource, buildImageItmData }: any) => {
     form.resetFields();
   };
   const finishAddItem = (values) => {
-    console.log("test");
-    tempAreas[0].name = values.name;
-    tempAreas[0].url = values.url;
-    setAddItemStatus(false);
-    setDrawingStatus(false);
-    setTempCoordList([]);
-    onReset();
+    if (MAP2.areas[0].coords.length === 0) {
+      message.error("Draw points on image before submitting");
+    } else {
+      console.log("test");
+      tempAreas[0].name = values.name;
+      tempAreas[0].url = values.url;
+      setAddItemStatus(false);
+      setDrawingStatus(false);
+      setTempCoordList([]);
+      onReset();
+    }
   };
   const removeItem = (id) => {
     const currentArea = tempAreas;
