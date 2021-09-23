@@ -31,18 +31,21 @@ export default function CreateRoomPage() {
   const [stepTwoForm, setStepTwoForm] = useState<any>(null);
   const [stepThreeForm, setStepThreeForm] = useState({
     //other option array full of objects with image type. main, left, right
-    imageOne: {},
-    imageTwo: {},
-    imageThree: {},
+    imageOne: null,
+    imageTwo: null,
+    imageThree: null,
   });
   const [currentStep, setCurrentStep] = useState(2);
 
-  const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
+  const handleNextStep = (nextStep) => {
+    // setCurrentStep(currentStep + 1);
+    setCurrentStep(nextStep);
   };
-  const handlePrevStep = () => {
-    setCurrentStep(currentStep - 1);
+  const handlePrevStep = (prevStep) => {
+    // setCurrentStep(currentStep - 1);
+    setCurrentStep(prevStep);
   };
+  console.log(currentStep);
 
   return (
     <Layout title="Create Room">
@@ -69,6 +72,25 @@ export default function CreateRoomPage() {
                 handlePrevStep={handlePrevStep}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
+                imageNumber={0}
+              />
+            ) : currentStep === 4 ? (
+              <CreateSetupStepThreeForm
+                setStepThreeForm={setStepThreeForm}
+                handleNextStep={handleNextStep}
+                handlePrevStep={handlePrevStep}
+                stepThreeForm={stepThreeForm}
+                stepTwoForm={stepTwoForm}
+                imageNumber={1}
+              />
+            ) : currentStep === 5 ? (
+              <CreateSetupStepThreeForm
+                setStepThreeForm={setStepThreeForm}
+                handleNextStep={handleNextStep}
+                handlePrevStep={handlePrevStep}
+                stepThreeForm={stepThreeForm}
+                stepTwoForm={stepTwoForm}
+                imageNumber={2}
               />
             ) : (
               ""

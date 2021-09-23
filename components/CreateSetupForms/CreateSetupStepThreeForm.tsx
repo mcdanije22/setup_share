@@ -9,11 +9,12 @@ import {
   Space,
   message,
   Select,
+  Typography,
+  Modal,
 } from "antd";
 import {
   ArrowRightOutlined,
   ArrowLeftOutlined,
-  CheckCircleTwoTone,
   DeleteTwoTone,
 } from "@ant-design/icons";
 import ImageMapper from "react-image-mapper";
@@ -25,6 +26,7 @@ interface Props {
   handlePrevStep: Dispatch<SetStateAction<number>>;
   stepThreeForm: object;
   stepTwoForm: any;
+  imageNumber: number;
 }
 
 const CreateSetupStepThreeForm: React.FC<Props> = ({
@@ -33,6 +35,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   handlePrevStep,
   stepThreeForm,
   stepTwoForm,
+  imageNumber,
 }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -40,15 +43,18 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const [drawingStatus, setDrawingStatus] = useState(false);
   const [addItemStatus, setAddItemStatus] = useState(false);
   const [tempAreas, setTempAreas] = useState([]);
+  const [position, setPosition] = useState("");
+  const [submitModalStatus, setSubmitModalStatus] = useState(false);
 
   const [form] = Form.useForm();
   const { Option } = Select;
+  const { Text } = Typography;
 
   const onPreview = async () => {
     setLoading(true);
     const src: any = await new Promise((resolve) => {
       const reader = new FileReader();
-      reader.readAsDataURL(stepTwoForm[0].originFileObj);
+      reader.readAsDataURL(stepTwoForm[imageNumber].originFileObj);
       reader.onload = () => resolve(reader.result);
     });
 
@@ -59,11 +65,13 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     setLoading(false);
   };
   useEffect(() => {
+    console.log("test");
     onPreview();
   }, []);
 
   const MAP = {
     name: "image-map",
+    imagePosition: position,
     areas: [...tempAreas],
   };
   const startItemAdd = () => {
@@ -124,7 +132,23 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     setTempAreas(filteredList);
     MAP.areas = filteredList;
   };
-  console.log("map", MAP);
+  const positionOnChange = (values) => {
+    console.log(values);
+    setPosition(values);
+  };
+  const openSubmitModal = () => {
+    setSubmitModalStatus(true);
+  };
+  const submitImageData = () => {
+    setStepThreeForm((prevState) => ({
+      ...prevState,
+      imageOne: { ...MAP },
+    }));
+  };
+  console.log("3", stepThreeForm);
+  console.log(submitModalStatus);
+  console.log(tempAreas);
+
   if (image) {
     return (
       <div id="stepThreeFormContainer">
@@ -154,9 +178,24 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
               />
             </Col>
           </Row>
+          <Row justify="center">
+            <Col span={20} style={{ margin: "1rem 0" }}>
+              <Text>Image Position</Text>
+              <Select
+                placeholder="Image Position"
+                style={{ width: "100%", margin: "1rem 0" }}
+                onChange={positionOnChange}
+              >
+                <Option value="main">Main</Option>
+                <Option value="left">Left</Option>
+                <Option value="right">Right</Option>
+              </Select>
+            </Col>
+          </Row>
+
           <Row
             justify="center"
-            style={{ marginTop: "2rem", minHeight: "20vh" }}
+            style={{ marginTop: "1rem", minHeight: "20vh" }}
           >
             <Col span={20}>
               <Form
@@ -166,21 +205,6 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                 wrapperCol={{ span: 24 }}
                 onFinish={finishAddItem}
               >
-                <Form.Item
-                  name="imagePosition"
-                  label="Image Position"
-                  rules={[{ required: true }]}
-                >
-                  <Select
-                    placeholder="Image Position"
-                    style={{ width: "100%", marginBottom: "1rem" }}
-                    // onChange={handleChange}
-                  >
-                    <Option value="main">Main</Option>
-                    <Option value="left">Left</Option>
-                    <Option value="right">Right</Option>
-                  </Select>
-                </Form.Item>
                 {addItemStatus ? (
                   <>
                     <Form.Item
@@ -311,7 +335,9 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             }}
           >
             <Button
-              onClick={handlePrevStep}
+              onClick={() => {
+                handlePrevStep(2);
+              }}
               danger
               htmlType="submit"
               shape="circle"
@@ -320,7 +346,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             />
 
             <Button
-              // onClick={handleStepTwoData}
+              onClick={submitImageData}
               type="primary"
               htmlType="submit"
               shape="circle"

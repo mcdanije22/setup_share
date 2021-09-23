@@ -24,7 +24,7 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
 }) => {
   const handleStepOneForm = (values: StepOne) => {
     setStepOneForm({ ...values });
-    handleNextStep();
+    handleNextStep(2);
   };
   return (
     <div id="stepOneFormContainer">
