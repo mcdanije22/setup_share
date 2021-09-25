@@ -74,7 +74,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
 
   const sendFormTwoData = () => {
     setStepTwoForm([...fileList]);
-    handleNextStep(3);
+    handleNextStep();
   };
   const handleModalCancel = () => {
     setModalStatus(false);
@@ -84,7 +84,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       setModalStatus(true);
     } else {
       sendFormTwoData();
-      handleNextStep(3);
+      handleNextStep();
     }
   };
   return (
@@ -153,7 +153,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
         >
           <Button
             onClick={() => {
-              handlePrevStep(1);
+              handlePrevStep();
             }}
             danger
             htmlType="submit"

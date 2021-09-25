@@ -37,13 +37,11 @@ export default function CreateRoomPage() {
   });
   const [currentStep, setCurrentStep] = useState(2);
 
-  const handleNextStep = (nextStep) => {
-    // setCurrentStep(currentStep + 1);
-    setCurrentStep(nextStep);
+  const handleNextStep = () => {
+    setCurrentStep(currentStep + 1);
   };
-  const handlePrevStep = (prevStep) => {
-    // setCurrentStep(currentStep - 1);
-    setCurrentStep(prevStep);
+  const handlePrevStep = () => {
+    setCurrentStep(currentStep - 1);
   };
   console.log(currentStep);
 
@@ -67,30 +65,36 @@ export default function CreateRoomPage() {
               />
             ) : currentStep === 3 ? (
               <CreateSetupStepThreeForm
+                key={1}
                 setStepThreeForm={setStepThreeForm}
                 handleNextStep={handleNextStep}
                 handlePrevStep={handlePrevStep}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
                 imageNumber={0}
+                currentStep={currentStep}
               />
             ) : currentStep === 4 ? (
               <CreateSetupStepThreeForm
+                key={2}
                 setStepThreeForm={setStepThreeForm}
                 handleNextStep={handleNextStep}
                 handlePrevStep={handlePrevStep}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
                 imageNumber={1}
+                currentStep={currentStep}
               />
             ) : currentStep === 5 ? (
               <CreateSetupStepThreeForm
+                key={3}
                 setStepThreeForm={setStepThreeForm}
                 handleNextStep={handleNextStep}
                 handlePrevStep={handlePrevStep}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
                 imageNumber={2}
+                currentStep={currentStep}
               />
             ) : (
               ""

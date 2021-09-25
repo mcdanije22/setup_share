@@ -22,11 +22,12 @@ import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   setStepThreeForm: Dispatch<SetStateAction<object>>;
-  handleNextStep: Dispatch<SetStateAction<number>>;
-  handlePrevStep: Dispatch<SetStateAction<number>>;
+  handleNextStep(): void;
+  handlePrevStep(): void;
   stepThreeForm: object;
   stepTwoForm: any;
   imageNumber: number;
+  currentStep: number;
 }
 
 const CreateSetupStepThreeForm: React.FC<Props> = ({
@@ -36,6 +37,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   stepThreeForm,
   stepTwoForm,
   imageNumber,
+  currentStep,
 }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -139,12 +141,24 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const openSubmitModal = () => {
     setSubmitModalStatus(true);
   };
-  const submitImageData = () => {
-    setStepThreeForm((prevState) => ({
-      ...prevState,
-      imageOne: { ...MAP },
-    }));
+  const handleModalCancel = () => {
+    setSubmitModalStatus(false);
   };
+  const submitImageData = () => {
+    if (currentStep === 3) {
+      setStepThreeForm((prevState) => ({
+        ...prevState,
+        imageOne: { ...MAP },
+      }));
+    } else if (currentStep === 4) {
+      setStepThreeForm((prevState) => ({
+        ...prevState,
+        imageTwo: { ...MAP },
+      }));
+    }
+    handleNextStep();
+  };
+
   console.log("3", stepThreeForm);
   console.log(submitModalStatus);
   console.log(tempAreas);
@@ -152,6 +166,28 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   if (image) {
     return (
       <div id="stepThreeFormContainer">
+        <Modal
+          visible={submitModalStatus}
+          title="Continue?"
+          onCancel={handleModalCancel}
+          footer={[
+            <Button key="back" onClick={handleModalCancel}>
+              Go back
+            </Button>,
+            <Button key="submit" type="primary">
+              Submit
+            </Button>,
+          ]}
+        >
+          <div
+            id="modalContainer"
+            style={{ textAlign: "center", padding: "1rem" }}
+          >
+            <Text>Less than three photos selected</Text>
+            <br />
+            <Text> Do you wish to continue?</Text>
+          </div>
+        </Modal>
         <div id="imgContainer">
           <Row justify="center">
             <Col>
@@ -335,9 +371,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             }}
           >
             <Button
-              onClick={() => {
-                handlePrevStep(2);
-              }}
+              onClick={handlePrevStep}
               danger
               htmlType="submit"
               shape="circle"
