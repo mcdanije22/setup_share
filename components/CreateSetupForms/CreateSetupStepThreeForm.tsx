@@ -17,6 +17,7 @@ import {
   ArrowLeftOutlined,
   DeleteTwoTone,
 } from "@ant-design/icons";
+// @ts-ignore
 import ImageMapper from "react-image-mapper";
 import { v4 as uuidv4 } from "uuid";
 
@@ -30,6 +31,27 @@ interface Props {
   currentStep: number;
 }
 
+interface Map {
+  imagePosition: string;
+  name: string;
+  areas: Array<Area>;
+}
+
+interface Area {
+  id: string;
+  name: string;
+  shape: string;
+  coords: Array<number>;
+  preFillColor: string;
+  fillColor: string;
+  url: string;
+}
+
+interface FormValues {
+  name: string;
+  url: string;
+}
+
 const CreateSetupStepThreeForm: React.FC<Props> = ({
   setStepThreeForm,
   handleNextStep,
@@ -41,10 +63,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
 }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [tempCoordList, setTempCoordList] = useState([]);
+  const [tempCoordList, setTempCoordList] = useState<Array<number>>([]);
   const [drawingStatus, setDrawingStatus] = useState(false);
   const [addItemStatus, setAddItemStatus] = useState(false);
-  const [tempAreas, setTempAreas] = useState([]);
+  const [tempAreas, setTempAreas] = useState<Array<Area>>([]);
   const [position, setPosition] = useState("");
   const [submitModalStatus, setSubmitModalStatus] = useState(false);
 
@@ -71,7 +93,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     onPreview();
   }, []);
 
-  const MAP = {
+  const MAP: Map = {
     name: "image-map",
     imagePosition: position,
     areas: [...tempAreas],
@@ -85,6 +107,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
         coords: [...tempCoordList],
         preFillColor: "green",
         fillColor: "blue",
+        url: "",
       },
       ...tempAreas,
     ]);
@@ -103,7 +126,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     setDrawingStatus(true);
   };
 
-  const addCoordToItem = (coords) => {
+  const addCoordToItem = (coords: Array<number>) => {
     console.log("coords", coords);
     setTempCoordList([...tempCoordList, ...coords]);
   };
@@ -115,27 +138,26 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const onReset = () => {
     form.resetFields();
   };
-  const finishAddItem = (values) => {
+  const finishAddItem = (values: FormValues) => {
+    const { name, url } = values;
     if (MAP.areas[0].coords.length === 0) {
       message.error("Draw points on image before submitting");
     } else {
-      console.log("test");
-      tempAreas[0].name = values.name;
-      tempAreas[0].url = values.url;
+      tempAreas[0].name = name;
+      tempAreas[0].url = url;
       setAddItemStatus(false);
       setDrawingStatus(false);
       setTempCoordList([]);
       onReset();
     }
   };
-  const removeItem = (id) => {
+  const removeItem = (id: string) => {
     const currentArea = tempAreas;
     const filteredList = currentArea.filter((item) => item.id !== id);
     setTempAreas(filteredList);
     MAP.areas = filteredList;
   };
-  const positionOnChange = (values) => {
-    console.log(values);
+  const positionOnChange = (values: string) => {
     setPosition(values);
   };
   const openSubmitModal = () => {
@@ -155,14 +177,14 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
         ...prevState,
         imageTwo: { ...MAP },
       }));
+    } else if (currentStep === 5) {
+      setStepThreeForm((prevState) => ({
+        ...prevState,
+        imageThree: { ...MAP },
+      }));
     }
     handleNextStep();
   };
-
-  console.log("3", stepThreeForm);
-  console.log(submitModalStatus);
-  console.log(tempAreas);
-
   if (image) {
     return (
       <div id="stepThreeFormContainer">
@@ -195,10 +217,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                 src={image}
                 map={MAP}
                 width={375}
-                onMouseEnter={(area) => {
+                onMouseEnter={(area: any) => {
                   alert("test");
                 }}
-                onImageClick={(e) => {
+                onImageClick={(e: any) => {
                   if (drawingStatus) {
                     addCoordToItem([
                       e.nativeEvent.offsetX,

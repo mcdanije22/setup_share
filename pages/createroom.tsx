@@ -28,9 +28,8 @@ export default function CreateRoomPage() {
     title: "",
     description: "",
   });
-  const [stepTwoForm, setStepTwoForm] = useState<any>(null);
-  const [stepThreeForm, setStepThreeForm] = useState({
-    //other option array full of objects with image type. main, left, right
+  const [stepTwoForm, setStepTwoForm] = useState<any>([]);
+  const [stepThreeForm, setStepThreeForm] = useState<object>({
     imageOne: null,
     imageTwo: null,
     imageThree: null,
@@ -43,8 +42,8 @@ export default function CreateRoomPage() {
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
   };
+  console.log(stepTwoForm);
   console.log(currentStep);
-
   return (
     <Layout title="Create Room">
       <div id="container">

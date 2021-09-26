@@ -80,7 +80,9 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     setModalStatus(false);
   };
   const handleStepTwoData = () => {
-    if (fileList.length < 3) {
+    if (fileList.length === 0) {
+      message.error("Please upload a photo before continuing");
+    } else if (fileList.length < 3) {
       setModalStatus(true);
     } else {
       sendFormTwoData();
