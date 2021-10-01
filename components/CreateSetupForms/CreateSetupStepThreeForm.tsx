@@ -31,6 +31,7 @@ interface Props {
   currentStep: number;
   availImagePositions: Array<string>;
   removeImagePosition(position: string): void;
+  addImagePosition(position: string): void;
 }
 
 interface Map {
@@ -64,6 +65,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   currentStep,
   availImagePositions,
   removeImagePosition,
+  addImagePosition,
 }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -95,6 +97,8 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     onPreview();
     if (imageNumber === 0 && stepThreeForm.imageOne) {
       setTempAreas([...stepThreeForm.imageOne.areas]);
+      setPosition(stepThreeForm.imageOne.imagePosition);
+      addImagePosition(stepThreeForm.imageOne.imagePosition);
     }
   }, []);
 
@@ -249,9 +253,14 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                 placeholder="Image Position"
                 style={{ width: "100%", margin: "1rem 0" }}
                 onChange={positionOnChange}
+                defaultValue={position ? position : ""}
               >
-                {availImagePositions.map((item) => {
-                  return <Option value={item}>{item}</Option>;
+                {availImagePositions.map((item, i) => {
+                  return (
+                    <Option key={i} value={item}>
+                      {item}
+                    </Option>
+                  );
                 })}
               </Select>
             </Col>

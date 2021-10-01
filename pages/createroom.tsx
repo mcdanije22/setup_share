@@ -48,13 +48,16 @@ export default function CreateRoomPage() {
     setCurrentStep(currentStep - 1);
   };
   const removeImagePosition = (position: string) => {
-    //need logic to handle going back or change type so that position is added back to list
     const orgList = availImagePositions;
     const newList = orgList.filter((item) => item !== position);
     setAvailImagePositions([...newList]);
     console.log(newList);
   };
-
+  const addImagePosition = (prevPosition: string) => {
+    const orgList = availImagePositions;
+    const newList = [prevPosition, ...orgList];
+    setAvailImagePositions([...newList]);
+  };
   console.log(stepThreeForm);
   return (
     <Layout title="Create Room">
@@ -86,6 +89,7 @@ export default function CreateRoomPage() {
                 currentStep={currentStep}
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
+                addImagePosition={addImagePosition}
               />
             ) : currentStep === 4 ? (
               <CreateSetupStepThreeForm
@@ -99,6 +103,7 @@ export default function CreateRoomPage() {
                 currentStep={currentStep}
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
+                addImagePosition={addImagePosition}
               />
             ) : currentStep === 5 ? (
               <CreateSetupStepThreeForm
@@ -112,6 +117,7 @@ export default function CreateRoomPage() {
                 currentStep={currentStep}
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
+                addImagePosition={addImagePosition}
               />
             ) : (
               ""
