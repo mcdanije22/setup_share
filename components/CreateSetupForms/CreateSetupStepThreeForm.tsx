@@ -29,6 +29,8 @@ interface Props {
   stepTwoForm: any;
   imageNumber: number;
   currentStep: number;
+  availImagePositions: Array<string>;
+  removeImagePosition(position: string): void;
 }
 
 interface Map {
@@ -60,6 +62,8 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   stepTwoForm,
   imageNumber,
   currentStep,
+  availImagePositions,
+  removeImagePosition,
 }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -83,17 +87,18 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     });
 
     const image = new Image();
-
     image.src = src;
     setImage(src);
     setLoading(false);
   };
   useEffect(() => {
-    console.log("test");
     onPreview();
+    if (imageNumber === 0 && stepThreeForm.imageOne) {
+      setTempAreas([...stepThreeForm.imageOne.areas]);
+    }
   }, []);
 
-  const MAP: Map = {
+  let MAP: Map = {
     name: "image-map",
     imagePosition: position,
     areas: [...tempAreas],
@@ -127,7 +132,6 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   };
 
   const addCoordToItem = (coords: Array<number>) => {
-    console.log("coords", coords);
     setTempCoordList([...tempCoordList, ...coords]);
   };
   const undoLastCoord = () => {
@@ -183,8 +187,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
         imageThree: { ...MAP },
       }));
     }
+    removeImagePosition(MAP.imagePosition);
     handleNextStep();
   };
+  console.log(MAP);
   if (image) {
     return (
       <div id="stepThreeFormContainer">
@@ -244,9 +250,9 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                 style={{ width: "100%", margin: "1rem 0" }}
                 onChange={positionOnChange}
               >
-                <Option value="main">Main</Option>
-                <Option value="left">Left</Option>
-                <Option value="right">Right</Option>
+                {availImagePositions.map((item) => {
+                  return <Option value={item}>{item}</Option>;
+                })}
               </Select>
             </Col>
           </Row>

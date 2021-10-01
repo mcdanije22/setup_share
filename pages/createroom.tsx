@@ -35,6 +35,11 @@ export default function CreateRoomPage() {
     imageThree: null,
   });
   const [currentStep, setCurrentStep] = useState(2);
+  const [availImagePositions, setAvailImagePositions] = useState([
+    "Main",
+    "Left",
+    "Right",
+  ]);
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -42,8 +47,15 @@ export default function CreateRoomPage() {
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-  console.log(stepTwoForm);
-  console.log(currentStep);
+  const removeImagePosition = (position: string) => {
+    //need logic to handle going back or change type so that position is added back to list
+    const orgList = availImagePositions;
+    const newList = orgList.filter((item) => item !== position);
+    setAvailImagePositions([...newList]);
+    console.log(newList);
+  };
+
+  console.log(stepThreeForm);
   return (
     <Layout title="Create Room">
       <div id="container">
@@ -72,6 +84,8 @@ export default function CreateRoomPage() {
                 stepTwoForm={stepTwoForm}
                 imageNumber={0}
                 currentStep={currentStep}
+                availImagePositions={availImagePositions}
+                removeImagePosition={removeImagePosition}
               />
             ) : currentStep === 4 ? (
               <CreateSetupStepThreeForm
@@ -83,6 +97,8 @@ export default function CreateRoomPage() {
                 stepTwoForm={stepTwoForm}
                 imageNumber={1}
                 currentStep={currentStep}
+                availImagePositions={availImagePositions}
+                removeImagePosition={removeImagePosition}
               />
             ) : currentStep === 5 ? (
               <CreateSetupStepThreeForm
@@ -94,6 +110,8 @@ export default function CreateRoomPage() {
                 stepTwoForm={stepTwoForm}
                 imageNumber={2}
                 currentStep={currentStep}
+                availImagePositions={availImagePositions}
+                removeImagePosition={removeImagePosition}
               />
             ) : (
               ""
