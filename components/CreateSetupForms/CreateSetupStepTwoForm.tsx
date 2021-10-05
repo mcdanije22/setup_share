@@ -23,15 +23,13 @@ const { Dragger } = Upload;
 
 interface Props {
   setStepTwoForm: Dispatch<SetStateAction<object>>;
-  handleNextStep(): void;
-  handlePrevStep(): void;
+  handleStepChange(number: number): void;
   stepTwoForm: Array<object>;
 }
 
 const CreateSetupStepTwoForm: React.FC<Props> = ({
   setStepTwoForm,
-  handleNextStep,
-  handlePrevStep,
+  handleStepChange,
   stepTwoForm,
 }) => {
   const [fileList, setFileList] = useState<Array<any>>([]);
@@ -74,7 +72,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
 
   const sendFormTwoData = () => {
     setStepTwoForm([...fileList]);
-    handleNextStep();
+    handleStepChange(3);
   };
   const handleModalCancel = () => {
     setModalStatus(false);
@@ -86,7 +84,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       setModalStatus(true);
     } else {
       sendFormTwoData();
-      handleNextStep();
     }
   };
   return (
@@ -155,7 +152,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
         >
           <Button
             onClick={() => {
-              handlePrevStep();
+              handleStepChange(1);
             }}
             danger
             htmlType="submit"

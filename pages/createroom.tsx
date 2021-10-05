@@ -15,6 +15,7 @@ import Layout from "../components/Layout/Layout";
 import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupStepOneForm";
 import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
 import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetupStepThreeForm";
+import CreateSetupConfirmation from "../components/CreateSetupForms/CreateSetupConfirmation";
 
 const { Title } = Typography;
 
@@ -40,12 +41,8 @@ export default function CreateRoomPage() {
     "Left",
     "Right",
   ]);
-
-  const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
-  };
-  const handlePrevStep = () => {
-    setCurrentStep(currentStep - 1);
+  const handleStepChange = (step: number) => {
+    setCurrentStep(step);
   };
   const removeImagePosition = (position: string) => {
     const orgList = availImagePositions;
@@ -67,22 +64,20 @@ export default function CreateRoomPage() {
             {currentStep === 1 ? (
               <CreateSetupStepOneForm
                 setStepOneForm={setStepOneForm}
-                handleNextStep={handleNextStep}
+                handleStepChange={handleStepChange}
                 stepOneForm={stepOneForm}
               />
             ) : currentStep === 2 ? (
               <CreateSetupStepTwoForm
                 setStepTwoForm={setStepTwoForm}
-                handleNextStep={handleNextStep}
-                handlePrevStep={handlePrevStep}
+                handleStepChange={handleStepChange}
                 stepTwoForm={stepTwoForm}
               />
             ) : currentStep === 3 ? (
               <CreateSetupStepThreeForm
                 key={1}
                 setStepThreeForm={setStepThreeForm}
-                handleNextStep={handleNextStep}
-                handlePrevStep={handlePrevStep}
+                handleStepChange={handleStepChange}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
                 imageNumber={0}
@@ -95,8 +90,7 @@ export default function CreateRoomPage() {
               <CreateSetupStepThreeForm
                 key={2}
                 setStepThreeForm={setStepThreeForm}
-                handleNextStep={handleNextStep}
-                handlePrevStep={handlePrevStep}
+                handleStepChange={handleStepChange}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
                 imageNumber={1}
@@ -109,8 +103,7 @@ export default function CreateRoomPage() {
               <CreateSetupStepThreeForm
                 key={3}
                 setStepThreeForm={setStepThreeForm}
-                handleNextStep={handleNextStep}
-                handlePrevStep={handlePrevStep}
+                handleStepChange={handleStepChange}
                 stepThreeForm={stepThreeForm}
                 stepTwoForm={stepTwoForm}
                 imageNumber={2}
@@ -118,6 +111,12 @@ export default function CreateRoomPage() {
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
+              />
+            ) : currentStep === 6 ? (
+              <CreateSetupConfirmation
+                handleStepChange={handleStepChange}
+                stepThreeForm={stepThreeForm}
+                currentStep={currentStep}
               />
             ) : (
               ""

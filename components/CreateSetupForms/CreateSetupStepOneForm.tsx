@@ -8,7 +8,7 @@ const { Title } = Typography;
 
 interface Props {
   setStepOneForm: Dispatch<SetStateAction<StepOne>>;
-  handleNextStep(): void;
+  handleStepChange(number: number): void;
   stepOneForm: StepOne;
 }
 
@@ -19,12 +19,12 @@ interface StepOne {
 
 const CreateSetupStepOneForm: React.FC<Props> = ({
   setStepOneForm,
-  handleNextStep,
+  handleStepChange,
   stepOneForm,
 }) => {
   const handleStepOneForm = (values: StepOne) => {
     setStepOneForm({ ...values });
-    handleNextStep();
+    handleStepChange(2);
   };
   return (
     <div id="stepOneFormContainer">

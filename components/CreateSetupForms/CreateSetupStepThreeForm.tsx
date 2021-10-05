@@ -23,9 +23,8 @@ import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   setStepThreeForm: Dispatch<SetStateAction<object>>;
-  handleNextStep(): void;
-  handlePrevStep(): void;
-  stepThreeForm: object;
+  handleStepChange(number: number): void;
+  stepThreeForm: any;
   stepTwoForm: any;
   imageNumber: number;
   currentStep: number;
@@ -57,8 +56,7 @@ interface FormValues {
 
 const CreateSetupStepThreeForm: React.FC<Props> = ({
   setStepThreeForm,
-  handleNextStep,
-  handlePrevStep,
+  handleStepChange,
   stepThreeForm,
   stepTwoForm,
   imageNumber,
@@ -99,6 +97,14 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
       setTempAreas([...stepThreeForm.imageOne.areas]);
       setPosition(stepThreeForm.imageOne.imagePosition);
       addImagePosition(stepThreeForm.imageOne.imagePosition);
+    } else if (imageNumber === 1 && stepThreeForm.imageTwo) {
+      setTempAreas([...stepThreeForm.imageTwo.areas]);
+      setPosition(stepThreeForm.imageTwo.imagePosition);
+      addImagePosition(stepThreeForm.imageTwo.imagePosition);
+    } else if (imageNumber === 2 && stepThreeForm.imageThree) {
+      setTempAreas([...stepThreeForm.imageThree.areas]);
+      setPosition(stepThreeForm.imageThree.imagePosition);
+      addImagePosition(stepThreeForm.imageThree.imagePosition);
     }
   }, []);
 
@@ -175,26 +181,39 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     setSubmitModalStatus(false);
   };
   const submitImageData = () => {
-    if (currentStep === 3) {
-      setStepThreeForm((prevState) => ({
-        ...prevState,
-        imageOne: { ...MAP },
-      }));
-    } else if (currentStep === 4) {
-      setStepThreeForm((prevState) => ({
-        ...prevState,
-        imageTwo: { ...MAP },
-      }));
-    } else if (currentStep === 5) {
-      setStepThreeForm((prevState) => ({
-        ...prevState,
-        imageThree: { ...MAP },
-      }));
+    if (position === "") {
+      message.error("Please select an image position first");
+    } else {
+      if (currentStep === 3) {
+        setStepThreeForm((prevState) => ({
+          ...prevState,
+          imageOne: { ...MAP },
+        }));
+        if (stepTwoForm.length > 1) {
+          handleStepChange(4);
+        } else {
+          handleStepChange(6);
+        }
+      } else if (currentStep === 4) {
+        setStepThreeForm((prevState) => ({
+          ...prevState,
+          imageTwo: { ...MAP },
+        }));
+        if (stepTwoForm.length > 2) {
+          handleStepChange(5);
+        } else {
+          handleStepChange(6);
+        }
+      } else if (currentStep === 5) {
+        setStepThreeForm((prevState) => ({
+          ...prevState,
+          imageThree: { ...MAP },
+        }));
+        handleStepChange(6);
+      }
+      removeImagePosition(MAP.imagePosition);
     }
-    removeImagePosition(MAP.imagePosition);
-    handleNextStep();
   };
-  console.log(MAP);
   if (image) {
     return (
       <div id="stepThreeFormContainer">
@@ -408,9 +427,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             }}
           >
             <Button
-              onClick={handlePrevStep}
+              onClick={() => {
+                handleStepChange(currentStep - 1);
+              }}
               danger
-              htmlType="submit"
               shape="circle"
               size="large"
               icon={<ArrowLeftOutlined />}
