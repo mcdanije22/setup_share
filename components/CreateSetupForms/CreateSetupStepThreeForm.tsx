@@ -95,15 +95,17 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     onPreview();
     if (imageNumber === 0 && stepThreeForm.imageOne) {
       setTempAreas([...stepThreeForm.imageOne.areas]);
-      setPosition(stepThreeForm.imageOne.imagePosition);
+      //removed so that it is not double adding positions after going through and then going back.
+      //Saves image position in the image state object, just not for form
+      // setPosition(stepThreeForm.imageOne.imagePosition);
       addImagePosition(stepThreeForm.imageOne.imagePosition);
     } else if (imageNumber === 1 && stepThreeForm.imageTwo) {
       setTempAreas([...stepThreeForm.imageTwo.areas]);
-      setPosition(stepThreeForm.imageTwo.imagePosition);
+      // setPosition(stepThreeForm.imageTwo.imagePosition);
       addImagePosition(stepThreeForm.imageTwo.imagePosition);
     } else if (imageNumber === 2 && stepThreeForm.imageThree) {
       setTempAreas([...stepThreeForm.imageThree.areas]);
-      setPosition(stepThreeForm.imageThree.imagePosition);
+      // setPosition(stepThreeForm.imageThree.imagePosition);
       addImagePosition(stepThreeForm.imageThree.imagePosition);
     }
   }, []);

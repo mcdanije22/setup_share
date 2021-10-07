@@ -48,12 +48,13 @@ export default function CreateRoomPage() {
     const orgList = availImagePositions;
     const newList = orgList.filter((item) => item !== position);
     setAvailImagePositions([...newList]);
-    console.log(newList);
   };
   const addImagePosition = (prevPosition: string) => {
     const orgList = availImagePositions;
-    const newList = [prevPosition, ...orgList];
-    setAvailImagePositions([...newList]);
+    if (!orgList.includes(prevPosition)) {
+      const newList = [prevPosition, ...orgList];
+      setAvailImagePositions([...newList]);
+    }
   };
   console.log(stepThreeForm);
   return (
