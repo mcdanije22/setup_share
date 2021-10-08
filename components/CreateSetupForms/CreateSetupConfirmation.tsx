@@ -11,6 +11,7 @@ import {
   Select,
   Typography,
   Modal,
+  Avatar,
 } from "antd";
 import {
   ArrowRightOutlined,
@@ -21,17 +22,69 @@ import {
 interface Props {
   handleStepChange(number: number): void;
   stepThreeForm: any;
+  stepOneForm: StepOne;
   currentStep: number;
+  stepTwoForm: Array<object>;
 }
+interface StepOne {
+  title: string;
+  description: string;
+}
+
 const CreateSetupConfirmation: React.FC<Props> = ({
   handleStepChange,
   stepThreeForm,
   currentStep,
+  stepOneForm,
+  stepTwoForm,
 }) => {
-  console.log(stepThreeForm);
+  const [previewImages, setPreviewImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const onPreview = async (imageNumber: number) => {
+    const src: any = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(stepTwoForm[imageNumber].originFileObj);
+      reader.onload = () => resolve(reader.result);
+    });
+
+    const image = new Image();
+    image.src = src;
+    const newList = previewImages;
+    newList.push(src);
+    setPreviewImages(newList);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    stepTwoForm.map((file, i) => {
+      onPreview(i);
+    });
+    setLoading(false);
+  }, []);
+  console.log("1", previewImages);
+  if (loading) {
+    return <div>test2</div>;
+  }
   return (
-    <div>
-      test
+    <div id="setupConfirmationFormContainer">
+      <Row>
+        <Col span={24}>
+          <List
+            itemLayout="horizontal"
+            dataSource={stepTwoForm}
+            renderItem={(item, i) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar src={previewImages[i]} />}
+                  title={<a href="https://ant.design">{item.name}</a>}
+                />
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
+      {/* <img src={previewImages[0]} /> */}
       <Row
         justify="space-between"
         style={{

@@ -56,7 +56,11 @@ export default function CreateRoomPage() {
       setAvailImagePositions([...newList]);
     }
   };
-  console.log(stepThreeForm);
+  console.log({
+    s1: stepOneForm,
+    s2: stepTwoForm,
+    s3: stepThreeForm,
+  });
   return (
     <Layout title="Create Room">
       <div id="container">
@@ -116,6 +120,8 @@ export default function CreateRoomPage() {
             ) : currentStep === 6 ? (
               <CreateSetupConfirmation
                 handleStepChange={handleStepChange}
+                stepTwoForm={stepTwoForm}
+                stepTwoForm={stepTwoForm}
                 stepThreeForm={stepThreeForm}
                 currentStep={currentStep}
               />
