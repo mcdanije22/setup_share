@@ -53,64 +53,73 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     const newList = previewImages;
     newList.push(src);
     setPreviewImages(newList);
+
+    //load time issue. Images are not ready on first load
+    //need to cause a re render after load
   };
 
   useEffect(() => {
-    setLoading(true);
-    stepTwoForm.map((file, i) => {
-      onPreview(i);
-    });
-    setLoading(false);
+    (async function loadPreviewImages() {
+      setLoading(true);
+      for (let i = 0; i < stepTwoForm.length; i++) {
+        await onPreview(i);
+      }
+
+      setLoading(false);
+    })();
   }, []);
   console.log("1", previewImages);
-  if (loading) {
-    return <div>test2</div>;
-  }
-  return (
-    <div id="setupConfirmationFormContainer">
-      <Row>
-        <Col span={24}>
-          <List
-            itemLayout="horizontal"
-            dataSource={stepTwoForm}
-            renderItem={(item, i) => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Avatar src={previewImages[i]} />}
-                  title={<a href="https://ant.design">{item.name}</a>}
-                />
-              </List.Item>
-            )}
-          />
-        </Col>
-      </Row>
-      {/* <img src={previewImages[0]} /> */}
-      <Row
-        justify="space-between"
-        style={{
-          marginTop: "4rem",
-        }}
-      >
-        <Button
-          onClick={() => {
-            handleStepChange(currentStep - 1);
-          }}
-          danger
-          shape="circle"
-          size="large"
-          icon={<ArrowLeftOutlined />}
-        />
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          shape="circle"
-          size="large"
-          icon={<ArrowRightOutlined />}
-        />
-      </Row>
-    </div>
-  );
+  if (loading) {
+    return <div>test</div>;
+  } else {
+    return (
+      <div id="setupConfirmationFormContainer">
+        <Row>
+          <Col span={24}>
+            <List
+              itemLayout="horizontal"
+              dataSource={stepTwoForm}
+              renderItem={(item, i) => (
+                <List.Item>
+                  <List.Item.Meta
+                    key={i}
+                    avatar={<Avatar src={previewImages[i]} />}
+                    title={<a href="https://ant.design">{item.name}</a>}
+                  />
+                </List.Item>
+              )}
+            />
+          </Col>
+        </Row>
+        {/* <img src={previewImages[0]} /> */}
+        <Row
+          justify="space-between"
+          style={{
+            marginTop: "4rem",
+          }}
+        >
+          <Button
+            onClick={() => {
+              handleStepChange(currentStep - 1);
+            }}
+            danger
+            shape="circle"
+            size="large"
+            icon={<ArrowLeftOutlined />}
+          />
+
+          <Button
+            type="primary"
+            htmlType="submit"
+            shape="circle"
+            size="large"
+            icon={<ArrowRightOutlined />}
+          />
+        </Row>
+      </div>
+    );
+  }
 };
 
 export default CreateSetupConfirmation;
