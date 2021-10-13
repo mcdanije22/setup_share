@@ -188,7 +188,14 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
         if (stepTwoForm.length > 1) {
           handleStepChange(4);
         } else {
-          handleStepChange(6);
+          if (position === "Main") {
+            handleStepChange(6);
+          } else {
+            //Need logic here for only moving forward if atleast one of the images have the position of "Main"
+            //Also need logic to handle positions being removed from avali if not choosen
+            //Only removes after next button is clicked and alert comes up
+            alert("test");
+          }
         }
       } else if (currentStep === 4) {
         setStepThreeForm((prevState) => ({
@@ -210,6 +217,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
       removeImagePosition(MAP.imagePosition);
     }
   };
+
   if (image) {
     return (
       <div id="stepThreeFormContainer">

@@ -38,6 +38,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   stepOneForm,
   stepTwoForm,
 }) => {
+  const { Title } = Typography;
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -53,9 +54,6 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     const newList = previewImages;
     newList.push(src);
     setPreviewImages(newList);
-
-    //load time issue. Images are not ready on first load
-    //need to cause a re render after load
   };
 
   useEffect(() => {
@@ -64,12 +62,24 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       for (let i = 0; i < stepTwoForm.length; i++) {
         await onPreview(i);
       }
-
       setLoading(false);
     })();
   }, []);
   console.log("1", previewImages);
 
+  const handleBackStep = () => {
+    switch (stepTwoForm.length) {
+      case 1:
+        handleStepChange(3);
+        break;
+      case 2:
+        handleStepChange(4);
+        break;
+      case 3:
+        handleStepChange(5);
+        break;
+    }
+  };
   if (loading) {
     return <div>test</div>;
   } else {
@@ -78,6 +88,23 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         <Row>
           <Col span={24}>
             <List
+              header={
+                <Row justify="space-between">
+                  <Col>
+                    <Title level={5}>Images</Title>
+                  </Col>
+                  <Col>
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        handleStepChange(3);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </Col>
+                </Row>
+              }
               itemLayout="horizontal"
               dataSource={stepTwoForm}
               renderItem={(item, i) => (
@@ -101,7 +128,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         >
           <Button
             onClick={() => {
-              handleStepChange(currentStep - 1);
+              handleBackStep();
             }}
             danger
             shape="circle"

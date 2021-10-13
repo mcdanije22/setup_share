@@ -119,8 +119,8 @@ export default function CreateRoomPage() {
               />
             ) : currentStep === 6 ? (
               <CreateSetupConfirmation
+                stepOneForm={stepOneForm}
                 handleStepChange={handleStepChange}
-                stepTwoForm={stepTwoForm}
                 stepTwoForm={stepTwoForm}
                 stepThreeForm={stepThreeForm}
                 currentStep={currentStep}
