@@ -25,6 +25,7 @@ interface Props {
   stepOneForm: StepOne;
   currentStep: number;
   stepTwoForm: Array<object>;
+  availImagePositions: Array<string>;
 }
 interface StepOne {
   title: string;
@@ -37,8 +38,10 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   currentStep,
   stepOneForm,
   stepTwoForm,
+  availImagePositions,
 }) => {
-  const { Title } = Typography;
+  const { Title, Text } = Typography;
+  const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +60,9 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    if (availImagePositions.includes("Main")) {
+      setModalStatus(true);
+    }
     (async function loadPreviewImages() {
       setLoading(true);
       for (let i = 0; i < stepTwoForm.length; i++) {
@@ -65,7 +71,6 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       setLoading(false);
     })();
   }, []);
-  console.log("1", previewImages);
 
   const handleBackStep = () => {
     switch (stepTwoForm.length) {
@@ -80,11 +85,32 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         break;
     }
   };
+  const handleModalCancel = () => {
+    setModalStatus(false);
+  };
   if (loading) {
     return <div>test</div>;
   } else {
     return (
       <div id="setupConfirmationFormContainer">
+        <Modal
+          visible={modalStatus}
+          onCancel={handleBackStep}
+          footer={[
+            <Button key="back" type="primary" onClick={handleBackStep}>
+              Go back
+            </Button>,
+          ]}
+        >
+          <div
+            id="modalContainer"
+            style={{ textAlign: "center", padding: "1rem" }}
+          >
+            <Text>Main image position not selected</Text>
+            <br />
+            <Text>Please go back and assign an image the main position</Text>
+          </div>
+        </Modal>
         <Row>
           <Col span={24}>
             <List

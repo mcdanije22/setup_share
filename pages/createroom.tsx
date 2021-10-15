@@ -124,6 +124,7 @@ export default function CreateRoomPage() {
                 stepTwoForm={stepTwoForm}
                 stepThreeForm={stepThreeForm}
                 currentStep={currentStep}
+                availImagePositions={availImagePositions}
               />
             ) : (
               ""
