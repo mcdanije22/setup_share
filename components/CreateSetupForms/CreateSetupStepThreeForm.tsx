@@ -72,6 +72,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const [addItemStatus, setAddItemStatus] = useState(false);
   const [tempAreas, setTempAreas] = useState<Array<Area>>([]);
   const [position, setPosition] = useState("");
+  const [modalStatus, setModalStatus] = useState<boolean>(false);
 
   const [form] = Form.useForm();
   const { Option } = Select;
@@ -154,9 +155,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     form.resetFields();
   };
   const finishAddItem = (values: FormValues) => {
+    //need logic to stop adding items that have names but no items drawn
     const { name, url } = values;
     if (MAP.areas[0].coords.length === 0) {
-      message.error("Draw points on image before submitting");
+      message.error("Draw Points On Image Before Submitting");
     } else {
       tempAreas[0].name = name;
       tempAreas[0].url = url;
@@ -175,10 +177,20 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const positionOnChange = (values: string) => {
     setPosition(values);
   };
+  const handleModalCancel = () => {
+    setModalStatus(false);
+  };
 
+  const addItemCheck = () => {
+    if (addItemStatus) {
+      setModalStatus(true);
+    } else {
+      submitImageData();
+    }
+  };
   const submitImageData = () => {
     if (position === "") {
-      message.error("Please select an image position first");
+      message.error("Please Select An Image Position First");
     } else {
       if (currentStep === 3) {
         setStepThreeForm((prevState) => ({
@@ -214,6 +226,36 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   if (image) {
     return (
       <div id="stepThreeFormContainer">
+        <Modal
+          visible={modalStatus}
+          title="Continue?"
+          onCancel={handleModalCancel}
+          footer={[
+            <Button key="back" onClick={handleModalCancel}>
+              Go back
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              onClick={() => {
+                setModalStatus(false);
+                cancelItemAdd();
+                submitImageData();
+              }}
+            >
+              Continue
+            </Button>,
+          ]}
+        >
+          <div
+            id="modalContainer"
+            style={{ textAlign: "center", padding: "1rem" }}
+          >
+            <Text>Current Item Not Submitted</Text>
+            <br />
+            <Text>Continue Without Adding Item?</Text>
+          </div>
+        </Modal>
         <div id="imgContainer">
           <Row justify="center">
             <Col>
@@ -367,7 +409,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                       shape="round"
                       onClick={cancelItemAdd}
                     >
-                      Cancel Add
+                      Cancel Adding Item
                     </Button>
                   </Space>
                 </Row>
@@ -412,7 +454,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             />
 
             <Button
-              onClick={submitImageData}
+              onClick={addItemCheck}
               type="primary"
               htmlType="submit"
               shape="circle"

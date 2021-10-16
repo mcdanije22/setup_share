@@ -118,7 +118,14 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               <Title level={5}>Room Information</Title>
             </Col>
             <Col>
-              <Button type="link">Edit</Button>
+              <Button
+                type="link"
+                onClick={() => {
+                  handleStepChange(1);
+                }}
+              >
+                Edit
+              </Button>
             </Col>
           </Row>
           <Divider style={{ margin: ".5rem 0" }} />
@@ -127,7 +134,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               <Text strong>Room Title:</Text>
             </Col>
             <Col span={24}>
-              <Text>Test Title</Text>
+              <Text>{stepOneForm.title}</Text>
             </Col>
           </Row>
           <Row style={{ margin: ".5rem 0" }}>
@@ -135,85 +142,117 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               <Text strong>Room Description:</Text>
             </Col>
             <Col span={24}>
-              <Text>Test Description</Text>
+              <Text>{stepOneForm.description}</Text>
             </Col>
           </Row>
         </div>
-        <Row>
-          <Col span={24}>
-            <List
-              header={<Title level={5}>Images</Title>}
-              itemLayout="horizontal"
-              dataSource={stepTwoForm}
-              renderItem={(item, i) => (
-                <List.Item
-                  actions={[
-                    <Button
-                      onClick={() => {
-                        handleStepChange(i + 3);
-                      }}
-                      type="link"
-                    >
-                      Edit
-                    </Button>,
-                  ]}
-                >
-                  <List.Item.Meta
-                    key={i}
-                    avatar={<Avatar src={previewImages[i]} />}
-                    title={<a href="https://ant.design">{item.name}</a>}
-                  />
-                </List.Item>
-              )}
-            />
-          </Col>
-        </Row>
-        <Collapse
-          //   onChange={callback}
-          expandIconPosition={"right"}
-          ghost
-        >
-          {stepTwoForm.map((item, i) => {
-            return (
-              <Panel
-                header={[
-                  <Avatar key="avatar" src={previewImages[i]} />,
-                  <Text key="text" style={{ paddingLeft: ".5rem" }}>
-                    {item.name}
-                  </Text>,
-                ]}
-                key={i}
-                extra={<EditTwoTone />}
+        <div id="confirmationSection" style={{ margin: "1rem 0" }}>
+          <Row>
+            <Col span={24}>
+              <Title level={5}>Images</Title>
+            </Col>
+          </Row>
+          <Divider style={{ margin: ".5rem 0" }} />
+          <Row>
+            <Col span={24}>
+              <Collapse
+                //   onChange={callback}
+                expandIconPosition={"right"}
+                ghost
               >
-                <div>
-                  {i === 0 ? (
-                    <>
-                      <Text strong>Items:</Text>
-                      {stepThreeForm.imageOne.areas.map((item, i) => {
-                        return (
-                          <li key={i}>
-                            {i + 1}. {item.name}
-                          </li>
-                        );
-                      })}
-                    </>
-                  ) : i === 1 ? (
-                    stepThreeForm.imageTwo.areas.map((item, i) => {
-                      return <li key={i}>{item.name}</li>;
-                    })
-                  ) : i === 2 ? (
-                    stepThreeForm.imageThree.areas.map((item, i) => {
-                      return <li key={i}>{item.name}</li>;
-                    })
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </Panel>
-            );
-          })}
-        </Collapse>
-        {/* <img src={previewImages[0]} /> */}
+                {stepTwoForm.map((item, i) => {
+                  return (
+                    <Panel
+                      header={[
+                        <Avatar key="avatar" src={previewImages[i]} />,
+                        <Text key="text" style={{ paddingLeft: ".5rem" }}>
+                          {item.name}
+                        </Text>,
+                      ]}
+                      key={i}
+                      extra={
+                        <EditTwoTone
+                          onClick={() => {
+                            handleStepChange(i + 3);
+                          }}
+                        />
+                      }
+                    >
+                      <div>
+                        {i === 0 ? (
+                          <Row>
+                            <Col span={24}>
+                              <Text strong>Items:</Text>
+                            </Col>
+                            {stepThreeForm.imageOne.areas.length === 0 ? (
+                              <Col span={24}>
+                                <Text>No Items Added</Text>
+                              </Col>
+                            ) : (
+                              stepThreeForm.imageOne.areas.map((item, i) => {
+                                return (
+                                  <Col span={24} key={i}>
+                                    <li>
+                                      {i + 1}. {item.name}
+                                    </li>
+                                  </Col>
+                                );
+                              })
+                            )}
+                          </Row>
+                        ) : i === 1 ? (
+                          <Row>
+                            <Col span={24}>
+                              <Text strong>Items:</Text>
+                            </Col>
+                            {stepThreeForm.imageTwo.areas.length === 0 ? (
+                              <Col span={24}>
+                                <Text>No Items Added</Text>
+                              </Col>
+                            ) : (
+                              stepThreeForm.imageTwo.areas.map((item, i) => {
+                                return (
+                                  <Col span={24} key={i}>
+                                    <li>
+                                      {i + 1}. {item.name}
+                                    </li>
+                                  </Col>
+                                );
+                              })
+                            )}
+                          </Row>
+                        ) : i === 2 ? (
+                          <Row>
+                            <Col span={24}>
+                              <Text strong>Items:</Text>
+                            </Col>
+                            {stepThreeForm.imageThree.areas.length === 0 ? (
+                              <Col span={24}>
+                                <Text>No Items Added</Text>
+                              </Col>
+                            ) : (
+                              stepThreeForm.imageThree.areas.map((item, i) => {
+                                return (
+                                  <Col span={24} key={i}>
+                                    <li>
+                                      {i + 1}. {item.name}
+                                    </li>
+                                  </Col>
+                                );
+                              })
+                            )}
+                          </Row>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </Panel>
+                  );
+                })}
+              </Collapse>
+            </Col>
+          </Row>
+        </div>
         <Row
           justify="space-between"
           style={{
