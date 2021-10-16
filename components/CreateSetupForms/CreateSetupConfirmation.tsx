@@ -12,11 +12,13 @@ import {
   Typography,
   Modal,
   Avatar,
+  Divider,
+  Collapse,
 } from "antd";
 import {
   ArrowRightOutlined,
   ArrowLeftOutlined,
-  DeleteTwoTone,
+  EditTwoTone,
 } from "@ant-design/icons";
 
 interface Props {
@@ -41,6 +43,8 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   availImagePositions,
 }) => {
   const { Title, Text } = Typography;
+  const { Panel } = Collapse;
+
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -85,9 +89,6 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         break;
     }
   };
-  const handleModalCancel = () => {
-    setModalStatus(false);
-  };
   if (loading) {
     return <div>test</div>;
   } else {
@@ -111,30 +112,52 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             <Text>Please go back and assign an image the main position</Text>
           </div>
         </Modal>
+        <div id="confirmationSection" style={{ margin: "1rem 0" }}>
+          <Row justify="space-between">
+            <Col>
+              <Title level={5}>Room Information</Title>
+            </Col>
+            <Col>
+              <Button type="link">Edit</Button>
+            </Col>
+          </Row>
+          <Divider style={{ margin: ".5rem 0" }} />
+          <Row>
+            <Col span={24}>
+              <Text strong>Room Title:</Text>
+            </Col>
+            <Col span={24}>
+              <Text>Test Title</Text>
+            </Col>
+          </Row>
+          <Row style={{ margin: ".5rem 0" }}>
+            <Col span={24}>
+              <Text strong>Room Description:</Text>
+            </Col>
+            <Col span={24}>
+              <Text>Test Description</Text>
+            </Col>
+          </Row>
+        </div>
         <Row>
           <Col span={24}>
             <List
-              header={
-                <Row justify="space-between">
-                  <Col>
-                    <Title level={5}>Images</Title>
-                  </Col>
-                  <Col>
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        handleStepChange(3);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </Col>
-                </Row>
-              }
+              header={<Title level={5}>Images</Title>}
               itemLayout="horizontal"
               dataSource={stepTwoForm}
               renderItem={(item, i) => (
-                <List.Item>
+                <List.Item
+                  actions={[
+                    <Button
+                      onClick={() => {
+                        handleStepChange(i + 3);
+                      }}
+                      type="link"
+                    >
+                      Edit
+                    </Button>,
+                  ]}
+                >
                   <List.Item.Meta
                     key={i}
                     avatar={<Avatar src={previewImages[i]} />}
@@ -145,6 +168,51 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             />
           </Col>
         </Row>
+        <Collapse
+          //   onChange={callback}
+          expandIconPosition={"right"}
+          ghost
+        >
+          {stepTwoForm.map((item, i) => {
+            return (
+              <Panel
+                header={[
+                  <Avatar key="avatar" src={previewImages[i]} />,
+                  <Text key="text" style={{ paddingLeft: ".5rem" }}>
+                    {item.name}
+                  </Text>,
+                ]}
+                key={i}
+                extra={<EditTwoTone />}
+              >
+                <div>
+                  {i === 0 ? (
+                    <>
+                      <Text strong>Items:</Text>
+                      {stepThreeForm.imageOne.areas.map((item, i) => {
+                        return (
+                          <li key={i}>
+                            {i + 1}. {item.name}
+                          </li>
+                        );
+                      })}
+                    </>
+                  ) : i === 1 ? (
+                    stepThreeForm.imageTwo.areas.map((item, i) => {
+                      return <li key={i}>{item.name}</li>;
+                    })
+                  ) : i === 2 ? (
+                    stepThreeForm.imageThree.areas.map((item, i) => {
+                      return <li key={i}>{item.name}</li>;
+                    })
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Panel>
+            );
+          })}
+        </Collapse>
         {/* <img src={previewImages[0]} /> */}
         <Row
           justify="space-between"
