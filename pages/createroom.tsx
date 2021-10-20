@@ -30,6 +30,11 @@ export default function CreateRoomPage() {
     description: "",
   });
   const [stepTwoForm, setStepTwoForm] = useState<any>([]);
+  const [uploadObject, setUploadObject] = useState<Object>({
+    imageOneFile: null,
+    imageTwoFile: null,
+    imageThreeFile: null,
+  });
   const [stepThreeForm, setStepThreeForm] = useState<object>({
     imageOne: null,
     imageTwo: null,
@@ -77,6 +82,8 @@ export default function CreateRoomPage() {
                 setStepTwoForm={setStepTwoForm}
                 handleStepChange={handleStepChange}
                 stepTwoForm={stepTwoForm}
+                uploadObject={uploadObject}
+                setUploadObject={setUploadObject}
               />
             ) : currentStep === 3 ? (
               <CreateSetupStepThreeForm
@@ -125,6 +132,7 @@ export default function CreateRoomPage() {
                 stepThreeForm={stepThreeForm}
                 currentStep={currentStep}
                 availImagePositions={availImagePositions}
+                uploadObject={uploadObject}
               />
             ) : (
               ""

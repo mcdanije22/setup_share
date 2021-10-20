@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import axios from "axios";
 import {
   Button,
   Form,
@@ -28,6 +29,7 @@ interface Props {
   currentStep: number;
   stepTwoForm: Array<object>;
   availImagePositions: Array<string>;
+  uploadObject: Object;
 }
 interface StepOne {
   title: string;
@@ -41,6 +43,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   stepOneForm,
   stepTwoForm,
   availImagePositions,
+  uploadObject,
 }) => {
   const { Title, Text } = Typography;
   const { Panel } = Collapse;
@@ -48,6 +51,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [submitModalStatus, setSubmitModalStatus] = useState<boolean>(false);
 
   const onPreview = async (imageNumber: number) => {
     const src: any = await new Promise((resolve) => {
@@ -89,6 +93,32 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         break;
     }
   };
+  const handleSubmitModalCancel = () => {
+    setSubmitModalStatus(false);
+  };
+  const openSubmitModal = () => {
+    setSubmitModalStatus(true);
+  };
+  const submitRoomDetails = async () => {
+    const data = new FormData();
+    data.append("image-file", uploadObject.imageOneFile.file.originFileObj);
+    console.log(data);
+    try {
+      const submitData = await axios.post(
+        "http://localhost:5000/room/create",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const response = submitData;
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (loading) {
     return <div>test</div>;
   } else {
@@ -110,6 +140,25 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             <Text>Main image position not selected</Text>
             <br />
             <Text>Please go back and assign an image the main position</Text>
+          </div>
+        </Modal>
+        <Modal
+          visible={submitModalStatus}
+          onCancel={handleSubmitModalCancel}
+          footer={[
+            <Button key="back" type="primary">
+              Go back
+            </Button>,
+            <Button key="submit" type="primary" onClick={submitRoomDetails}>
+              Submit
+            </Button>,
+          ]}
+        >
+          <div
+            id="modalContainer"
+            style={{ textAlign: "center", padding: "1rem" }}
+          >
+            <Text>Save Room?</Text>
           </div>
         </Modal>
         <div id="confirmationSection" style={{ margin: "1rem 0" }}>
@@ -271,10 +320,10 @@ const CreateSetupConfirmation: React.FC<Props> = ({
 
           <Button
             type="primary"
-            htmlType="submit"
             shape="circle"
             size="large"
             icon={<ArrowRightOutlined />}
+            onClick={openSubmitModal}
           />
         </Row>
       </div>

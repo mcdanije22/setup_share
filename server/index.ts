@@ -6,6 +6,7 @@ import createUserHandler from "./controllers/createUserHandler";
 import db from "./services/dbConnection";
 import imageRoutes from "./routes/imageRoutes";
 import userRoutes from "./routes/userRouters";
+import roomRoutes from "./routes/roomRoutes";
 
 import express from "express";
 import bodyParser from "body-parser";
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use("/image", imageRoutes);
 app.use("/user", userRoutes);
+app.use("/room", roomRoutes);
 
 // app.get("/ping", (req, res) => {
 //   const testFunction = async () => {

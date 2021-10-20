@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React, { useState } from "react";
 import { Button, Upload, message, Form } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { ControlFilled, InboxOutlined } from "@ant-design/icons";
 import axios from "axios";
 import CanvasImg from "../components/CanvasImg";
 
@@ -14,6 +14,7 @@ export default function Home() {
   const uploadFile = async (values) => {
     setLoadingStatus(true);
     const data = new FormData();
+    console.log(values);
     data.append("image-file", values.imageFile.file.originFileObj);
     try {
       // const result = await axios.post("http://localhost:5000/images", data, {

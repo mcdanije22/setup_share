@@ -25,14 +25,20 @@ interface Props {
   setStepTwoForm: Dispatch<SetStateAction<object>>;
   handleStepChange(number: number): void;
   stepTwoForm: Array<object>;
+  uploadObject: Object;
+  setUploadObject: Dispatch<SetStateAction<object>>;
 }
 
 const CreateSetupStepTwoForm: React.FC<Props> = ({
   setStepTwoForm,
   handleStepChange,
   stepTwoForm,
+  uploadObject,
+  setUploadObject,
 }) => {
   const [fileList, setFileList] = useState<Array<any>>([]);
+  const [uploadFileList, setUploadList] = useState<Array<any>>([]);
+
   const [modalStatus, setModalStatus] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,11 +46,28 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       setFileList([...stepTwoForm]);
     }
   }, []);
-
-  const onChange = ({ fileList: newFileList }: any) => {
+  const onChange = ({ file, fileList: newFileList }: any) => {
+    console.log("list", fileList);
+    console.log("file", file);
     setFileList(newFileList);
+    if (newFileList.length === 1) {
+      setUploadObject((prevState) => ({
+        ...prevState,
+        imageOneFile: { file },
+      }));
+    } else if (newFileList.length === 2) {
+      setUploadObject((prevState) => ({
+        ...prevState,
+        imageTwoFile: { file },
+      }));
+    } else if (newFileList.length === 3) {
+      setUploadObject((prevState) => ({
+        ...prevState,
+        imageThreeFile: { file },
+      }));
+    }
+    console.log(uploadObject);
   };
-
   const onPreview = async (file: any) => {
     let src = file.url;
     if (!src) {
@@ -68,8 +91,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       return true;
     }
   };
-  console.log(fileList);
-
   const sendFormTwoData = () => {
     setStepTwoForm([...fileList]);
     handleStepChange(3);
@@ -86,6 +107,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       sendFormTwoData();
     }
   };
+
   return (
     <div id={styles.stepTwoFormContainer}>
       <Modal
