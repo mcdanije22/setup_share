@@ -100,6 +100,8 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     setSubmitModalStatus(true);
   };
   const submitRoomDetails = async () => {
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+
     const data = new FormData();
     data.append("image-file", uploadObject.imageOneFile.file.originFileObj);
     console.log(data);
@@ -107,11 +109,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       const submitData = await axios.post(
         "http://localhost:5000/room/create",
         data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        config
       );
       const response = submitData;
       console.log(response);
@@ -119,6 +117,8 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       console.log(error);
     }
   };
+  console.log("image", uploadObject.imageOneFile);
+  console.log("upload", uploadObject);
   if (loading) {
     return <div>test</div>;
   } else {

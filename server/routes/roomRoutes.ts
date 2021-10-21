@@ -15,7 +15,7 @@ roomRoutes.post(
     const { data } = req.body;
     console.log(data);
     const file = data;
-    console.log(file);
+
     // const result = await uploadFile(file);
     // // may have to add delete logic in different call in order to keep preview
     // console.log(result);

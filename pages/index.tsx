@@ -11,11 +11,35 @@ export default function Home() {
 
   const { Dragger } = Upload;
 
-  const uploadFile = async (values) => {
-    setLoadingStatus(true);
+  // const uploadFile = async (values) => {
+  //   setLoadingStatus(true);
+  //   const data = new FormData();
+  //   console.log(values);
+  //   data.append("image-file", values.imageFile.file.originFileObj);
+  //   try {
+  //     // const result = await axios.post("http://localhost:5000/images", data, {
+  //     const result = await axios.post(
+  //       "http://localhost:5000/image/upload",
+  //       data,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+  //     console.log(result);
+  //     message.success("sucess");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   setLoadingStatus(false);
+  //   //likely wont need this list tracking, will look to have custom preview images and single uploads
+  //   // setFileList([...imageList, values.imageFile.file.originFileObj]);
+  // };
+  const upload = async (file) => {
     const data = new FormData();
-    console.log(values);
-    data.append("image-file", values.imageFile.file.originFileObj);
+    data.append("image-file", file);
+    console.log(data);
     try {
       // const result = await axios.post("http://localhost:5000/images", data, {
       const result = await axios.post(
@@ -27,11 +51,16 @@ export default function Home() {
           },
         }
       );
-      console.log(result);
       message.success("sucess");
     } catch (error) {
       console.log(error);
     }
+  };
+  const uploadFile = async (values) => {
+    setLoadingStatus(true);
+    upload(values.imageFile.fileList[0].originFileObj);
+    upload(values.imageFile.fileList[1].originFileObj);
+    upload(values.imageFile.fileList[2].originFileObj);
     setLoadingStatus(false);
     //likely wont need this list tracking, will look to have custom preview images and single uploads
     // setFileList([...imageList, values.imageFile.file.originFileObj]);
@@ -56,8 +85,8 @@ export default function Home() {
           <Form.Item name="imageFile">
             <Dragger
               name="image"
-              multiple={false}
-              maxCount={1}
+              multiple={true}
+              // maxCount={1}
               customRequest={dummyRequest}
             >
               <p className="ant-upload-drag-icon">
