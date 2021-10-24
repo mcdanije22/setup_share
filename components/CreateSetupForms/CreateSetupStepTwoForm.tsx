@@ -27,16 +27,12 @@ interface Props {
   setStepTwoForm: Dispatch<SetStateAction<object>>;
   handleStepChange(number: number): void;
   stepTwoForm: Array<object>;
-  uploadObject: Object;
-  setUploadObject: Dispatch<SetStateAction<object>>;
 }
 
 const CreateSetupStepTwoForm: React.FC<Props> = ({
   setStepTwoForm,
   handleStepChange,
   stepTwoForm,
-  uploadObject,
-  setUploadObject,
 }) => {
   const [fileList, setFileList] = useState<Array<any>>([]);
   const [uploadFileList, setUploadList] = useState<Array<any>>([]);
@@ -48,26 +44,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       setFileList([...stepTwoForm]);
     }
   }, []);
-  const onChange = ({ file, fileList: newFileList }: any) => {
-    console.log("list", fileList);
-    setFileList(newFileList);
-    if (newFileList.length === 1) {
-      setUploadObject((prevState) => ({
-        ...prevState,
-        imageOneFile: { file },
-      }));
-    } else if (newFileList.length === 2) {
-      setUploadObject((prevState) => ({
-        ...prevState,
-        imageTwoFile: { file },
-      }));
-    } else if (newFileList.length === 3) {
-      setUploadObject((prevState) => ({
-        ...prevState,
-        imageThreeFile: { file },
-      }));
-    }
-  };
+
   const onPreview = async (file: any) => {
     let src = file.url;
     if (!src) {
@@ -180,7 +157,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
                   name="image"
                   listType="picture"
                   fileList={fileList}
-                  onChange={onChange}
                   onPreview={onPreview}
                   maxCount={3}
                   beforeUpload={beforeUpload}

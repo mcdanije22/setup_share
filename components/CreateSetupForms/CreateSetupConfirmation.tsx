@@ -29,7 +29,6 @@ interface Props {
   currentStep: number;
   stepTwoForm: Array<object>;
   availImagePositions: Array<string>;
-  uploadObject: Object;
 }
 interface StepOne {
   title: string;
@@ -43,7 +42,6 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   stepOneForm,
   stepTwoForm,
   availImagePositions,
-  uploadObject,
 }) => {
   const { Title, Text } = Typography;
   const { Panel } = Collapse;
@@ -99,26 +97,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const openSubmitModal = () => {
     setSubmitModalStatus(true);
   };
-  const submitRoomDetails = async () => {
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const data = new FormData();
-    data.append("image-file", uploadObject.imageOneFile.file.originFileObj);
-    console.log(data);
-    try {
-      const submitData = await axios.post(
-        "http://localhost:5000/room/create",
-        data,
-        config
-      );
-      const response = submitData;
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log("image", uploadObject.imageOneFile);
-  console.log("upload", uploadObject);
   if (loading) {
     return <div>test</div>;
   } else {
@@ -149,7 +128,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             <Button key="back" type="primary">
               Go back
             </Button>,
-            <Button key="submit" type="primary" onClick={submitRoomDetails}>
+            <Button key="submit" type="primary">
               Submit
             </Button>,
           ]}
