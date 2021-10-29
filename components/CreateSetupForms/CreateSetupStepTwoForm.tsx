@@ -44,7 +44,9 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       setFileList([...stepTwoForm]);
     }
   }, []);
-
+  const onChange = ({ fileList: newFileList }: any) => {
+    setFileList(newFileList);
+  };
   const onPreview = async (file: any) => {
     let src = file.url;
     if (!src) {
@@ -104,16 +106,20 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     }
   };
   const uploadFile = async (values) => {
-    setLoadingStatus(true);
-    await upload(values.imageFile.fileList[0].originFileObj);
-    await upload(values.imageFile.fileList[1].originFileObj);
-    await upload(values.imageFile.fileList[2].originFileObj);
-    setLoadingStatus(false);
-    handleStepTwoData();
-    //likely wont need this list tracking, will look to have custom preview images and single uploads
-    // setFileList([...imageList, values.imageFile.file.originFileObj]);
+    if (fileList.length === 0) {
+      message.error("Please upload a photo before continuing");
+    } else {
+      setLoadingStatus(true);
+      const awsData = await values.imageFile.fileList.map((item, i) => {
+        upload(item.originFileObj);
+      });
+      sendFormTwoData();
+      setLoadingStatus(false);
+      handleStepChange(3);
+      //likely wont need this list tracking, will look to have custom preview images and single uploads
+      // setFileList([...imageList, values.imageFile.file.originFileObj]);
+    }
   };
-  const dummyRequest = (file) => {};
 
   return (
     <div id={styles.stepTwoFormContainer}>
@@ -157,10 +163,10 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
                   name="image"
                   listType="picture"
                   fileList={fileList}
+                  onChange={onChange}
                   onPreview={onPreview}
                   maxCount={3}
                   beforeUpload={beforeUpload}
-                  customRequest={dummyRequest}
                   multiple={true}
                 >
                   {fileList.length < 3 && (
@@ -195,7 +201,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
                 handleStepChange(1);
               }}
               danger
-              htmlType="submit"
               shape="circle"
               size="large"
               icon={<ArrowLeftOutlined />}
@@ -218,7 +223,96 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
 };
 
 export default CreateSetupStepTwoForm;
-//  return (
+
+// import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+// import {
+//   Upload,
+//   Row,
+//   Col,
+//   Typography,
+//   Space,
+//   Button,
+//   message,
+//   Modal,
+// } from "antd";
+// import ImgCrop from "antd-img-crop";
+// import styles from "./createRoomForms.module.scss";
+// import {
+//   ArrowRightOutlined,
+//   ArrowLeftOutlined,
+//   InboxOutlined,
+//   CheckCircleTwoTone,
+// } from "@ant-design/icons";
+
+// const { Title, Text } = Typography;
+// const { Dragger } = Upload;
+
+// interface Props {
+//   setStepTwoForm: Dispatch<SetStateAction<object>>;
+//   handleStepChange(number: number): void;
+//   stepTwoForm: Array<object>;
+// }
+
+// const CreateSetupStepTwoForm: React.FC<Props> = ({
+//   setStepTwoForm,
+//   handleStepChange,
+//   stepTwoForm,
+// }) => {
+//   const [fileList, setFileList] = useState<Array<any>>([]);
+//   const [modalStatus, setModalStatus] = useState<boolean>(false);
+
+//   useEffect(() => {
+//     if (stepTwoForm) {
+//       setFileList([...stepTwoForm]);
+//     }
+//   }, []);
+
+//   const onChange = ({ fileList: newFileList }: any) => {
+//     setFileList(newFileList);
+//   };
+
+//   const onPreview = async (file: any) => {
+//     let src = file.url;
+//     if (!src) {
+//       src = await new Promise((resolve) => {
+//         const reader = new FileReader();
+//         reader.readAsDataURL(file.originFileObj);
+//         reader.onload = () => resolve(reader.result);
+//       });
+//     }
+//     const image = new Image();
+//     image.src = src;
+//     const imgWindow: any = window.open(src);
+//     console.log(imgWindow);
+//     imgWindow.document.write(image.outerHTML);
+//   };
+//   const beforeUpload = () => {
+//     if (fileList.length >= 3) {
+//       message.error("Delete image first before trying to add a new one");
+//       return false;
+//     } else {
+//       return true;
+//     }
+//   };
+//   console.log(fileList);
+
+//   const sendFormTwoData = () => {
+//     setStepTwoForm([...fileList]);
+//     handleStepChange(3);
+//   };
+//   const handleModalCancel = () => {
+//     setModalStatus(false);
+//   };
+//   const handleStepTwoData = () => {
+//     if (fileList.length === 0) {
+//       message.error("Please upload a photo before continuing");
+//     } else if (fileList.length < 3) {
+//       setModalStatus(true);
+//     } else {
+//       sendFormTwoData();
+//     }
+//   };
+//   return (
 //     <div id={styles.stepTwoFormContainer}>
 //       <Modal
 //         visible={modalStatus}
