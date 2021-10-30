@@ -41,6 +41,9 @@ export default function CreateRoomPage() {
     "Left",
     "Right",
   ]);
+  const [awsImageList, setAwsImageList] = useState<Array<object>>([]);
+
+  console.log(awsImageList);
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
   };
@@ -77,6 +80,8 @@ export default function CreateRoomPage() {
                 setStepTwoForm={setStepTwoForm}
                 handleStepChange={handleStepChange}
                 stepTwoForm={stepTwoForm}
+                awsImageList={awsImageList}
+                setAwsImageList={setAwsImageList}
               />
             ) : currentStep === 3 ? (
               <CreateSetupStepThreeForm
