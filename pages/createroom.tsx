@@ -43,7 +43,6 @@ export default function CreateRoomPage() {
   ]);
   const [awsImageList, setAwsImageList] = useState<Array<object>>([]);
 
-  console.log(awsImageList);
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
   };
@@ -63,6 +62,7 @@ export default function CreateRoomPage() {
     s1: stepOneForm,
     s2: stepTwoForm,
     s3: stepThreeForm,
+    aws: awsImageList,
   });
   return (
     <Layout title="Create Room">

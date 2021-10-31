@@ -41,6 +41,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
   const [fileList, setFileList] = useState<Array<any>>([]);
   const [isLoading, setLoadingStatus] = useState(false);
   const [modalStatus, setModalStatus] = useState<boolean>(false);
+  const [awsList, setAwsList] = useState([]);
 
   useEffect(() => {
     if (stepTwoForm) {
@@ -73,25 +74,16 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       return true;
     }
   };
-  const sendFormTwoData = () => {
-    setStepTwoForm([...fileList]);
-    handleStepChange(3);
+  const sendFormTwoData = async () => {
+    await setStepTwoForm([...fileList]);
+    await handleStepChange(3);
   };
   const handleModalCancel = () => {
     setModalStatus(false);
   };
-  // const handleStepTwoData = () => {
-  //   if (fileList.length === 0) {
-  //     message.error("Please upload a photo before continuing");
-  //   } else if (fileList.length < 3) {
-  //     setModalStatus(true);
-  //   } else {
-  //     sendFormTwoData();
-  //   }
-  // };
-  const upload = async (file) => {
+  const upload = async (file, i) => {
     const data = new FormData();
-    data.append("image-file", file, file.uid);
+    data.append("image-file", file.originFileObj);
     try {
       const result = await axios.post(
         "http://localhost:5000/image/upload",
@@ -103,39 +95,46 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
         }
       );
       console.log(result);
-      const currentImageList = awsImageList;
-      const pushImageToList = currentImageList.push({
-        aws: result.data.aws,
-        id: result.data.orgFile.originalname,
+      console.log(file);
+      // const currentImageList = awsImageList;
+      // const pushImageToList = currentImageList.push({
+      //   aws: result.data.aws,
+      //   id: result.data.orgFile.originalname,
+      // });
+      // setAwsImageList(currentImageList);
+      const awsData = { ...file, ...result.data.aws };
+      console.log(file);
+      const currentAws = awsList;
+      const pushToAwsList = currentAws.push({
+        ...awsData,
       });
-      setAwsImageList(currentImageList);
-      console.log(awsImageList);
-      // setAwsImageList(newList);
-      //  setAwsImageList([
-      //     ...awsImageList,
-      //     { aws: result.data.aws, id: result.data.orgFile.originalname },
-      //   ]);
+      console.log(currentAws);
+      setFileList([...currentAws]);
+      setStepTwoForm([...currentAws]);
       message.success("sucess");
     } catch (error) {
       console.log(error);
     }
   };
   const uploadFile = async (values) => {
-    if (fileList.length === 0) {
+    console.log(values);
+    if (!values.imageFile) {
+      handleStepChange(3);
+    } else if (fileList.length === 0) {
       message.error("Please upload a photo before continuing");
     } else {
       setLoadingStatus(true);
       const awsData = await values.imageFile.fileList.map(async (item, i) => {
-        await upload(item.originFileObj);
+        // await upload(item.originFileObj, i);
+        await upload(item, i);
       });
       sendFormTwoData();
       setLoadingStatus(false);
       handleStepChange(3);
       //likely wont need this list tracking, will look to have custom preview images and single uploads
-      // setFileList([...imageList, values.imageFile.file.originFileObj]);
     }
   };
-
+  console.log(fileList);
   return (
     <div id={styles.stepTwoFormContainer}>
       <Modal
