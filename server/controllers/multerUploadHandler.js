@@ -1,6 +1,6 @@
 const fs = require("fs");
 const AWS = require("aws-sdk");
-const uploadFile = require("../services/s3_bucket");
+const uploadFile = require("../services/s3_upload");
 const util = require("util");
 const unlinkFile = util.promisify(fs.unlink);
 

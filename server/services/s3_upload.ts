@@ -1,5 +1,5 @@
-const AWS = require("aws-sdk");
-const fs = require("fs");
+import AWS from "aws-sdk";
+import fs from "fs";
 require("dotenv").config();
 
 const s3 = new AWS.S3({
@@ -19,4 +19,4 @@ const uploadFile = (file) => {
   };
   return s3.upload(params).promise();
 };
-module.exports = uploadFile;
+export default uploadFile;

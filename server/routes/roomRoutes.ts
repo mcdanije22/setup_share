@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import fs from "fs";
-import uploadFile from "../services/s3_bucket";
 import util from "util";
 const unlinkFile = util.promisify(fs.unlink);
 import multer from "multer";

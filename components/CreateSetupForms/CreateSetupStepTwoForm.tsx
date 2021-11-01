@@ -51,6 +51,19 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
   const onChange = ({ fileList: newFileList }: any) => {
     setFileList(newFileList);
   };
+  const deleteS3File = async (key) => {
+    const result = await axios.post("http://localhost:5000/image/delete", {
+      key,
+    });
+    console.log(result);
+  };
+  const onRemove = async (file) => {
+    if (file.key) {
+      fileList.map(async (file, i) => {
+        await deleteS3File(file.key);
+      });
+    }
+  };
   const onPreview = async (file: any) => {
     let src = file.url;
     if (!src) {
@@ -63,12 +76,11 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     const image = new Image();
     image.src = src;
     const imgWindow: any = window.open(src);
-    console.log(imgWindow);
     imgWindow.document.write(image.outerHTML);
   };
   const beforeUpload = () => {
     if (fileList.length >= 3) {
-      message.error("Delete image first before trying to add a new one");
+      message.error("Delete image first before adding another one");
       return false;
     } else {
       return true;
@@ -94,14 +106,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
           },
         }
       );
-      console.log(result);
-      console.log(file);
-      // const currentImageList = awsImageList;
-      // const pushImageToList = currentImageList.push({
-      //   aws: result.data.aws,
-      //   id: result.data.orgFile.originalname,
-      // });
-      // setAwsImageList(currentImageList);
       const awsData = { ...file, ...result.data.aws };
       console.log(file);
       const currentAws = awsList;
@@ -117,7 +121,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     }
   };
   const uploadFile = async (values) => {
-    console.log(values);
     if (!values.imageFile) {
       handleStepChange(3);
     } else if (fileList.length === 0) {
@@ -125,7 +128,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     } else {
       setLoadingStatus(true);
       const awsData = await values.imageFile.fileList.map(async (item, i) => {
-        // await upload(item.originFileObj, i);
         await upload(item, i);
       });
       sendFormTwoData();
@@ -134,7 +136,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       //likely wont need this list tracking, will look to have custom preview images and single uploads
     }
   };
-  console.log(fileList);
+
   return (
     <div id={styles.stepTwoFormContainer}>
       <Modal
@@ -179,6 +181,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
                   fileList={fileList}
                   onChange={onChange}
                   onPreview={onPreview}
+                  onRemove={onRemove}
                   maxCount={3}
                   beforeUpload={beforeUpload}
                   multiple={true}
