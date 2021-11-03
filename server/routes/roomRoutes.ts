@@ -7,20 +7,9 @@ const upload = multer({ dest: "uploads/" });
 
 const roomRoutes = Router();
 
-roomRoutes.post(
-  "/create",
-  upload.single("image-file"),
-  async (req: express.Request, res: express.Response) => {
-    const { data } = req.body;
-    console.log(data);
-    const file = data;
-
-    // const result = await uploadFile(file);
-    // // may have to add delete logic in different call in order to keep preview
-    // console.log(result);
-    // await unlinkFile(file.path);
-    // res.send({ description, title });
-  }
-);
+roomRoutes.post("/create", (req: express.Request, res: express.Response) => {
+  console.log(req.body);
+  res.send({ data: req.body });
+});
 
 export default roomRoutes;

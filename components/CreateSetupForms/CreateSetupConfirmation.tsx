@@ -27,12 +27,18 @@ interface Props {
   stepThreeForm: any;
   stepOneForm: StepOne;
   currentStep: number;
-  stepTwoForm: Array<object>;
+  stepTwoForm: any;
   availImagePositions: Array<string>;
 }
 interface StepOne {
   title: string;
   description: string;
+}
+
+interface Image {
+  areas: Array<object>;
+  imagePosition: string;
+  name: string;
 }
 
 const CreateSetupConfirmation: React.FC<Props> = ({
@@ -60,7 +66,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
 
     const image = new Image();
     image.src = src;
-    const newList = previewImages;
+    const newList: any = previewImages;
     newList.push(src);
     setPreviewImages(newList);
   };
@@ -98,6 +104,34 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     setSubmitModalStatus(true);
   };
 
+  const SubmitRoomData = async () => {
+    const roomData = await {
+      title: stepOneForm.title,
+      description: stepOneForm.description,
+      imageOne: {
+        ...stepThreeForm.imageOne,
+        link: stepTwoForm[0].Location,
+        key: stepTwoForm[0].key,
+      },
+      imageTwo: {
+        ...stepThreeForm.imageTwo,
+        link: stepTwoForm[1].Location,
+        key: stepTwoForm[1].key,
+      },
+      imageThree: {
+        ...stepThreeForm.imageThree,
+        link: stepTwoForm[2].Location,
+        key: stepTwoForm[2].key,
+      },
+    };
+    const submitRoom = await axios.post(
+      "http://localhost:5000/room/create",
+      roomData
+    );
+    const response = submitRoom;
+    console.log(response);
+  };
+  console.log({ s1: stepOneForm, s2: stepTwoForm, s3: stepThreeForm });
   if (loading) {
     return <div>test</div>;
   } else {
@@ -125,10 +159,10 @@ const CreateSetupConfirmation: React.FC<Props> = ({
           visible={submitModalStatus}
           onCancel={handleSubmitModalCancel}
           footer={[
-            <Button key="back" type="primary">
+            <Button key="back" danger>
               Go back
             </Button>,
-            <Button key="submit" type="primary">
+            <Button key="submit" type="primary" onClick={SubmitRoomData}>
               Submit
             </Button>,
           ]}
@@ -137,7 +171,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             id="modalContainer"
             style={{ textAlign: "center", padding: "1rem" }}
           >
-            <Text>Save Room?</Text>
+            <Text>Submit Room?</Text>
           </div>
         </Modal>
         <div id="confirmationSection" style={{ margin: "1rem 0" }}>
@@ -188,7 +222,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
                 expandIconPosition={"right"}
                 ghost
               >
-                {stepTwoForm.map((item, i) => {
+                {stepTwoForm.map((item: any, i: number) => {
                   return (
                     <Panel
                       header={[
@@ -217,15 +251,17 @@ const CreateSetupConfirmation: React.FC<Props> = ({
                                 <Text>No Items Added</Text>
                               </Col>
                             ) : (
-                              stepThreeForm.imageOne.areas.map((item, i) => {
-                                return (
-                                  <Col span={24} key={i}>
-                                    <li>
-                                      {i + 1}. {item.name}
-                                    </li>
-                                  </Col>
-                                );
-                              })
+                              stepThreeForm.imageOne.areas.map(
+                                (item: Image, i: number) => {
+                                  return (
+                                    <Col span={24} key={i}>
+                                      <li>
+                                        {i + 1}. {item.name}
+                                      </li>
+                                    </Col>
+                                  );
+                                }
+                              )
                             )}
                           </Row>
                         ) : i === 1 ? (
@@ -238,15 +274,17 @@ const CreateSetupConfirmation: React.FC<Props> = ({
                                 <Text>No Items Added</Text>
                               </Col>
                             ) : (
-                              stepThreeForm.imageTwo.areas.map((item, i) => {
-                                return (
-                                  <Col span={24} key={i}>
-                                    <li>
-                                      {i + 1}. {item.name}
-                                    </li>
-                                  </Col>
-                                );
-                              })
+                              stepThreeForm.imageTwo.areas.map(
+                                (item: Image, i: number) => {
+                                  return (
+                                    <Col span={24} key={i}>
+                                      <li>
+                                        {i + 1}. {item.name}
+                                      </li>
+                                    </Col>
+                                  );
+                                }
+                              )
                             )}
                           </Row>
                         ) : i === 2 ? (
@@ -259,15 +297,17 @@ const CreateSetupConfirmation: React.FC<Props> = ({
                                 <Text>No Items Added</Text>
                               </Col>
                             ) : (
-                              stepThreeForm.imageThree.areas.map((item, i) => {
-                                return (
-                                  <Col span={24} key={i}>
-                                    <li>
-                                      {i + 1}. {item.name}
-                                    </li>
-                                  </Col>
-                                );
-                              })
+                              stepThreeForm.imageThree.areas.map(
+                                (item: Image, i: number) => {
+                                  return (
+                                    <Col span={24} key={i}>
+                                      <li>
+                                        {i + 1}. {item.name}
+                                      </li>
+                                    </Col>
+                                  );
+                                }
+                              )
                             )}
                           </Row>
                         ) : (
