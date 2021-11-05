@@ -1,15 +1,20 @@
 import express, { Router } from "express";
-import fs from "fs";
-import util from "util";
-const unlinkFile = util.promisify(fs.unlink);
-import multer from "multer";
-const upload = multer({ dest: "uploads/" });
+import knex from "knex";
+import db from "../services/dbConnection";
 
 const roomRoutes = Router();
 
-roomRoutes.post("/create", (req: express.Request, res: express.Response) => {
-  console.log(req.body);
-  res.send({ data: req.body });
-});
+roomRoutes.post(
+  "/create",
+  async (req: express.Request, res: express.Response) => {
+    const { title, description, images } = req.body;
+    console.log(title, description);
+    const addRoom = await db("rooms").insert({
+      room_title: title,
+      room_description: description,
+    });
+    res.send({ data: req.body });
+  }
+);
 
 export default roomRoutes;

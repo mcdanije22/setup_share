@@ -105,24 +105,32 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   };
 
   const SubmitRoomData = async () => {
-    const roomData = await {
+    let imageFiles: Array<object> = [];
+    const addImages = stepTwoForm.map((item: any, i: number) => {
+      if (i === 0) {
+        imageFiles.push({
+          ...stepThreeForm.imageOne,
+          link: stepTwoForm[0].Location,
+          key: stepTwoForm[0].key,
+        });
+      } else if (i === 1) {
+        imageFiles.push({
+          ...stepThreeForm.imageTwo,
+          link: stepTwoForm[1].Location,
+          key: stepTwoForm[1].key,
+        });
+      } else if (i === 2) {
+        imageFiles.push({
+          ...stepThreeForm.imageThree,
+          link: stepTwoForm[2].Location,
+          key: stepTwoForm[2].key,
+        });
+      }
+    });
+    const roomData = {
       title: stepOneForm.title,
       description: stepOneForm.description,
-      imageOne: {
-        ...stepThreeForm.imageOne,
-        link: stepTwoForm[0].Location,
-        key: stepTwoForm[0].key,
-      },
-      imageTwo: {
-        ...stepThreeForm.imageTwo,
-        link: stepTwoForm[1].Location,
-        key: stepTwoForm[1].key,
-      },
-      imageThree: {
-        ...stepThreeForm.imageThree,
-        link: stepTwoForm[2].Location,
-        key: stepTwoForm[2].key,
-      },
+      images: imageFiles,
     };
     const submitRoom = await axios.post(
       "http://localhost:5000/room/create",

@@ -12,7 +12,7 @@ exports.up = function (knex) {
     //   .onDelete("CASCADE");
     table.uuid("userID").references("users.userID").onDelete("CASCADE");
     table.string("room_title");
-    table.string("description");
+    table.string("room_description");
     table.specificType("room_tags", "text ARRAY");
     table.dateTime("room_created_date").defaultTo(date);
   });

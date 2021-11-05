@@ -16,6 +16,7 @@ import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupSt
 import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
 import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetupStepThreeForm";
 import CreateSetupConfirmation from "../components/CreateSetupForms/CreateSetupConfirmation";
+import { Step } from "@material-ui/core";
 
 const { Title } = Typography;
 
@@ -64,6 +65,7 @@ export default function CreateRoomPage() {
     s3: stepThreeForm,
     aws: awsImageList,
   });
+  console.log(currentStep);
   return (
     <Layout title="Create Room">
       <div id="container">
