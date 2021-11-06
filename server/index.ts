@@ -42,4 +42,4 @@ app.use("/room", roomRoutes);
 // app.post("/images", upload.single("image-file"), multerUploadHandler);
 // app.post("/createuser", createUserHandler);
 
-app.listen(PORT, () => console.log(`server started successfully on ${PORT}`));
+app.listen(PORT, () => console.log(`test started successfully on ${PORT}`));

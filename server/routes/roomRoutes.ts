@@ -9,10 +9,13 @@ roomRoutes.post(
   async (req: express.Request, res: express.Response) => {
     const { title, description, images } = req.body;
     console.log(title, description);
-    const addRoom = await db("rooms").insert({
-      room_title: title,
-      room_description: description,
-    });
+    const addRoom = await db("rooms")
+      .insert({
+        room_title: title,
+        room_description: description,
+      })
+      .returning("roomID");
+    await db("images").insert({ roomID: addRoom[0] });
     res.send({ data: req.body });
   }
 );
