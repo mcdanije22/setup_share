@@ -5,10 +5,8 @@ exports.up = function (knex) {
     table.uuid("userID").references("users.userID").onDelete("CASCADE");
     table.uuid("roomID").references("rooms.roomID").onDelete("CASCADE");
     table.specificType("coords_list", "integer ARRAY");
-    table.string("item_title");
-    table.string("item_description");
-    table.string("item_link");
-    table.string("item_affiliate_link");
+    table.string("item_name");
+    table.string("item_url");
   });
 };
 

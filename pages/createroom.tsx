@@ -23,12 +23,14 @@ const { Title } = Typography;
 interface StepOne {
   title: string;
   description: string;
+  room_type: string;
 }
 
 export default function CreateRoomPage() {
   const [stepOneForm, setStepOneForm] = useState<StepOne>({
     title: "",
     description: "",
+    room_type: "",
   });
   const [stepTwoForm, setStepTwoForm] = useState<any>([]);
   const [stepThreeForm, setStepThreeForm] = useState<object>({
@@ -42,7 +44,6 @@ export default function CreateRoomPage() {
     "Left",
     "Right",
   ]);
-  const [awsImageList, setAwsImageList] = useState<Array<object>>([]);
 
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
@@ -63,7 +64,6 @@ export default function CreateRoomPage() {
     s1: stepOneForm,
     s2: stepTwoForm,
     s3: stepThreeForm,
-    aws: awsImageList,
   });
   console.log(currentStep);
   return (
@@ -82,8 +82,6 @@ export default function CreateRoomPage() {
                 setStepTwoForm={setStepTwoForm}
                 handleStepChange={handleStepChange}
                 stepTwoForm={stepTwoForm}
-                awsImageList={awsImageList}
-                setAwsImageList={setAwsImageList}
               />
             ) : currentStep === 3 ? (
               <CreateSetupStepThreeForm

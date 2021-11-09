@@ -27,16 +27,12 @@ interface Props {
   setStepTwoForm: Dispatch<SetStateAction<object>>;
   handleStepChange(number: number): void;
   stepTwoForm: Array<object>;
-  setAwsImageList: Dispatch<SetStateAction<Array<object>>>;
-  awsImageList: Array<object>;
 }
 
 const CreateSetupStepTwoForm: React.FC<Props> = ({
   setStepTwoForm,
   handleStepChange,
   stepTwoForm,
-  awsImageList,
-  setAwsImageList,
 }) => {
   const [fileList, setFileList] = useState<Array<any>>([]);
   const [isLoading, setLoadingStatus] = useState(false);

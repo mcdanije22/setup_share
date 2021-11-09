@@ -33,6 +33,7 @@ interface Props {
 interface StepOne {
   title: string;
   description: string;
+  room_type: string;
 }
 
 interface Image {
@@ -130,6 +131,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     const roomData = {
       title: stepOneForm.title,
       description: stepOneForm.description,
+      room_type: stepOneForm.room_type,
       images: imageFiles,
     };
     const submitRoom = await axios.post(

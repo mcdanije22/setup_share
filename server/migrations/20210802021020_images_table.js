@@ -4,8 +4,8 @@ exports.up = function (knex) {
     table.uuid("roomID").references("rooms.roomID").onDelete("CASCADE");
     table.uuid("userID").references("users.userID").onDelete("CASCADE");
     table.string("image_url");
-    table.string("description");
-    table.integer("imgage_position");
+    table.string("image_position");
+    table.string("aws_key");
   });
 };
 

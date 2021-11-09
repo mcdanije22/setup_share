@@ -1,10 +1,11 @@
 import React from "react";
-import { Row, Col, Form, Input, Button, Typography, Space } from "antd";
+import { Row, Col, Form, Input, Button, Typography, Space, Select } from "antd";
 import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
 
 const { TextArea } = Input;
 const { Title } = Typography;
+const { Option } = Select;
 
 interface Props {
   setStepOneForm: Dispatch<SetStateAction<StepOne>>;
@@ -15,6 +16,7 @@ interface Props {
 interface StepOne {
   title: string;
   description: string;
+  room_type: string;
 }
 
 const CreateSetupStepOneForm: React.FC<Props> = ({
@@ -64,6 +66,23 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
               bordered={false}
               placeholder="Choose a Setup Title"
             />
+          </Form.Item>
+          <Form.Item
+            name="room_type"
+            label="Room Type"
+            rules={[
+              {
+                required: true,
+                message: "Please choose a room type",
+              },
+            ]}
+          >
+            <Select>
+              <Option value="Office">Office</Option>
+              <Option value="Gaming">Gaming</Option>
+              <Option value="Living Room">Living Room</Option>
+              <Option value="Kitchen">Kitchen</Option>
+            </Select>
           </Form.Item>
           <Form.Item
             label="Give a Description"
