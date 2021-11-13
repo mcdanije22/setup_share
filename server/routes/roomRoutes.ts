@@ -7,20 +7,20 @@ roomRoutes.post(
   "/create",
   async (req: express.Request, res: express.Response) => {
     try {
-      const { title, room_type, description, images } = req.body;
+      const { title, roomType, description, images } = req.body;
       console.log(images);
       const insertResult = await db("rooms")
         .insert({
           // userID: "placeholder",
-          room_title: title,
+          room_titles: title,
           room_description: description,
-          room_type: room_type,
+          room_type: roomType,
         })
         .returning("roomID");
       const mapImages = await images.map(async (image, i) => {
         const insertedImage = await db("images")
           .insert({
-            // userID: "placehollder",
+            // userID: "placeholder",
             roomID: insertResult[0],
             image_url: image.link,
             aws_key: image.key,
@@ -30,7 +30,7 @@ roomRoutes.post(
         if (image.areas !== 0) {
           const mapImageItems = await image.areas.map(async (item, i) => {
             const insertedItem = await db("image_items").insert({
-              // userID: "placehollder",
+              // userID: "placeholder",
               roomID: insertResult[0],
               imageID: insertedImage[0],
               item_name: item.name,
@@ -40,9 +40,10 @@ roomRoutes.post(
           });
         }
       });
-      res.send({ data: req.body });
+      res.send({ message: "Room submitted successfully" });
     } catch (e) {
       console.log(e);
+      return res.status(400).send({ message: "Room failed to submit" });
     }
   }
 );

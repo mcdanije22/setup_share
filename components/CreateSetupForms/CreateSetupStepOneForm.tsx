@@ -16,7 +16,7 @@ interface Props {
 interface StepOne {
   title: string;
   description: string;
-  room_type: string;
+  roomType: string;
 }
 
 const CreateSetupStepOneForm: React.FC<Props> = ({
@@ -34,6 +34,7 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
         initialValues={{
           title: `${stepOneForm ? stepOneForm.title : ""}`,
           description: `${stepOneForm ? stepOneForm.description : ""}`,
+          roomType: `${stepOneForm ? stepOneForm.roomType : ""}`,
         }}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 24 }}
@@ -43,60 +44,56 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
         style={{ height: "100vh" }}
         // onFinishFailed={onFinishFailed}
       >
-        <Space size={30} direction="vertical" style={{ width: "100%" }}>
-          <Col sm={24}>
-            <Title
-              level={2}
-              style={{ textAlign: "center", paddingTop: "2rem" }}
-            >
-              New Setup
-            </Title>
-          </Col>
-          <Form.Item
-            name="title"
-            rules={[
-              {
-                required: true,
-                message: "Please input a setup title",
-              },
-            ]}
-          >
-            <Input
-              style={{ borderBottom: "1px solid black", width: "14rem" }}
-              bordered={false}
-              placeholder="Choose a Setup Title"
-            />
-          </Form.Item>
-          <Form.Item
-            name="room_type"
-            label="Room Type"
-            rules={[
-              {
-                required: true,
-                message: "Please choose a room type",
-              },
-            ]}
-          >
-            <Select>
-              <Option value="Office">Office</Option>
-              <Option value="Gaming">Gaming</Option>
-              <Option value="Living Room">Living Room</Option>
-              <Option value="Kitchen">Kitchen</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Give a Description"
-            name="description"
-            rules={[
-              {
-                required: true,
-                message: "Please enter a description for your setup",
-              },
-            ]}
-          >
-            <TextArea rows={18} style={{ borderRadius: ".5rem" }} />
-          </Form.Item>
-        </Space>
+        <Col sm={24}>
+          <Title level={2} style={{ textAlign: "center", paddingTop: "2rem" }}>
+            New Setup
+          </Title>
+        </Col>
+        <Form.Item
+          name="title"
+          rules={[
+            {
+              required: true,
+              message: "Please input a setup title",
+            },
+          ]}
+        >
+          <Input
+            style={{ borderBottom: "1px solid black", width: "14rem" }}
+            bordered={false}
+            placeholder="Choose a Setup Title"
+          />
+        </Form.Item>
+        <Form.Item
+          name="roomType"
+          label="Room Type"
+          rules={[
+            {
+              required: true,
+              message: "Please choose a room type",
+            },
+          ]}
+        >
+          <Select>
+            <Option value="Desk setup">Desk setup</Option>
+            <Option value="Pc Build">Pc Build</Option>
+            <Option value="Bag">Everyday Bag</Option>
+            <Option value="Cooking Setup">Cooking Setup</Option>
+            <Option value="Gaming Setup">Kitchen</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Give a Description"
+          name="description"
+          rules={[
+            {
+              required: true,
+              message: "Please enter a description for your setup",
+            },
+          ]}
+        >
+          <TextArea rows={18} style={{ borderRadius: ".5rem" }} />
+        </Form.Item>
         <Row
           justify="space-between"
           style={{ position: "absolute", bottom: "0", width: "100%" }}

@@ -23,14 +23,14 @@ const { Title } = Typography;
 interface StepOne {
   title: string;
   description: string;
-  room_type: string;
+  roomType: string;
 }
 
 export default function CreateRoomPage() {
   const [stepOneForm, setStepOneForm] = useState<StepOne>({
     title: "",
     description: "",
-    room_type: "",
+    roomType: "",
   });
   const [stepTwoForm, setStepTwoForm] = useState<any>([]);
   const [stepThreeForm, setStepThreeForm] = useState<object>({
@@ -38,7 +38,7 @@ export default function CreateRoomPage() {
     imageTwo: null,
     imageThree: null,
   });
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const [availImagePositions, setAvailImagePositions] = useState([
     "Main",
     "Left",

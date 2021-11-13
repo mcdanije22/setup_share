@@ -33,7 +33,7 @@ interface Props {
 interface StepOne {
   title: string;
   description: string;
-  room_type: string;
+  roomType: string;
 }
 
 interface Image {
@@ -131,15 +131,20 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     const roomData = {
       title: stepOneForm.title,
       description: stepOneForm.description,
-      room_type: stepOneForm.room_type,
+      roomType: stepOneForm.roomType,
       images: imageFiles,
     };
-    const submitRoom = await axios.post(
-      "http://localhost:5000/room/create",
-      roomData
-    );
-    const response = submitRoom;
-    console.log(response);
+    try {
+      const submitRoom = await axios.post(
+        "http://localhost:5000/room/create",
+        roomData
+      );
+      const response = submitRoom;
+      console.log(response);
+    } catch (e) {
+      message.error("Failed to add room, try again");
+      console.log(e);
+    }
   };
   console.log({ s1: stepOneForm, s2: stepTwoForm, s3: stepThreeForm });
   if (loading) {
@@ -207,6 +212,14 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             </Col>
             <Col span={24}>
               <Text>{stepOneForm.title}</Text>
+            </Col>
+          </Row>
+          <Row style={{ margin: ".5rem 0" }}>
+            <Col span={24}>
+              <Text strong>Room Type:</Text>
+            </Col>
+            <Col span={24}>
+              <Text>{stepOneForm.roomType}</Text>
             </Col>
           </Row>
           <Row style={{ margin: ".5rem 0" }}>
@@ -334,7 +347,10 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         <Row
           justify="space-between"
           style={{
-            marginTop: "4rem",
+            position: "absolute",
+            bottom: "0",
+            width: "100%",
+            marginBottom: "1rem",
           }}
         >
           <Button
