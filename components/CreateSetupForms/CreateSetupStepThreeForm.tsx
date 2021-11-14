@@ -304,7 +304,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
 
           <Row
             justify="center"
-            style={{ marginTop: "1rem", minHeight: "100vh" }}
+            style={{ marginTop: "1rem", minHeight: "70vh" }}
           >
             <Col span={20}>
               <Form

@@ -20,7 +20,9 @@ import {
   ArrowRightOutlined,
   ArrowLeftOutlined,
   EditTwoTone,
+  CheckCircleTwoTone,
 } from "@ant-design/icons";
+import styles from "./createRoomForms.module.scss";
 
 interface Props {
   handleStepChange(number: number): void;
@@ -106,6 +108,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   };
 
   const SubmitRoomData = async () => {
+    setLoading(true);
     let imageFiles: Array<object> = [];
     const addImages = stepTwoForm.map((item: any, i: number) => {
       if (i === 0) {
@@ -141,17 +144,19 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       );
       const response = submitRoom;
       console.log(response);
+      handleSubmitModalCancel();
     } catch (e) {
       message.error("Failed to add room, try again");
       console.log(e);
     }
+    setLoading(false);
   };
   console.log({ s1: stepOneForm, s2: stepTwoForm, s3: stepThreeForm });
   if (loading) {
     return <div>test</div>;
   } else {
     return (
-      <div id="setupConfirmationFormContainer">
+      <div id={styles.setupConfirmationFormContainer}>
         <Modal
           visible={modalStatus}
           onCancel={handleBackStep}
@@ -206,7 +211,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             </Col>
           </Row>
           <Divider style={{ margin: ".5rem 0" }} />
-          <Row>
+          <Row style={{ margin: "2rem 0" }}>
             <Col span={24}>
               <Text strong>Room Title:</Text>
             </Col>
@@ -214,7 +219,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               <Text>{stepOneForm.title}</Text>
             </Col>
           </Row>
-          <Row style={{ margin: ".5rem 0" }}>
+          <Row style={{ margin: "2rem 0" }}>
             <Col span={24}>
               <Text strong>Room Type:</Text>
             </Col>
@@ -222,7 +227,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               <Text>{stepOneForm.roomType}</Text>
             </Col>
           </Row>
-          <Row style={{ margin: ".5rem 0" }}>
+          <Row style={{ margin: "2rem 0" }}>
             <Col span={24}>
               <Text strong>Room Description:</Text>
             </Col>
@@ -343,34 +348,42 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               </Collapse>
             </Col>
           </Row>
-        </div>
-        <Row
-          justify="space-between"
-          style={{
-            position: "absolute",
-            bottom: "0",
-            width: "100%",
-            marginBottom: "1rem",
-          }}
-        >
-          <Button
-            onClick={() => {
-              handleBackStep();
+          <Row
+            justify="space-between"
+            style={{
+              position: "absolute",
+              bottom: "0",
+              width: "100%",
+              marginBottom: "1rem",
             }}
-            danger
-            shape="circle"
-            size="large"
-            icon={<ArrowLeftOutlined />}
-          />
+          >
+            <Button
+              onClick={() => {
+                handleBackStep();
+              }}
+              danger
+              shape="circle"
+              size="large"
+              icon={<ArrowLeftOutlined />}
+            />
 
-          <Button
-            type="primary"
-            shape="circle"
-            size="large"
-            icon={<ArrowRightOutlined />}
-            onClick={openSubmitModal}
-          />
-        </Row>
+            <Button
+              type="primary"
+              shape="circle"
+              size="large"
+              icon={<ArrowRightOutlined />}
+              onClick={openSubmitModal}
+              loading={loading}
+            />
+          </Row>
+        </div>
+        <div id="confirmationSuccessScreen" style={{ display: "block" }}>
+          <Row justify="center">
+            <Col>
+              <CheckCircleTwoTone twoToneColor="#52c41a" />
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

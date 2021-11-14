@@ -70,20 +70,24 @@ export default function CreateRoomPage() {
     <Layout title="Create Room">
       <div id="container">
         <Row justify="center" style={{ minHeight: "100vh" }}>
-          <Col xs={{ span: 24 }} sm={{ span: 16 }}>
-            {currentStep === 1 ? (
+          {currentStep === 1 ? (
+            <Col xs={{ span: 22 }} sm={{ span: 16 }}>
               <CreateSetupStepOneForm
                 setStepOneForm={setStepOneForm}
                 handleStepChange={handleStepChange}
                 stepOneForm={stepOneForm}
               />
-            ) : currentStep === 2 ? (
+            </Col>
+          ) : currentStep === 2 ? (
+            <Col xs={{ span: 22 }} sm={{ span: 16 }}>
               <CreateSetupStepTwoForm
                 setStepTwoForm={setStepTwoForm}
                 handleStepChange={handleStepChange}
                 stepTwoForm={stepTwoForm}
               />
-            ) : currentStep === 3 ? (
+            </Col>
+          ) : currentStep === 3 ? (
+            <Col xs={{ span: 24 }} sm={{ span: 16 }}>
               <CreateSetupStepThreeForm
                 key={1}
                 setStepThreeForm={setStepThreeForm}
@@ -96,7 +100,9 @@ export default function CreateRoomPage() {
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
               />
-            ) : currentStep === 4 ? (
+            </Col>
+          ) : currentStep === 4 ? (
+            <Col xs={{ span: 24 }} sm={{ span: 16 }}>
               <CreateSetupStepThreeForm
                 key={2}
                 setStepThreeForm={setStepThreeForm}
@@ -109,7 +115,9 @@ export default function CreateRoomPage() {
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
               />
-            ) : currentStep === 5 ? (
+            </Col>
+          ) : currentStep === 5 ? (
+            <Col xs={{ span: 24 }} sm={{ span: 16 }}>
               <CreateSetupStepThreeForm
                 key={3}
                 setStepThreeForm={setStepThreeForm}
@@ -122,7 +130,9 @@ export default function CreateRoomPage() {
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
               />
-            ) : currentStep === 6 ? (
+            </Col>
+          ) : currentStep === 6 ? (
+            <Col xs={{ span: 22 }} sm={{ span: 16 }}>
               <CreateSetupConfirmation
                 stepOneForm={stepOneForm}
                 handleStepChange={handleStepChange}
@@ -131,10 +141,10 @@ export default function CreateRoomPage() {
                 currentStep={currentStep}
                 availImagePositions={availImagePositions}
               />
-            ) : (
-              ""
-            )}
-          </Col>
+            </Col>
+          ) : (
+            ""
+          )}
         </Row>
       </div>
     </Layout>

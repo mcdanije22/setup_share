@@ -12,7 +12,7 @@ roomRoutes.post(
       const insertResult = await db("rooms")
         .insert({
           // userID: "placeholder",
-          room_titles: title,
+          room_title: title,
           room_description: description,
           room_type: roomType,
         })
