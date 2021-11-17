@@ -283,7 +283,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             </Col>
           </Row>
           <Row justify="center">
-            <Col span={20} style={{ margin: "1rem 0" }}>
+            <Col span={20} className="section">
               <Text>Image Position</Text>
               <Select
                 placeholder="Image Position"
@@ -304,7 +304,9 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
 
           <Row
             justify="center"
-            style={{ marginTop: "1rem", minHeight: "70vh" }}
+            //need to handle height being too small and overlaping buttons
+            style={{ minHeight: "70vh" }}
+            className="section"
           >
             <Col span={20}>
               <Form

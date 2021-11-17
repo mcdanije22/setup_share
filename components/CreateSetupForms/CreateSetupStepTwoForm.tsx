@@ -162,15 +162,12 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
 
       <Form name="file-upload-form" onFinish={uploadFile}>
         <Space size={30} direction="vertical" style={{ width: "100%" }}>
-          <Col sm={24}>
-            <Title
-              level={2}
-              style={{ textAlign: "center", paddingTop: "2rem" }}
-            >
+          <Col sm={24} className="section">
+            <Title level={2} style={{ textAlign: "center" }}>
               Upload Three Photos
             </Title>
           </Col>
-          <Row justify="center" style={{ paddingBottom: "2rem" }}>
+          <Row justify="center">
             <Col style={{ width: "100%" }}>
               <Form.Item name="imageFile">
                 <Dragger

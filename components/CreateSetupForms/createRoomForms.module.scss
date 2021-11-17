@@ -1,3 +1,10 @@
+#createRoomContainer {
+  :global {
+    .section {
+      margin: 2rem 0;
+    }
+  }
+}
 #stepTwoFormContainer {
   :global {
     .ant-upload-list-picture-card-container {
@@ -26,6 +33,16 @@
       > .ant-collapse-item
       > .ant-collapse-header {
       padding-left: 0;
+    }
+    .anticon .anticon-check-circle,
+    .successIcon {
+      font-size: 150px;
+    }
+    .submittedTitle {
+      h1.ant-typography,
+      .ant-typography h1 {
+        line-height: 0.8;
+      }
     }
   }
 }

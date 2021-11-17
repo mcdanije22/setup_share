@@ -44,78 +44,86 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
         style={{ height: "100vh" }}
         // onFinishFailed={onFinishFailed}
       >
-        <Col sm={24}>
-          <Title level={2} style={{ textAlign: "center", paddingTop: "2rem" }}>
-            New Setup
-          </Title>
+        <Col sm={24} style={{ textAlign: "center" }} className="section">
+          <Title level={2}>New Setup</Title>
         </Col>
-        <Form.Item
-          name="title"
-          rules={[
-            {
-              required: true,
-              message: "Please input a setup title",
-            },
-          ]}
-        >
-          <Input
-            style={{ borderBottom: "1px solid black", width: "14rem" }}
-            bordered={false}
-            placeholder="Choose a Setup Title"
-          />
-        </Form.Item>
-        <Form.Item
-          name="roomType"
-          label="Room Type"
-          rules={[
-            {
-              required: true,
-              message: "Please choose a room type",
-            },
-          ]}
-        >
-          <Select>
-            <Option value="Desk setup">Desk setup</Option>
-            <Option value="Pc Build">Pc Build</Option>
-            <Option value="Bag">Everyday Bag</Option>
-            <Option value="Cooking Setup">Cooking Setup</Option>
-            <Option value="Gaming Setup">Kitchen</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Give a Description"
-          name="description"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a description for your setup",
-            },
-          ]}
-        >
-          <TextArea rows={18} style={{ borderRadius: ".5rem" }} />
-        </Form.Item>
+        <Col sm={24}>
+          <Form.Item
+            name="title"
+            rules={[
+              {
+                required: true,
+                message: "Please input a setup title",
+              },
+            ]}
+          >
+            <Input
+              style={{ borderBottom: "1px solid black", width: "14rem" }}
+              bordered={false}
+              placeholder="Choose a Setup Title"
+            />
+          </Form.Item>
+        </Col>
+        <Col sm={24} className="section">
+          <Form.Item
+            name="roomType"
+            label="Room Type"
+            rules={[
+              {
+                required: true,
+                message: "Please choose a room type",
+              },
+            ]}
+          >
+            <Select>
+              <Option value="Desk setup">Desk Setup</Option>
+              <Option value="Pc Build">Pc Build Setup</Option>
+              <Option value="Bag">Everyday Bag</Option>
+              <Option value="Cooking Setup">Cooking Setup</Option>
+              <Option value="Gaming Setup">Kitchen Stepup</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col sm={24} className="section">
+          <Form.Item
+            label="Give a Description"
+            name="description"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a description for your setup",
+              },
+            ]}
+          >
+            <TextArea rows={18} style={{ borderRadius: ".5rem" }} />
+          </Form.Item>
+        </Col>
         <Row
           justify="space-between"
           style={{ position: "absolute", bottom: "0", width: "100%" }}
         >
-          <Form.Item>
-            <Button
-              danger
-              htmlType="submit"
-              shape="circle"
-              size="large"
-              icon={<CloseOutlined />}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              shape="circle"
-              size="large"
-              icon={<ArrowRightOutlined />}
-            />
-          </Form.Item>
+          <Col>
+            <Form.Item>
+              <Button
+                danger
+                htmlType="submit"
+                shape="circle"
+                size="large"
+                icon={<CloseOutlined />}
+              />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                shape="circle"
+                size="large"
+                icon={<ArrowRightOutlined />}
+              />
+            </Form.Item>
+          </Col>
         </Row>
       </Form>
     </div>

@@ -10,13 +10,12 @@ import {
   Typography,
   Space,
 } from "antd";
-import axios from "axios";
 import Layout from "../components/Layout/Layout";
 import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupStepOneForm";
 import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
 import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetupStepThreeForm";
 import CreateSetupConfirmation from "../components/CreateSetupForms/CreateSetupConfirmation";
-import { Step } from "@material-ui/core";
+import styles from "../components/CreateSetupForms/createRoomForms.module.scss";
 
 const { Title } = Typography;
 
@@ -68,7 +67,7 @@ export default function CreateRoomPage() {
   console.log(currentStep);
   return (
     <Layout title="Create Room">
-      <div id="container">
+      <div id={styles.createRoomContainer}>
         <Row justify="center" style={{ minHeight: "100vh" }}>
           {currentStep === 1 ? (
             <Col xs={{ span: 22 }} sm={{ span: 16 }}>
