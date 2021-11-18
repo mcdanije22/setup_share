@@ -282,6 +282,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
               />
             </Col>
           </Row>
+
           <Row justify="center">
             <Col span={20} className="section">
               <Text>Image Position</Text>
@@ -306,7 +307,6 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             justify="center"
             //need to handle height being too small and overlaping buttons
             style={{ minHeight: "70vh" }}
-            className="section"
           >
             <Col span={20}>
               <Form
@@ -322,7 +322,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                       label="Item Name"
                       name="name"
                       rules={[
-                        { required: true, message: "Please input a item name" },
+                        {
+                          required: true,
+                          message: "Please input a item name",
+                        },
                       ]}
                     >
                       <Input placeholder="Playstation 5" />
@@ -445,7 +448,8 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
               position: "absolute",
               bottom: "0",
               width: "100%",
-              marginBottom: "1rem",
+              padding: "0 1rem",
+              height: "64px",
             }}
           >
             <Button

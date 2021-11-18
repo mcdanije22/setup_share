@@ -219,7 +219,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
             />
             <Form.Item>
               <Button
-                // onClick={handleStepTwoData}
                 type="primary"
                 htmlType="submit"
                 shape="circle"
