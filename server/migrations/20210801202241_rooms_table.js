@@ -4,10 +4,10 @@ exports.up = function (knex) {
   return knex.schema.createTable("rooms", (table) => {
     table.uuid("roomID").defaultTo(knex.raw("uuid_generate_v4()")).primary();
     table.uuid("userID").references("users.userID").onDelete("CASCADE");
-    table.string("room_title");
-    table.string("room_description");
-    table.string("room_type");
-    table.dateTime("room_created_date").defaultTo(date);
+    table.string("setup_title");
+    table.string("setup_description");
+    table.string("setup_type");
+    table.dateTime("setup_created_date").defaultTo(date);
   });
 };
 

@@ -7,14 +7,13 @@ roomRoutes.post(
   "/create",
   async (req: express.Request, res: express.Response) => {
     try {
-      const { title, roomType, description, images } = req.body;
-      console.log(images);
+      const { title, setupType, description, images } = req.body;
       const insertResult = await db("rooms")
         .insert({
           // userID: "placeholder",
-          room_title: title,
-          room_description: description,
-          room_type: roomType,
+          setup_title: title,
+          setup_description: description,
+          setup_type: setupType,
         })
         .returning("roomID");
       const mapImages = await images.map(async (image, i) => {
@@ -40,10 +39,10 @@ roomRoutes.post(
           });
         }
       });
-      res.send({ message: "Room submitted successfully" });
+      res.send({ message: "Setup submitted successfully" });
     } catch (e) {
       console.log(e);
-      return res.status(400).send({ message: "Room failed to submit" });
+      return res.status(400).send({ message: "Setup failed to submit" });
     }
   }
 );
