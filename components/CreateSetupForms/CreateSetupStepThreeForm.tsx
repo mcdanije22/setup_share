@@ -155,7 +155,6 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
     form.resetFields();
   };
   const finishAddItem = (values: FormValues) => {
-    //need logic to stop adding items that have names but no items drawn
     const { name, url } = values;
     if (MAP.areas[0].coords.length === 0) {
       message.error("Draw Points On Image Before Submitting");
@@ -231,12 +230,17 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
           title="Continue?"
           onCancel={handleModalCancel}
           footer={[
-            <Button key="back" onClick={handleModalCancel}>
+            <Button
+              key="back"
+              onClick={handleModalCancel}
+              className="buttonShadow"
+            >
               Go back
             </Button>,
             <Button
               key="submit"
               type="primary"
+              className="buttonShadow"
               onClick={() => {
                 setModalStatus(false);
                 cancelItemAdd();
@@ -347,6 +351,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                     onClick={startItemAdd}
                     size="large"
                     shape="round"
+                    className="buttonShadow"
                   >
                     Add Item
                   </Button>
@@ -364,6 +369,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                         shape="round"
                         size="large"
                         htmlType="submit"
+                        className="buttonShadow"
                       >
                         Submit Item
                       </Button>
@@ -373,6 +379,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                         shape="round"
                         size="large"
                         onClick={undoLastCoord}
+                        className="buttonShadow"
                       >
                         Undo Last point
                       </Button>
@@ -382,6 +389,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                         shape="round"
                         size="large"
                         onClick={cancelItemAdd}
+                        className="buttonShadow"
                       >
                         Cancel Add
                       </Button>
@@ -404,6 +412,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                       shape="round"
                       size="large"
                       onClick={startDrawing}
+                      className="buttonShadow"
                     >
                       Draw outline
                     </Button>
@@ -413,6 +422,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                       size="large"
                       shape="round"
                       onClick={cancelItemAdd}
+                      className="buttonShadow"
                     >
                       Cancel Adding Item
                     </Button>

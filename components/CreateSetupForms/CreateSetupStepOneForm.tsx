@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Form, Input, Button, Typography, Space, Select } from "antd";
 import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import styles from "./createRoomForms.module.scss";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -16,7 +17,7 @@ interface Props {
 interface StepOne {
   title: string;
   description: string;
-  roomType: string;
+  setupType: string;
 }
 
 const CreateSetupStepOneForm: React.FC<Props> = ({
@@ -29,12 +30,12 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
     handleStepChange(2);
   };
   return (
-    <div id="stepOneFormContainer">
+    <div id={styles.stepOneFormContainer}>
       <Form
         initialValues={{
           title: `${stepOneForm ? stepOneForm.title : ""}`,
           description: `${stepOneForm ? stepOneForm.description : ""}`,
-          roomType: `${stepOneForm ? stepOneForm.roomType : ""}`,
+          setupType: `${stepOneForm ? stepOneForm.setupType : ""}`,
         }}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 24 }}
@@ -42,6 +43,7 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
         name="CreateSetupStepOneForm"
         onFinish={handleStepOneForm}
         style={{ height: "100vh" }}
+        requiredMark={false}
         // onFinishFailed={onFinishFailed}
       >
         <Col sm={24} style={{ textAlign: "center" }} className="section">
@@ -50,6 +52,7 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
         <Col sm={24}>
           <Form.Item
             name="title"
+            label="Setup Title"
             rules={[
               {
                 required: true,
@@ -58,7 +61,11 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
             ]}
           >
             <Input
-              style={{ borderBottom: "1px solid black", width: "14rem" }}
+              style={{
+                borderBottom: "1px solid #d9d9d9",
+                width: "60%",
+                paddingLeft: "0",
+              }}
               bordered={false}
               placeholder="Choose a Setup Title"
             />
@@ -66,21 +73,24 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
         </Col>
         <Col sm={24} className="section">
           <Form.Item
-            name="roomType"
-            label="Room Type"
+            name="setupType"
+            label="Setup Type"
             rules={[
               {
                 required: true,
-                message: "Please choose a room type",
+                message: "Please choose a setup type",
               },
             ]}
           >
-            <Select>
-              <Option value="Desk setup">Desk Setup</Option>
-              <Option value="Pc Build">Pc Build Setup</Option>
-              <Option value="Bag">Everyday Bag</Option>
+            <Select
+              style={{ borderBottom: "1px solid #d9d9d9", width: "90%" }}
+              bordered={false}
+            >
+              <Option value="Desk Setup">Desk Setup</Option>
+              <Option value="Gaming Setup">Gaming Setup</Option>
+              <Option value="Pc Build Setup">Pc Build Setup</Option>
+              <Option value="Everyday Bag Setup">Everyday Bag Setup</Option>
               <Option value="Cooking Setup">Cooking Setup</Option>
-              <Option value="Gaming Setup">Kitchen Stepup</Option>
             </Select>
           </Form.Item>
         </Col>

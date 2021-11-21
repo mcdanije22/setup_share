@@ -22,14 +22,14 @@ const { Title } = Typography;
 interface StepOne {
   title: string;
   description: string;
-  roomType: string;
+  setupType: string;
 }
 
 export default function CreateRoomPage() {
   const [stepOneForm, setStepOneForm] = useState<StepOne>({
     title: "",
     description: "",
-    roomType: "",
+    setupType: "",
   });
   const [stepTwoForm, setStepTwoForm] = useState<any>([]);
   const [stepThreeForm, setStepThreeForm] = useState<object>({
@@ -52,6 +52,9 @@ export default function CreateRoomPage() {
     const newList = orgList.filter((item) => item !== position);
     setAvailImagePositions([...newList]);
   };
+  //need to change logic so that if you go back steps it clears list from step point so that rest are availble
+  // exmaple: three images and on confirmation screen. Click to edit 1st image, you would only be able to select that image position
+  //however, if you are on confirmation screen and go back two steps manually then you would have access to both of those image positions
   const addImagePosition = (prevPosition: string) => {
     const orgList = availImagePositions;
     if (!orgList.includes(prevPosition)) {
@@ -66,7 +69,7 @@ export default function CreateRoomPage() {
   });
   console.log(currentStep);
   return (
-    <Layout title="Create Room">
+    <Layout title="Create Setup">
       <div id={styles.createRoomContainer}>
         <Row justify="center" style={{ minHeight: "100vh" }}>
           {currentStep === 1 ? (
@@ -83,6 +86,8 @@ export default function CreateRoomPage() {
                 setStepTwoForm={setStepTwoForm}
                 handleStepChange={handleStepChange}
                 stepTwoForm={stepTwoForm}
+                setStepThreeForm={setStepThreeForm}
+                stepThreeForm={stepThreeForm}
               />
             </Col>
           ) : currentStep === 3 ? (

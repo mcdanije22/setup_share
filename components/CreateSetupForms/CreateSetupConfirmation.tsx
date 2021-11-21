@@ -36,7 +36,7 @@ interface Props {
 interface StepOne {
   title: string;
   description: string;
-  roomType: string;
+  setupType: string;
 }
 
 interface Image {
@@ -136,7 +136,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     const roomData = {
       title: stepOneForm.title,
       description: stepOneForm.description,
-      roomType: stepOneForm.roomType,
+      setupType: stepOneForm.setupType,
       images: imageFiles,
     };
     try {
@@ -148,7 +148,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       setDataSubmitStatus(true);
       handleSubmitModalCancel();
     } catch (e) {
-      message.error("Failed to add room, try again");
+      message.error("Failed to add setup, try again");
       console.log(e);
     }
     setLoading(false);
@@ -170,7 +170,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
         >
           <div
             id="modalContainer"
-            style={{ textAlign: "center", padding: "1rem" }}
+            style={{ textAlign: "center", padding: "4rem" }}
           >
             <Text>Main image position not selected</Text>
             <br />
@@ -181,17 +181,27 @@ const CreateSetupConfirmation: React.FC<Props> = ({
           visible={submitModalStatus}
           onCancel={handleSubmitModalCancel}
           footer={[
-            <Button key="back" danger>
+            <Button
+              key="back"
+              danger
+              onClick={handleSubmitModalCancel}
+              className="buttonShadow"
+            >
               Go back
             </Button>,
-            <Button key="submit" type="primary" onClick={SubmitRoomData}>
+            <Button
+              key="submit"
+              type="primary"
+              onClick={SubmitRoomData}
+              className="buttonShadow"
+            >
               Submit
             </Button>,
           ]}
         >
           <div
-            id="modalContainer"
-            style={{ textAlign: "center", padding: "1rem" }}
+            className="modalContainer"
+            style={{ textAlign: "center", padding: "4rem" }}
           >
             <Text>Submit Setup?</Text>
           </div>
@@ -203,7 +213,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
           <div id="confirmationSection" style={{ margin: "1rem 0" }}>
             <Row justify="space-between">
               <Col>
-                <Title level={5}>Room Information</Title>
+                <Title level={5}>Setup Information</Title>
               </Col>
               <Col>
                 <Button
@@ -219,7 +229,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             <Divider style={{ margin: ".5rem 0" }} />
             <Row style={{ margin: "2rem 0" }}>
               <Col span={24}>
-                <Text strong>Room Title:</Text>
+                <Text strong>Setup Title:</Text>
               </Col>
               <Col span={24}>
                 <Text>{stepOneForm.title}</Text>
@@ -227,15 +237,15 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             </Row>
             <Row style={{ margin: "2rem 0" }}>
               <Col span={24}>
-                <Text strong>Room Type:</Text>
+                <Text strong>Setup Type:</Text>
               </Col>
               <Col span={24}>
-                <Text>{stepOneForm.roomType}</Text>
+                <Text>{stepOneForm.setupType}</Text>
               </Col>
             </Row>
             <Row style={{ margin: "2rem 0" }}>
               <Col span={24}>
-                <Text strong>Room Description:</Text>
+                <Text strong>Setup Description:</Text>
               </Col>
               <Col span={24}>
                 <Text>{stepOneForm.description}</Text>
@@ -401,10 +411,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
             style={{ margin: "2rem 0", textAlign: "center" }}
           >
             <Col span={24} className="submittedTitle">
-              <Title level={1}>{stepOneForm.roomType}</Title>
-            </Col>
-            <Col span={24} className="submittedTitle">
-              <Title level={1}>Submitted!</Title>
+              <Title level={1}>{stepOneForm.setupType} Complete!</Title>
             </Col>
           </Row>
           <Row justify="center">
@@ -412,6 +419,19 @@ const CreateSetupConfirmation: React.FC<Props> = ({
               <Text style={{ fontSize: "1.2rem" }}>
                 Your setup page is now <Link href="/">live!</Link>
               </Text>
+            </Col>
+          </Row>
+          <Row justify="center" className="section">
+            <Col span={20}>
+              <Button
+                size="large"
+                shape="round"
+                type="primary"
+                block
+                className="buttonShadow"
+              >
+                Go to Account
+              </Button>
             </Col>
           </Row>
         </div>

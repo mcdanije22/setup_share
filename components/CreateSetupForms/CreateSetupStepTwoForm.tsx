@@ -27,32 +27,61 @@ interface Props {
   setStepTwoForm: Dispatch<SetStateAction<object>>;
   handleStepChange(number: number): void;
   stepTwoForm: Array<object>;
+  setStepThreeForm: Dispatch<SetStateAction<object>>;
+  stepThreeForm: any;
 }
 
 const CreateSetupStepTwoForm: React.FC<Props> = ({
   setStepTwoForm,
   handleStepChange,
   stepTwoForm,
+  setStepThreeForm,
+  stepThreeForm,
 }) => {
   const [fileList, setFileList] = useState<Array<any>>([]);
   const [isLoading, setLoadingStatus] = useState(false);
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [awsList, setAwsList] = useState([]);
+  const [warningModal, setWarningModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (stepTwoForm) {
       setFileList([...stepTwoForm]);
     }
+    if (
+      stepThreeForm.imageOne ||
+      stepThreeForm.imageTwo ||
+      stepThreeForm.imageThree
+    ) {
+      openWarningModal();
+    }
   }, []);
   const onChange = ({ fileList: newFileList }: any) => {
     setFileList(newFileList);
+    //Logic to handle removing file from list will also remove items added to all images.
+    //alt option would be to try and track which file was removed, check corresponding image for items and then
+    //give user prompt but would need custom logic to remove from list in prompt.
+    //Need to eventually clean up this page logic to be able to specify deleting items and s3 images instead of just clearing all
+    if (
+      stepThreeForm.imageOne ||
+      stepThreeForm.imageTwo ||
+      stepThreeForm.imageThree
+    ) {
+      setStepThreeForm((prevState: any) => ({
+        ...prevState,
+        imageOne: null,
+        imageTwo: null,
+        imageThree: null,
+      }));
+      message.info("Unsaved Items For Images Deleted");
+    }
   };
   const deleteS3File = async (key: number) => {
     const result = await axios.post("http://localhost:5000/image/delete", {
       key,
     });
-    console.log(result);
   };
+  //deletes all images in filelist from s3 when one image is removed
   const onRemove = async (file: any) => {
     if (file.key) {
       fileList.map(async (file, i) => {
@@ -103,7 +132,6 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
         }
       );
       const awsData = { ...file, ...result.data.aws };
-      console.log(file);
       const currentAws: any = awsList;
       const pushToAwsList = currentAws.push({
         ...awsData,
@@ -134,7 +162,12 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       //likely wont need this list tracking, will look to have custom preview images and single uploads
     }
   };
-
+  const handleWarningModalClose = () => {
+    setWarningModal(false);
+  };
+  const openWarningModal = () => {
+    setWarningModal(true);
+  };
   return (
     <div id={styles.stepTwoFormContainer}>
       <Modal
@@ -157,6 +190,31 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
           <Text>Less than three photos selected</Text>
           <br />
           <Text> Do you wish to continue?</Text>
+        </div>
+      </Modal>
+      <Modal
+        visible={warningModal}
+        onCancel={handleWarningModalClose}
+        title="Warning"
+        footer={[
+          <Button
+            key="back"
+            danger
+            onClick={handleWarningModalClose}
+            className="buttonShadow"
+          >
+            Close
+          </Button>,
+        ]}
+      >
+        <div
+          className="modalContainer"
+          style={{ textAlign: "center", padding: "2rem" }}
+        >
+          <Text>
+            Adding/removing images will lose progress of added items to all
+            images.
+          </Text>
         </div>
       </Modal>
 
