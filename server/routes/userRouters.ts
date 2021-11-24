@@ -109,7 +109,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
   const logUserIn = async () => {
     const user = await db("users")
       .select(
-        "userID",
+        "user_id",
         "email",
         "username",
         "first_name",

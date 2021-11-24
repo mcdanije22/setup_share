@@ -61,6 +61,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
   const [submitModalStatus, setSubmitModalStatus] = useState<boolean>(false);
   const [dataSubmitted, setDataSubmitStatus] = useState<boolean>(false);
+  const [submissionSetup_id, setSubmissionSetup_id] = useState<string>("");
 
   const onPreview = async (imageNumber: number) => {
     const src: any = await new Promise((resolve) => {
@@ -141,10 +142,11 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     };
     try {
       const submitRoom = await axios.post(
-        "http://localhost:5000/room/create",
+        "http://localhost:5000/setup/create",
         roomData
       );
       const response = submitRoom;
+      setSubmissionSetup_id(response.data.setup_id);
       setDataSubmitStatus(true);
       handleSubmitModalCancel();
     } catch (e) {
@@ -417,7 +419,8 @@ const CreateSetupConfirmation: React.FC<Props> = ({
           <Row justify="center">
             <Col>
               <Text style={{ fontSize: "1.2rem" }}>
-                Your setup page is now <Link href="/">live!</Link>
+                Your setup page is now{" "}
+                <Link href={`/setup/${submissionSetup_id}`}>live!</Link>
               </Text>
             </Col>
           </Row>

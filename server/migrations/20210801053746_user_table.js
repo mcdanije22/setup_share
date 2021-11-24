@@ -2,7 +2,7 @@ exports.up = function (knex) {
   const date = knex.fn.now();
 
   return knex.schema.createTable("users", (table) => {
-    table.uuid("userID").defaultTo(knex.raw("uuid_generate_v4()")).primary();
+    table.uuid("user_id").defaultTo(knex.raw("uuid_generate_v4()")).primary();
     table.string("username").notNullable().unique();
     table.string("email").unique().notNullable();
     table.string("password").notNullable();
