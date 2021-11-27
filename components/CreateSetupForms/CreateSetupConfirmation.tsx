@@ -60,6 +60,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitModalStatus, setSubmitModalStatus] = useState<boolean>(false);
+
   const [dataSubmitted, setDataSubmitStatus] = useState<boolean>(false);
   const [submissionSetup_id, setSubmissionSetup_id] = useState<string>("");
 
