@@ -47,7 +47,22 @@ setupRoutes.post(
   }
 );
 setupRoutes.get("/:id", async (req: express.Request, res: express.Response) => {
-  res.send({ id: req.params.id });
+  const getStepUpInfo = await db("setups")
+    .innerJoin("users", "setups.user_id", "users.user_id")
+    .innerJoin("images", "setups.setup_id", "=", "images.setup_id")
+    .leftJoin("image_items", "images.image_id", "=", "image_items.image_id")
+    .where("setups.setup_id", req.params.id)
+    .select(
+      "setups.*",
+      "images.*",
+      "users.user_id",
+      "users.first_name",
+      "users.last_name",
+      "users.email",
+      "users.username",
+      "image_items.*"
+    );
+  res.send({ getStepUpInfo });
 });
 
 export default setupRoutes;
