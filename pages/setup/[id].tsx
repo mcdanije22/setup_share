@@ -15,11 +15,12 @@ import {
 } from "antd";
 import { GetServerSideProps } from "next";
 import ImageMapper from "react-image-mapper";
-import { Carousel } from "antd";
+import { Carousel, Tabs } from "antd";
 import { UserOutlined, HeartTwoTone } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 
 const { Title } = Typography;
+const { TabPane } = Tabs;
 
 interface Props {
   getSetUpInfo: Array<any>;
@@ -34,6 +35,9 @@ export default function SetupPage(props: Props) {
 
   function onChange(a, b, c) {
     console.log(a, b, c);
+  }
+  function callback(key) {
+    console.log(key);
   }
   const test = ["test", "2", "3"];
   return (
@@ -50,14 +54,10 @@ export default function SetupPage(props: Props) {
             </Col>
           </Row>
           <Row justify="center">
-            <Col span={24}>
+            <Col span={22}>
               <PageHeader
                 title="Username"
-                extra={[
-                  <Button key="1" type="link">
-                    <HeartTwoTone twoToneColor="#eb2f96" />
-                  </Button>,
-                ]}
+                extra={[<HeartTwoTone twoToneColor="#eb2f96" />]}
                 avatar={{
                   src: "https://avatars1.githubusercontent.com/u/8186664?s=460&v=4",
                 }}
@@ -87,6 +87,31 @@ export default function SetupPage(props: Props) {
                   );
                 })}
               </Carousel>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col span={24}>
+              <Title
+                level={3}
+                style={{ textAlign: "center", marginTop: "1rem" }}
+              >
+                {getSetUpInfo[0].setup_title}
+              </Title>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Tabs defaultActiveKey="1" onChange={callback}>
+                <TabPane tab="Items" key="1">
+                  Content of Tab Pane 1
+                </TabPane>
+                <TabPane tab="Description" key="2">
+                  {getSetUpInfo[0].setup_description}
+                </TabPane>
+                <TabPane tab="Comments" key="3">
+                  Content of Tab Pane 3
+                </TabPane>
+              </Tabs>
             </Col>
           </Row>
         </div>
