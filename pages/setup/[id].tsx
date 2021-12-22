@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import {
@@ -29,17 +29,23 @@ interface Props {
 export default function SetupPage(props: Props) {
   useEffect(() => {
     console.log(props);
+    const filteredImageObject = props.getSetUpInfo.filter((imageObject, i) => {
+      return imageObject.image_position === currentImageView;
+    });
+    setImageObject(filteredImageObject[0]);
+    console.log(currentImageObject);
   });
-
+  const [currentImageView, setImageView] = useState<string>("Main");
+  const [currentImageObject, setImageObject] = useState<object>({});
   const { getSetUpInfo } = props;
 
-  function onChange(a, b, c) {
-    console.log(a, b, c);
+  function onChange(a) {
+    //need to figure out logic for putting main in middle. left<-main->right
+    setImageView(getSetUpInfo[a].image_position);
   }
   function callback(key) {
     console.log(key);
   }
-  const test = ["test", "2", "3"];
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}

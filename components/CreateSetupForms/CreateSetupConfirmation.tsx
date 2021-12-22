@@ -110,7 +110,15 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const openSubmitModal = () => {
     setSubmitModalStatus(true);
   };
-
+  const addImagePositionNumber = (position) => {
+    if (position === "Left") {
+      return 0;
+    } else if (position === "Main") {
+      return 1;
+    } else if (position === "Right") {
+      return 2;
+    }
+  };
   const SubmitRoomData = async () => {
     setLoading(true);
     let imageFiles: Array<object> = [];
@@ -120,18 +128,27 @@ const CreateSetupConfirmation: React.FC<Props> = ({
           ...stepThreeForm.imageOne,
           link: stepTwoForm[0].Location,
           key: stepTwoForm[0].key,
+          imagePositionNumber: addImagePositionNumber(
+            stepThreeForm.imageOne.imagePosition
+          ),
         });
       } else if (i === 1) {
         imageFiles.push({
           ...stepThreeForm.imageTwo,
           link: stepTwoForm[1].Location,
           key: stepTwoForm[1].key,
+          imagePositionNumber: addImagePositionNumber(
+            stepThreeForm.imageTwo.imagePosition
+          ),
         });
       } else if (i === 2) {
         imageFiles.push({
           ...stepThreeForm.imageThree,
           link: stepTwoForm[2].Location,
           key: stepTwoForm[2].key,
+          imagePositionNumber: addImagePositionNumber(
+            stepThreeForm.imageThree.imagePosition
+          ),
         });
       }
     });
