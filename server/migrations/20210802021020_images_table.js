@@ -5,6 +5,7 @@ exports.up = function (knex) {
     table.uuid("user_id").references("users.user_id").onDelete("CASCADE");
     table.string("image_url");
     table.string("image_position");
+    table.integer("image_position_number");
     table.string("aws_key");
   });
 };

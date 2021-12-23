@@ -8,6 +8,7 @@ setupRoutes.post(
   async (req: express.Request, res: express.Response) => {
     try {
       const { title, setupType, description, images } = req.body;
+      console.log(req.body);
       const insertResult = await db("setups")
         .insert({
           // user_id: "placeholder",
@@ -24,6 +25,7 @@ setupRoutes.post(
             image_url: image.link,
             aws_key: image.key,
             image_position: image.imagePosition,
+            image_position_number: image.imagePositionNumber,
           })
           .returning("image_id");
         if (image.areas !== 0) {

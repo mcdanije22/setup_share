@@ -74,24 +74,28 @@ export default function SetupPage(props: Props) {
           <Row justify="center">
             <Col span={24}>
               <Carousel afterChange={onChange}>
-                {getSetUpInfo.map((item, i) => {
-                  return (
-                    <div key={i}>
-                      <ImageMapper
-                        src={item.image_url}
-                        //map={MAP}
-                        width={375}
-                        height={350}
-                        onMouseEnter={(area: any) => {
-                          alert("test");
-                        }}
-                        onImageClick={(e: any) => {
-                          console.log("test");
-                        }}
-                      />
-                    </div>
-                  );
-                })}
+                {getSetUpInfo
+                  .sort((a, b) =>
+                    a.image_position_number > b.image_position_number ? 1 : -1
+                  )
+                  .map((item, i) => {
+                    return (
+                      <div key={i}>
+                        <ImageMapper
+                          src={item.image_url}
+                          //map={MAP}
+                          width={375}
+                          height={350}
+                          onMouseEnter={(area: any) => {
+                            alert("test");
+                          }}
+                          onImageClick={(e: any) => {
+                            console.log("test");
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
               </Carousel>
             </Col>
           </Row>

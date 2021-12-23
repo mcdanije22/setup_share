@@ -128,6 +128,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
           ...stepThreeForm.imageOne,
           link: stepTwoForm[0].Location,
           key: stepTwoForm[0].key,
+          //test this to add image for ordering
           imagePositionNumber: addImagePositionNumber(
             stepThreeForm.imageOne.imagePosition
           ),
