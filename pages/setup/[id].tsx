@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import {
@@ -31,21 +31,27 @@ export default function SetupPage(props: Props) {
   const [currentImageObject, setImageObject] = useState<object>({});
   const [currentImageItems, setImageItems] = useState([]);
   const { getSetUpInfo } = props;
+  const { getImageItems } = props;
 
   useEffect(() => {
     console.log(props);
     setDataPageInfo();
-  }, []);
+    if (getSetUpInfo.length > 1) {
+      carouselRef.current.goTo(1, true);
+    }
+  }, [currentImageView]);
 
   const setDataPageInfo = async () => {
-    const filteredImageObject = props.getSetUpInfo.filter((imageObject, i) => {
+    const filteredImageObject = getSetUpInfo.filter((imageObject, i) => {
       return imageObject.image_position === currentImageView;
     });
     setImageObject(filteredImageObject[0]);
-    const currentItems = await props.getImageItems.filter((item, i) => {
-      return item.image_id === currentImageObject.image_id;
+    const currentItems = await getImageItems.filter((item, i) => {
+      return item.image_id === filteredImageObject[0].image_id;
     });
-    // setImageItems(currentItems);
+    setImageItems(currentItems);
+    console.log(currentImageObject);
+    console.log(currentImageView);
     console.log(currentItems);
   };
   function onChange(a) {
@@ -54,6 +60,9 @@ export default function SetupPage(props: Props) {
   function callback(key) {
     console.log(key);
   }
+
+  const carouselRef = React.createRef();
+
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -81,7 +90,7 @@ export default function SetupPage(props: Props) {
 
           <Row justify="center">
             <Col span={24}>
-              <Carousel afterChange={onChange}>
+              <Carousel beforeChange={onChange} ref={carouselRef}>
                 {getSetUpInfo
                   .sort((a, b) =>
                     a.image_position_number > b.image_position_number ? 1 : -1
@@ -121,7 +130,9 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
-                  Content of Tab Pane 1
+                  {currentImageItems.map((item, i) => {
+                    return <p>{item.item_name}</p>;
+                  })}
                 </TabPane>
                 <TabPane tab="Description" key="2">
                   {getSetUpInfo[0].setup_description}
