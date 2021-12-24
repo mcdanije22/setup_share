@@ -52,19 +52,20 @@ setupRoutes.get("/:id", async (req: express.Request, res: express.Response) => {
   const getSetUpInfo = await db("setups")
     .innerJoin("users", "setups.user_id", "users.user_id")
     .innerJoin("images", "setups.setup_id", "=", "images.setup_id")
-    .leftJoin("image_items", "images.image_id", "=", "image_items.image_id")
     .where("setups.setup_id", req.params.id)
     .select(
       "setups.*",
       "images.*",
-      "image_items.*",
       "users.user_id",
       "users.first_name",
       "users.last_name",
       "users.email",
       "users.username"
     );
-  res.send({ getSetUpInfo });
+  const getImageItems = await db("image_items")
+    .where("image_items.setup_id", req.params.id)
+    .select("image_items.*");
+  res.send({ getSetUpInfo, getImageItems });
 });
 
 export default setupRoutes;

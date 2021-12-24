@@ -27,20 +27,28 @@ interface Props {
 }
 
 export default function SetupPage(props: Props) {
+  const [currentImageView, setImageView] = useState<string>("Main");
+  const [currentImageObject, setImageObject] = useState<object>({});
+  const [currentImageItems, setImageItems] = useState([]);
+  const { getSetUpInfo } = props;
+
   useEffect(() => {
     console.log(props);
+    setDataPageInfo();
+  }, []);
+
+  const setDataPageInfo = async () => {
     const filteredImageObject = props.getSetUpInfo.filter((imageObject, i) => {
       return imageObject.image_position === currentImageView;
     });
     setImageObject(filteredImageObject[0]);
-    console.log(currentImageObject);
-  });
-  const [currentImageView, setImageView] = useState<string>("Main");
-  const [currentImageObject, setImageObject] = useState<object>({});
-  const { getSetUpInfo } = props;
-
+    const currentItems = await props.getImageItems.filter((item, i) => {
+      return item.image_id === currentImageObject.image_id;
+    });
+    // setImageItems(currentItems);
+    console.log(currentItems);
+  };
   function onChange(a) {
-    //need to figure out logic for putting main in middle. left<-main->right
     setImageView(getSetUpInfo[a].image_position);
   }
   function callback(key) {
@@ -105,7 +113,7 @@ export default function SetupPage(props: Props) {
                 level={3}
                 style={{ textAlign: "center", marginTop: "1rem" }}
               >
-                {getSetUpInfo[0].setup_title}
+                {getSetUpInfo[0].image_position}
               </Title>
             </Col>
           </Row>
