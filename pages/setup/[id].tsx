@@ -16,7 +16,7 @@ import {
 import { GetServerSideProps } from "next";
 import ImageMapper from "react-image-mapper";
 import { Carousel, Tabs, Divider } from "antd";
-import { UserOutlined, HeartTwoTone } from "@ant-design/icons";
+import { UserOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 
 const { Link, Title } = Typography;
@@ -30,8 +30,8 @@ export default function SetupPage(props: Props) {
   const [currentImageView, setImageView] = useState<string>("Main");
   const [currentImageObject, setImageObject] = useState<object>({});
   const [currentImageItems, setImageItems] = useState([]);
-  const { getSetUpInfo } = props;
-  const { getImageItems } = props;
+  const [currentImageCoordList, setImageCoordList] = useState([]);
+  const { getSetUpInfo, getImageItems } = props;
 
   useEffect(() => {
     console.log(props);
@@ -50,6 +50,7 @@ export default function SetupPage(props: Props) {
     });
     setImageObject(filteredImageObject[0]);
     const currentItems = await getImageItems.filter((item, i) => {
+      getItemcoordsList(item);
       return item.image_id === filteredImageObject[0].image_id;
     });
     setImageItems(currentItems);
@@ -57,6 +58,25 @@ export default function SetupPage(props: Props) {
     console.log(currentImageView);
     console.log(currentItems);
   };
+  const getItemcoordsList = (item) => {
+    const currentList = currentImageCoordList;
+    // const addToCoordList = currentList.push(...item.coords_list);
+    // setImageCoordList(currentList);
+    setImageCoordList([...currentImageCoordList, ...item.coords_list]);
+    console.log("state", currentImageCoordList);
+  };
+  console.log(currentImageCoordList);
+  let MAP = {
+    name: "image-map",
+    areas: {
+      name: currentImageObject.image_id,
+      shape: "poly",
+      coords: [...currentImageCoordList],
+      preFillColor: "green",
+      fillColor: "blue",
+    },
+  };
+
   function onChange(a) {
     setImageView(getSetUpInfo[a].image_position);
   }
@@ -133,23 +153,28 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
-                  {currentImageItems.map((item, i) => {
+                  {currentImageItems.reverse().map((item, i) => {
                     return (
-                      <Col key={i} span={24}>
-                        {i + 1}.{" "}
-                        <Link
-                          href={`${item.item_url}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {item.item_name}
-                        </Link>
+                      <>
+                        <Row justify="space-between">
+                          <Col key={i}>
+                            {i + 1}.{" "}
+                            <Link
+                              href={`${item.item_url}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {item.item_name}
+                            </Link>
+                          </Col>
+                          <EyeOutlined />
+                        </Row>
                         {i !== currentImageItems.length - 1 ? (
                           <Divider orientation="left" />
                         ) : (
                           ""
                         )}
-                      </Col>
+                      </>
                     );
                   })}
                 </TabPane>
