@@ -35,10 +35,13 @@ export default function SetupPage(props: Props) {
 
   useEffect(() => {
     console.log(props);
-    setDataPageInfo();
     if (getSetUpInfo.length > 1) {
       carouselRef.current.goTo(1, true);
     }
+  }, []);
+
+  useEffect(() => {
+    setDataPageInfo();
   }, [currentImageView]);
 
   const setDataPageInfo = async () => {
@@ -90,7 +93,7 @@ export default function SetupPage(props: Props) {
 
           <Row justify="center">
             <Col span={24}>
-              <Carousel beforeChange={onChange} ref={carouselRef}>
+              <Carousel afterChange={onChange} ref={carouselRef}>
                 {getSetUpInfo
                   .sort((a, b) =>
                     a.image_position_number > b.image_position_number ? 1 : -1
@@ -122,7 +125,7 @@ export default function SetupPage(props: Props) {
                 level={3}
                 style={{ textAlign: "center", marginTop: "1rem" }}
               >
-                {getSetUpInfo[0].image_position}
+                {currentImageObject.image_position}
               </Title>
             </Col>
           </Row>
