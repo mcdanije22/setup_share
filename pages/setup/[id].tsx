@@ -15,11 +15,11 @@ import {
 } from "antd";
 import { GetServerSideProps } from "next";
 import ImageMapper from "react-image-mapper";
-import { Carousel, Tabs } from "antd";
+import { Carousel, Tabs, Divider } from "antd";
 import { UserOutlined, HeartTwoTone } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 
-const { Title } = Typography;
+const { Link, Title } = Typography;
 const { TabPane } = Tabs;
 
 interface Props {
@@ -82,7 +82,7 @@ export default function SetupPage(props: Props) {
           <Row justify="center">
             <Col span={22}>
               <PageHeader
-                title="Username"
+                title={`${getSetUpInfo[0].username}`}
                 extra={[<HeartTwoTone twoToneColor="#eb2f96" />]}
                 avatar={{
                   src: "https://avatars1.githubusercontent.com/u/8186664?s=460&v=4",
@@ -134,7 +134,23 @@ export default function SetupPage(props: Props) {
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
                   {currentImageItems.map((item, i) => {
-                    return <p>{item.item_name}</p>;
+                    return (
+                      <Col key={i} span={24}>
+                        {i + 1}.{" "}
+                        <Link
+                          href={`${item.item_url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {item.item_name}
+                        </Link>
+                        {i !== currentImageItems.length - 1 ? (
+                          <Divider orientation="left" />
+                        ) : (
+                          ""
+                        )}
+                      </Col>
+                    );
                   })}
                 </TabPane>
                 <TabPane tab="Description" key="2">
