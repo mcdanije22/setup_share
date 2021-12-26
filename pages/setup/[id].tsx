@@ -40,34 +40,16 @@ export default function SetupPage(props: Props) {
       carouselRef.current.goTo(1, true);
     }
   }, []);
-  //issues with use effect, need correct logic
   useEffect(() => {
     setDataPageInfo();
+    resetCurrentImageAreas();
   }, [currentImageView]);
-  // useEffect(() => {
-  //   const createMapAreas = getImageItems.map((item, i) => {
-  //     let currentList = imageAreas;
-  //     if (item.image_id === currentImageObject.image_id) {
-  //       const addToAreaList = currentList.push(createArea(item));
-  //       console.log("test", imageAreas);
-  //     }
-  //   });
-  // }, [currentImageObject]);
-  // changing from currentimageview to currentimageobject for use effect may cause issue
+
   useEffect(() => {
     setDataPageInfo();
-    const test = async () => {
-      const createMapAreas = await getImageItems.map((item, i) => {
-        let currentList = imageAreas;
-        if (item.image_id === currentImageObject.image_id) {
-          const addToAreaList = currentList.push(createArea(item));
-          console.log("test", imageAreas);
-        }
-        setImageAreas(currentList);
-      });
-    };
-    test();
+    createCurrentImageAreasList();
   }, [currentImageObject]);
+
   const setDataPageInfo = async () => {
     const filteredImageObject = getSetUpInfo.filter((imageObject, i) => {
       return imageObject.image_position === currentImageView;
@@ -81,17 +63,19 @@ export default function SetupPage(props: Props) {
         getItemcoordsList(item);
       }
     });
-    //use area functions only
-    // const createMapAreas = await getImageItems.map((item, i) => {
-    //   if (item.image_id === filteredImageObject[0].image_id) {
-    //     const currentList = imageAreas;
-    //     const addToAreaList = currentList.push(createArea(item));
-    //     console.log("test", imageAreas);
-    //   }
-    // });
-    console.log("new", imageAreas);
     setImageItems(currentItems);
   };
+  const createCurrentImageAreasList = async () => {
+    const createMapAreas = await getImageItems.map((item, i) => {
+      let currentList = imageAreas;
+      if (item.image_id === currentImageObject.image_id) {
+        const addToAreaList = currentList.push(createArea(item));
+        console.log("test", imageAreas);
+      }
+      setImageAreas(currentList);
+    });
+  };
+
   const createArea = (item) => {
     return {
       id: item.item_id,
@@ -108,7 +92,10 @@ export default function SetupPage(props: Props) {
     const addToCoordList = currentList.push(...item.coords_list);
     setImageCoordList(currentList);
   };
-  console.log(currentImageCoordList);
+  const resetCurrentImageAreas = () => {
+    MAP.areas = [];
+    setImageAreas([]);
+  };
   let MAP = {
     name: "image-map",
     areas: [...imageAreas],
