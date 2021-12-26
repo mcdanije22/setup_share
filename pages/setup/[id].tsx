@@ -31,6 +31,7 @@ export default function SetupPage(props: Props) {
   const [currentImageObject, setImageObject] = useState<object>({});
   const [currentImageItems, setImageItems] = useState([]);
   const [currentImageCoordList, setImageCoordList] = useState([]);
+  const [imageAreas, setImageAreas] = useState([]);
   const { getSetUpInfo, getImageItems } = props;
 
   useEffect(() => {
@@ -39,42 +40,78 @@ export default function SetupPage(props: Props) {
       carouselRef.current.goTo(1, true);
     }
   }, []);
-
+  //issues with use effect, need correct logic
   useEffect(() => {
     setDataPageInfo();
   }, [currentImageView]);
-
+  // useEffect(() => {
+  //   const createMapAreas = getImageItems.map((item, i) => {
+  //     let currentList = imageAreas;
+  //     if (item.image_id === currentImageObject.image_id) {
+  //       const addToAreaList = currentList.push(createArea(item));
+  //       console.log("test", imageAreas);
+  //     }
+  //   });
+  // }, [currentImageObject]);
+  // changing from currentimageview to currentimageobject for use effect may cause issue
+  useEffect(() => {
+    setDataPageInfo();
+    const test = async () => {
+      const createMapAreas = await getImageItems.map((item, i) => {
+        let currentList = imageAreas;
+        if (item.image_id === currentImageObject.image_id) {
+          const addToAreaList = currentList.push(createArea(item));
+          console.log("test", imageAreas);
+        }
+        setImageAreas(currentList);
+      });
+    };
+    test();
+  }, [currentImageObject]);
   const setDataPageInfo = async () => {
     const filteredImageObject = getSetUpInfo.filter((imageObject, i) => {
       return imageObject.image_position === currentImageView;
     });
     setImageObject(filteredImageObject[0]);
     const currentItems = await getImageItems.filter((item, i) => {
-      getItemcoordsList(item);
       return item.image_id === filteredImageObject[0].image_id;
     });
+    const setItemCoords = await getImageItems.map((item, i) => {
+      if (item.image_id === currentImageObject.image_id) {
+        getItemcoordsList(item);
+      }
+    });
+    //use area functions only
+    // const createMapAreas = await getImageItems.map((item, i) => {
+    //   if (item.image_id === filteredImageObject[0].image_id) {
+    //     const currentList = imageAreas;
+    //     const addToAreaList = currentList.push(createArea(item));
+    //     console.log("test", imageAreas);
+    //   }
+    // });
+    console.log("new", imageAreas);
     setImageItems(currentItems);
-    console.log(currentImageObject);
-    console.log(currentImageView);
-    console.log(currentItems);
+  };
+  const createArea = (item) => {
+    return {
+      id: item.item_id,
+      name: item.item_name,
+      shape: "poly",
+      coords: [...item.coords_list],
+      url: item.item_url,
+      preFillColor: "green",
+      fillColor: "blue",
+    };
   };
   const getItemcoordsList = (item) => {
     const currentList = currentImageCoordList;
-    // const addToCoordList = currentList.push(...item.coords_list);
-    // setImageCoordList(currentList);
-    setImageCoordList([...currentImageCoordList, ...item.coords_list]);
-    console.log("state", currentImageCoordList);
+    const addToCoordList = currentList.push(...item.coords_list);
+    setImageCoordList(currentList);
   };
   console.log(currentImageCoordList);
   let MAP = {
     name: "image-map",
-    areas: {
-      name: currentImageObject.image_id,
-      shape: "poly",
-      coords: [...currentImageCoordList],
-      preFillColor: "green",
-      fillColor: "blue",
-    },
+    areas: [...imageAreas],
   };
 
   function onChange(a) {
@@ -123,7 +160,7 @@ export default function SetupPage(props: Props) {
                       <div key={i}>
                         <ImageMapper
                           src={item.image_url}
-                          //map={MAP}
+                          map={MAP}
                           width={375}
                           height={350}
                           onMouseEnter={(area: any) => {
@@ -153,9 +190,9 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
-                  {currentImageItems.reverse().map((item, i) => {
+                  {currentImageItems.map((item, i) => {
                     return (
-                      <>
+                      <div key={i}>
                         <Row justify="space-between">
                           <Col key={i}>
                             {i + 1}.{" "}
@@ -174,7 +211,7 @@ export default function SetupPage(props: Props) {
                         ) : (
                           ""
                         )}
-                      </>
+                      </div>
                     );
                   })}
                 </TabPane>
