@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
+import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import {
   Row,
@@ -16,8 +17,17 @@ import {
 import { GetServerSideProps } from "next";
 import ImageMapper from "react-image-mapper";
 import { Carousel, Tabs, Divider } from "antd";
-import { UserOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  HeartTwoTone,
+  EyeOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
+import ImageOneMapContainer from "../../components/imageMapContainers/ImageOneMapContainer";
+import ImageTwoMapContainer from "../../components/imageMapContainers/ImageTwoMapContainer";
+import ImageThreeMapContainer from "../../components/imageMapContainers/ImageThreeMapContainer";
 
 const { Link, Title } = Typography;
 const { TabPane } = Tabs;
@@ -30,9 +40,10 @@ export default function SetupPage(props: Props) {
   const [currentImageView, setImageView] = useState<string>("Main");
   const [currentImageObject, setImageObject] = useState<object>({});
   const [currentImageItems, setImageItems] = useState([]);
-  const [currentImageCoordList, setImageCoordList] = useState([]);
+  const [isActive, setActiveStatus] = useState(false);
   const [imageAreas, setImageAreas] = useState([]);
   const { getSetUpInfo, getImageItems } = props;
+  const [fillColor, setFillColor] = useState("");
 
   useEffect(() => {
     console.log(props);
@@ -55,13 +66,9 @@ export default function SetupPage(props: Props) {
       return imageObject.image_position === currentImageView;
     });
     setImageObject(filteredImageObject[0]);
+    //shouldn't need this logic but items dont show without it
     const currentItems = await getImageItems.filter((item, i) => {
       return item.image_id === filteredImageObject[0].image_id;
-    });
-    const setItemCoords = await getImageItems.map((item, i) => {
-      if (item.image_id === currentImageObject.image_id) {
-        getItemcoordsList(item);
-      }
     });
     setImageItems(currentItems);
   };
@@ -82,22 +89,21 @@ export default function SetupPage(props: Props) {
       name: item.item_name,
       shape: "poly",
       coords: [...item.coords_list],
-      url: item.item_url,
-      preFillColor: "green",
-      fillColor: "blue",
+      href: item.item_url,
+      preFillColor: "transparent",
     };
   };
-  const getItemcoordsList = (item) => {
-    const currentList = currentImageCoordList;
-    const addToCoordList = currentList.push(...item.coords_list);
-    setImageCoordList(currentList);
-  };
+
   const resetCurrentImageAreas = () => {
     MAP.areas = [];
     setImageAreas([]);
   };
   let MAP = {
-    name: "image-map",
+    name: uuidv4(),
+    areas: [...imageAreas],
+  };
+  let MAP2 = {
+    name: uuidv4(),
     areas: [...imageAreas],
   };
 
@@ -109,6 +115,7 @@ export default function SetupPage(props: Props) {
   }
 
   const carouselRef = React.createRef();
+  console.log(currentImageObject);
 
   return (
     <Layout
@@ -127,14 +134,47 @@ export default function SetupPage(props: Props) {
             <Col span={22}>
               <PageHeader
                 title={`${getSetUpInfo[0].username}`}
-                extra={[<HeartTwoTone twoToneColor="#eb2f96" />]}
+                extra={<HeartTwoTone twoToneColor="#eb2f96" />}
                 avatar={{
                   src: "https://avatars1.githubusercontent.com/u/8186664?s=460&v=4",
                 }}
               />
             </Col>
           </Row>
-
+          <Row>
+            <Col span={24} style={{ display: "" }}>
+              <ImageOneMapContainer
+                name={getSetUpInfo[0].image_id}
+                area={imageAreas}
+              />
+            </Col>
+            <Col span={24} style={{ display: "none" }}>
+              <ImageTwoMapContainer
+                name={getSetUpInfo[1].image_id}
+                area={imageAreas}
+              />
+            </Col>
+            <Col span={24} style={{ display: "none" }}>
+              <ImageThreeMapContainer name={"test"} area={imageAreas} />
+            </Col>
+          </Row>
+          <Row justify="center" style={{ padding: ".5rem 0" }}>
+            <Col span={22}>
+              <Row justify="space-between" style={{ alignItems: "center" }}>
+                <Col>
+                  <LeftOutlined />
+                </Col>
+                <Col>
+                  <Title level={3} style={{ margin: "0" }}>
+                    {currentImageObject.image_position}
+                  </Title>
+                </Col>
+                <Col>
+                  <RightOutlined />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
           <Row justify="center">
             <Col span={24}>
               <Carousel afterChange={onChange} ref={carouselRef}>
@@ -148,10 +188,11 @@ export default function SetupPage(props: Props) {
                         <ImageMapper
                           src={item.image_url}
                           map={MAP}
+                          fillColor={"red"}
                           width={375}
                           height={350}
                           onMouseEnter={(area: any) => {
-                            alert("test");
+                            console.log(area);
                           }}
                           onImageClick={(e: any) => {
                             console.log("test");
@@ -177,23 +218,23 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
-                  {currentImageItems.map((item, i) => {
+                  {imageAreas.map((item, i) => {
                     return (
                       <div key={i}>
                         <Row justify="space-between">
                           <Col key={i}>
                             {i + 1}.{" "}
                             <Link
-                              href={`${item.item_url}`}
+                              href={`${item.href}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              {item.item_name}
+                              {item.name}
                             </Link>
                           </Col>
                           <EyeOutlined />
                         </Row>
-                        {i !== currentImageItems.length - 1 ? (
+                        {i !== imageAreas.length - 1 ? (
                           <Divider orientation="left" />
                         ) : (
                           ""
