@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ImageMapper from "react-image-mapper";
 
-const ImageTwoMapContainer = ({ area, name }) => {
-  var MAP2 = {
+const ImageMapContainer = ({ src, area, name }) => {
+  var MAP = {
     name: name,
     areas: [...area],
   };
   return (
     <ImageMapper
-      src={"https://c1.staticflickr.com/5/4052/4503898393_303cfbc9fd_b.jpg"}
-      map={MAP2}
+      src={`${src}`}
+      map={MAP}
       width={375}
       height={350}
       fillColor={"red"}
@@ -22,4 +22,4 @@ const ImageTwoMapContainer = ({ area, name }) => {
     />
   );
 };
-export default ImageTwoMapContainer;
+export default ImageMapContainer;
