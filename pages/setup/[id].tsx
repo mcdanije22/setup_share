@@ -286,10 +286,8 @@ import {
   Space,
 } from "antd";
 import { GetServerSideProps } from "next";
-import ImageMapper from "react-image-mapper";
-import { Carousel, Tabs, Divider } from "antd";
+import { Tabs, Divider } from "antd";
 import {
-  UserOutlined,
   HeartTwoTone,
   EyeOutlined,
   LeftOutlined,
@@ -309,13 +307,13 @@ export default function SetupPage(props: Props) {
   const [currentImageView, setImageView] = useState<string>("Main");
   const [currentImageObject, setImageObject] = useState<object>({});
   const [currentImageItems, setImageItems] = useState([]);
-  const [isActive, setActiveStatus] = useState(false);
   const [imageAreas, setImageAreas] = useState([]);
   const { getSetUpInfo, getImageItems } = props;
   const [fillColor, setFillColor] = useState("");
   const [imagePositions, setPositionList] = useState([]);
   const [rightSideImageEnd, setRightSideEnd] = useState(false);
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
+  const [areaItemsHidden, setItemsHidden] = useState(false);
 
   useEffect(() => {
     console.log(props);
@@ -330,12 +328,13 @@ export default function SetupPage(props: Props) {
 
   useEffect(() => {
     setDataPageInfo();
-    // resetCurrentImageAreas();
   }, [currentImageView]);
 
   useEffect(() => {
     setDataPageInfo();
     createCurrentImageAreasList();
+    onImageChangeRightSideCheck();
+    onImageChangeLeftSideCheck();
   }, [currentImageObject]);
 
   const setDataPageInfo = async () => {
@@ -371,36 +370,54 @@ export default function SetupPage(props: Props) {
     };
   };
 
-  // const resetCurrentImageAreas = () => {
-  //   MAP.areas = [];
-  //   setImageAreas([]);
-  // };
   function callback(key) {
     console.log(key);
   }
-  console.log(imagePositions);
   const goRightImage = () => {
     //fix logic to disable buttons on end of images and not to loop
     const positionListLength = imagePositions.length;
     const currentImageIndex = imagePositions.indexOf(currentImageView);
-    if (currentImageIndex === positionListLength - 1) {
-      // setImageView(imagePositions[0]);
-      setRightSideEnd(true);
-    } else {
-      setRightSideEnd(false);
+    if (currentImageIndex !== positionListLength - 1) {
       setImageView(imagePositions[currentImageIndex + 1]);
     }
+    setItemsHidden(false);
   };
   const goLeftImage = () => {
     const positionListLength = imagePositions.length;
     const currentImageIndex = imagePositions.indexOf(currentImageView);
-    if (currentImageIndex === 0) {
-      // setImageView(imagePositions[positionListLength - 1]);
+    if (currentImageIndex !== 0) {
+      setImageView(imagePositions[currentImageIndex - 1]);
+    }
+
+    setItemsHidden(false);
+  };
+  const onImageChangeRightSideCheck = () => {
+    if (
+      imagePositions.length - 1 ===
+      imagePositions.indexOf(currentImageView)
+    ) {
+      setRightSideEnd(true);
+    } else {
+      setRightSideEnd(false);
+    }
+  };
+  const onImageChangeLeftSideCheck = () => {
+    if (imagePositions.indexOf(currentImageView) === 0) {
       setLeftSideEnd(true);
     } else {
       setLeftSideEnd(false);
-      setImageView(imagePositions[currentImageIndex - 1]);
     }
+  };
+  const hideItemAreas = () => {
+    setItemsHidden(true);
+    setImageAreas([]);
+    setDataPageInfo();
+  };
+  const showItemAreas = () => {
+    console.log(currentImageObject);
+    setItemsHidden(false);
+    createCurrentImageAreasList();
+    setDataPageInfo();
   };
   return (
     <Layout
@@ -496,6 +513,27 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
+                  {areaItemsHidden ? (
+                    <Button
+                      type="primary"
+                      ghost
+                      shape="round"
+                      style={{ margin: "1rem 0" }}
+                      onClick={showItemAreas}
+                    >
+                      Show Items
+                    </Button>
+                  ) : (
+                    <Button
+                      type="danger"
+                      ghost
+                      shape="round"
+                      style={{ margin: "1rem 0" }}
+                      onClick={hideItemAreas}
+                    >
+                      Hide Items
+                    </Button>
+                  )}
                   {imageAreas.map((item, i) => {
                     return (
                       <div key={i}>
