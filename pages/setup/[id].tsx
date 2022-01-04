@@ -284,9 +284,10 @@ import {
   Typography,
   Avatar,
   Space,
+  Tabs,
+  Divider,
 } from "antd";
 import { GetServerSideProps } from "next";
-import { Tabs, Divider } from "antd";
 import {
   HeartTwoTone,
   EyeOutlined,
@@ -314,6 +315,7 @@ export default function SetupPage(props: Props) {
   const [rightSideImageEnd, setRightSideEnd] = useState(false);
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
   const [areaItemsHidden, setItemsHidden] = useState(false);
+  const [showHighlighting, setHighlightingStatus] = useState(false);
 
   useEffect(() => {
     console.log(props);
@@ -348,25 +350,31 @@ export default function SetupPage(props: Props) {
     });
     setImageItems(currentItems);
   };
-  const createCurrentImageAreasList = async () => {
+  const createCurrentImageAreasList = async (status = false) => {
     let currentList = [];
     const createMapAreas = await getImageItems.map((item, i) => {
       if (item.image_id === currentImageObject.image_id) {
-        const addToAreaList = currentList.push(createArea(item));
+        const addToAreaList = currentList.push(createArea(item, status));
         console.log("test", imageAreas);
       }
       setImageAreas(currentList);
     });
   };
 
-  const createArea = (item) => {
+  const createArea = (item, status) => {
+    let fill = "";
+    if (status) {
+      fill = "red";
+    } else {
+      fill = "transparent";
+    }
     return {
       id: item.item_id,
       name: item.item_name,
       shape: "poly",
       coords: [...item.coords_list],
       href: item.item_url,
-      preFillColor: "transparent",
+      preFillColor: fill,
     };
   };
 
@@ -410,15 +418,28 @@ export default function SetupPage(props: Props) {
   };
   const hideItemAreas = () => {
     setItemsHidden(true);
+    setHighlightingStatus(false);
     setImageAreas([]);
     setDataPageInfo();
   };
   const showItemAreas = () => {
-    console.log(currentImageObject);
     setItemsHidden(false);
     createCurrentImageAreasList();
     setDataPageInfo();
   };
+  const hideHighlighting = () => {
+    setHighlightingStatus(false);
+    setImageAreas([]);
+    createCurrentImageAreasList();
+    setDataPageInfo();
+  };
+  const showImageHighlighting = () => {
+    setHighlightingStatus(true);
+    setImageAreas([]);
+    createCurrentImageAreasList(true);
+    setDataPageInfo();
+  };
+  console.log(showHighlighting);
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -515,28 +536,47 @@ export default function SetupPage(props: Props) {
                 <TabPane tab="Items" key="1">
                   {areaItemsHidden ? (
                     <Button
-                      type="primary"
-                      ghost
-                      shape="round"
-                      style={{ margin: "1rem 0" }}
+                      type="link"
+                      style={{ margin: "1rem 0", padding: "0" }}
                       onClick={showItemAreas}
                     >
                       Show Items
                     </Button>
                   ) : (
                     <Button
-                      type="danger"
-                      ghost
-                      shape="round"
-                      style={{ margin: "1rem 0" }}
+                      danger
+                      type="link"
+                      style={{ margin: "1rem 0", padding: "0" }}
                       onClick={hideItemAreas}
                     >
                       Hide Items
                     </Button>
                   )}
+                  {!areaItemsHidden ? <Divider type="vertical" /> : ""}
+                  {showHighlighting && !areaItemsHidden ? (
+                    <Button
+                      danger
+                      type="link"
+                      style={{ margin: "1rem 0", padding: "0" }}
+                      onClick={hideHighlighting}
+                    >
+                      Hide Highlight
+                    </Button>
+                  ) : !showHighlighting && !areaItemsHidden ? (
+                    <Button
+                      type="link"
+                      style={{ margin: "1rem 0", padding: "0" }}
+                      onClick={showImageHighlighting}
+                    >
+                      Highlight Items
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+
                   {imageAreas.map((item, i) => {
                     return (
-                      <div key={i}>
+                      <div key={i} style={{ margin: "1rem 0" }}>
                         <Row justify="space-between">
                           <Col key={i}>
                             {i + 1}.{" "}
