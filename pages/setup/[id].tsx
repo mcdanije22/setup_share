@@ -286,6 +286,7 @@ import {
   Space,
   Tabs,
   Divider,
+  Switch,
 } from "antd";
 import { GetServerSideProps } from "next";
 import {
@@ -330,6 +331,7 @@ export default function SetupPage(props: Props) {
 
   useEffect(() => {
     setDataPageInfo();
+    setHighlightingStatus(false);
   }, [currentImageView]);
 
   useEffect(() => {
@@ -355,7 +357,6 @@ export default function SetupPage(props: Props) {
     const createMapAreas = await getImageItems.map((item, i) => {
       if (item.image_id === currentImageObject.image_id) {
         const addToAreaList = currentList.push(createArea(item, status));
-        console.log("test", imageAreas);
       }
       setImageAreas(currentList);
     });
@@ -364,9 +365,9 @@ export default function SetupPage(props: Props) {
   const createArea = (item, status) => {
     let fill = "";
     if (status) {
-      fill = "red";
+      fill = "#649758";
     } else {
-      fill = "transparent";
+      fill = "";
     }
     return {
       id: item.item_id,
@@ -439,6 +440,13 @@ export default function SetupPage(props: Props) {
     createCurrentImageAreasList(true);
     setDataPageInfo();
   };
+  function onChange(checked) {
+    if (checked) {
+      showImageHighlighting();
+    } else {
+      hideHighlighting();
+    }
+  }
   console.log(showHighlighting);
   return (
     <Layout
@@ -534,6 +542,7 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
+                  <Switch onChange={onChange} /> <Text>Highlight All </Text>
                   {areaItemsHidden ? (
                     <Button
                       type="link"
@@ -573,7 +582,6 @@ export default function SetupPage(props: Props) {
                   ) : (
                     ""
                   )}
-
                   {imageAreas.map((item, i) => {
                     return (
                       <div key={i} style={{ margin: "1rem 0" }}>

@@ -12,7 +12,7 @@ const ImageMapContainer = ({ src, area, name }) => {
       map={MAP}
       width={375}
       height={350}
-      fillColor={"red"}
+      fillColor="#649758"
       onMouseEnter={(area: any) => {
         console.log(area);
       }}
