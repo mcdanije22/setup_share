@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ImageMapper from "react-image-mapper";
 
-const ImageMapContainer = ({ src, area, name }) => {
+const ImageMapContainer = ({ src, area, name, onItemClick }) => {
   var MAP = {
     name: name,
     areas: [...area],
@@ -13,11 +13,12 @@ const ImageMapContainer = ({ src, area, name }) => {
       width={375}
       height={350}
       fillColor="#649758"
+      strokeColor="black"
       onMouseEnter={(area: any) => {
         console.log(area);
       }}
-      onImageClick={(e: any) => {
-        console.log("test");
+      onClick={(area: any) => {
+        onItemClick(area.id);
       }}
     />
   );

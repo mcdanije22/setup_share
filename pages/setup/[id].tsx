@@ -352,29 +352,31 @@ export default function SetupPage(props: Props) {
     });
     setImageItems(currentItems);
   };
-  const createCurrentImageAreasList = async (status = false) => {
+  const createCurrentImageAreasList = async (status = false, id = null) => {
     let currentList = [];
     const createMapAreas = await getImageItems.map((item, i) => {
       if (item.image_id === currentImageObject.image_id) {
-        const addToAreaList = currentList.push(createArea(item, status));
+        const addToAreaList = currentList.push(createArea(item, status, id));
       }
       setImageAreas(currentList);
     });
   };
 
-  const createArea = (item, status) => {
+  const createArea = (item, status, id) => {
     let fill = "";
     if (status) {
       fill = "#649758";
     } else {
       fill = "";
     }
+    if (id !== null && item.item_id == id) {
+      fill = "#649758";
+    }
     return {
       id: item.item_id,
       name: item.item_name,
       shape: "poly",
       coords: [...item.coords_list],
-      href: item.item_url,
       preFillColor: fill,
     };
   };
@@ -440,14 +442,20 @@ export default function SetupPage(props: Props) {
     createCurrentImageAreasList(true);
     setDataPageInfo();
   };
-  function onChange(checked) {
+  function onToggle(checked) {
     if (checked) {
       showImageHighlighting();
     } else {
       hideHighlighting();
     }
   }
-  console.log(showHighlighting);
+  const highlightItem = (id) => {
+    setImageAreas([]);
+    createCurrentImageAreasList(false, id);
+    setDataPageInfo();
+    setHighlightingStatus(false);
+  };
+
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -504,6 +512,7 @@ export default function SetupPage(props: Props) {
                       src={item.image_url}
                       name={item.image_id}
                       area={imageAreas}
+                      onItemClick={highlightItem}
                     />
                   </Col>
                 );
@@ -542,49 +551,17 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
-                  <Switch onChange={onChange} /> <Text>Highlight All </Text>
-                  {areaItemsHidden ? (
-                    <Button
-                      type="link"
-                      style={{ margin: "1rem 0", padding: "0" }}
-                      onClick={showItemAreas}
-                    >
-                      Show Items
-                    </Button>
-                  ) : (
-                    <Button
-                      danger
-                      type="link"
-                      style={{ margin: "1rem 0", padding: "0" }}
-                      onClick={hideItemAreas}
-                    >
-                      Hide Items
-                    </Button>
-                  )}
-                  {!areaItemsHidden ? <Divider type="vertical" /> : ""}
-                  {showHighlighting && !areaItemsHidden ? (
-                    <Button
-                      danger
-                      type="link"
-                      style={{ margin: "1rem 0", padding: "0" }}
-                      onClick={hideHighlighting}
-                    >
-                      Hide Highlight
-                    </Button>
-                  ) : !showHighlighting && !areaItemsHidden ? (
-                    <Button
-                      type="link"
-                      style={{ margin: "1rem 0", padding: "0" }}
-                      onClick={showImageHighlighting}
-                    >
-                      Highlight Items
-                    </Button>
-                  ) : (
-                    ""
-                  )}
+                  <Row style={{ margin: ".5rem 0" }}>
+                    <Col>
+                      <Switch onChange={onToggle} checked={showHighlighting} />{" "}
+                      <Text style={{ marginLeft: ".5rem" }}>
+                        Highlight All{" "}
+                      </Text>
+                    </Col>
+                  </Row>
                   {imageAreas.map((item, i) => {
                     return (
-                      <div key={i} style={{ margin: "1rem 0" }}>
+                      <div key={i} style={{ margin: "2rem 0" }}>
                         <Row justify="space-between">
                           <Col key={i}>
                             {i + 1}.{" "}
@@ -596,7 +573,11 @@ export default function SetupPage(props: Props) {
                               {item.name}
                             </Link>
                           </Col>
-                          <EyeOutlined />
+                          <EyeOutlined
+                            onClick={() => {
+                              highlightItem(item.id);
+                            }}
+                          />
                         </Row>
                         {i !== imageAreas.length - 1 ? (
                           <Divider orientation="left" />
