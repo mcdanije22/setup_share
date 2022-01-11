@@ -492,31 +492,34 @@ export default function SetupPage(props: Props) {
               />
             </Col>
           </Row>
-          <Row>
-            {/*Works as long not using carousel. List out images*/}
-            {getSetUpInfo
-              .sort((a, b) =>
-                a.image_position_number > b.image_position_number ? 1 : -1
-              )
-              .map((item, i) => {
-                return (
-                  <Col
-                    key={i}
-                    span={24}
-                    style={{
-                      display:
-                        item.image_position !== currentImageView ? "none" : "",
-                    }}
-                  >
-                    <ImageMapContainer
-                      src={item.image_url}
-                      name={item.image_id}
-                      area={imageAreas}
-                      onItemClick={highlightItem}
-                    />
-                  </Col>
-                );
-              })}
+          <Row justify="center">
+            <Col>
+              {/*Works as long not using carousel. List out images*/}
+              {getSetUpInfo
+                .sort((a, b) =>
+                  a.image_position_number > b.image_position_number ? 1 : -1
+                )
+                .map((item, i) => {
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        display:
+                          item.image_position !== currentImageView
+                            ? "none"
+                            : "",
+                      }}
+                    >
+                      <ImageMapContainer
+                        src={item.image_url}
+                        name={item.image_id}
+                        area={imageAreas}
+                        onItemClick={highlightItem}
+                      />
+                    </div>
+                  );
+                })}
+            </Col>
           </Row>
           <Row justify="center" style={{ padding: ".5rem 0" }}>
             <Col span={22}>

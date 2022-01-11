@@ -267,6 +267,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                 src={image}
                 map={MAP}
                 width={375}
+                height={350}
                 onMouseEnter={(area: any) => {
                   alert("test");
                 }}
