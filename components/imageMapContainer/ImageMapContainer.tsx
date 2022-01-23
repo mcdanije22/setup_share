@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ImageMapper from "react-image-mapper";
 
-const ImageMapContainer = ({ src, area, name, onItemClick }) => {
+const ImageMapContainer = ({ src, areas, name, onItemClick }) => {
   var MAP = {
     name: name,
-    areas: [...area],
+    areas: [...areas],
   };
   return (
     <ImageMapper

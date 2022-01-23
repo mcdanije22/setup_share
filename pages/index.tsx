@@ -4,7 +4,6 @@ import { Button, Upload, message, Form } from "antd";
 import { ControlFilled, InboxOutlined } from "@ant-design/icons";
 import axios from "axios";
 import CanvasImg from "../components/CanvasImg";
-import Mapper from "../components/icanva";
 export default function Home() {
   const [imageList, setFileList] = useState([]);
   const [isLoading, setLoadingStatus] = useState(false);
