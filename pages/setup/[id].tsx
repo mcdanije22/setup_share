@@ -48,13 +48,26 @@ export default function SetupPage(props: Props) {
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
   const [areaItemsHidden, setItemsHidden] = useState(false);
   const [showHighlighting, setHighlightingStatus] = useState(false);
-  const [createdResolution, setCreatedResolution] = useState("Mobile");
+  const [createdResolution, setCreatedResolution] = useState("Desktop");
   const [mobileLoaded, setMobileLoad] = useState(false);
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
   useEffect(() => {
     if (isMobile) {
       setMobileLoad(true);
+    }
+  }, []);
+  useEffect(() => {
+    console.log("getItems", getImageItems);
+    if (isMobile && createdResolution !== "Mobile") {
+      console.log("test");
+      getImageItems.map((item, i) => {
+        const newList = item.coords_list.map((coord, i) => {
+          console.log("coord", coord);
+          return coord * 2;
+        });
+        item.coords_list = newList;
+      });
     }
   }, []);
   useEffect(() => {
@@ -92,19 +105,13 @@ export default function SetupPage(props: Props) {
   };
   const createCurrentImageAreasList = async (status = false, id = null) => {
     let currentList = [];
-    //here. if screen size is different than when room created, need to run formula on coords list
-    if (
-      (isMobile && createdResolution === "Mobile") ||
-      (!isMobile && createdResolution === "Desktop")
-    ) {
-      const createMapAreas = await getImageItems.map((item, i) => {
-        if (item.image_id === currentImageObject.image_id) {
-          const addToAreaList = currentList.push(createArea(item, status, id));
-        }
-        console.log(currentList);
-        setImageAreas(currentList);
-      });
-    }
+    const createMapAreas = await getImageItems.map((item, i) => {
+      if (item.image_id === currentImageObject.image_id) {
+        const addToAreaList = currentList.push(createArea(item, status, id));
+      }
+      console.log(currentList);
+      setImageAreas(currentList);
+    });
   };
 
   const createArea = (item, status, id) => {
