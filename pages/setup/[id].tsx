@@ -48,9 +48,13 @@ export default function SetupPage(props: Props) {
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
   const [areaItemsHidden, setItemsHidden] = useState(false);
   const [showHighlighting, setHighlightingStatus] = useState(false);
-  const [createdResolution, setCreatedResolution] = useState("Desktop");
+  const [createdResolution, setCreatedResolution] = useState("Mobile");
   const [mobileLoaded, setMobileLoad] = useState(false);
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const phoneWidth = 375;
+  const phoneHeight = 350;
+  const desktopWidth = 1000;
+  const desktopHeight = 600;
 
   useEffect(() => {
     if (isMobile) {
@@ -59,15 +63,11 @@ export default function SetupPage(props: Props) {
   }, []);
   useEffect(() => {
     console.log("getItems", getImageItems);
-    if (isMobile && createdResolution !== "Mobile") {
-      console.log("test");
-      getImageItems.map((item, i) => {
-        const newList = item.coords_list.map((coord, i) => {
-          console.log("coord", coord);
-          return coord * 2;
-        });
-        item.coords_list = newList;
-      });
+    if (
+      (!isMobile && createdResolution === "Mobile") ||
+      (isMobile && createdResolution === "Desktop")
+    ) {
+      mobileToDesktopCoords(getImageItems);
     }
   }, []);
   useEffect(() => {
@@ -207,7 +207,43 @@ export default function SetupPage(props: Props) {
     setDataPageInfo();
     setHighlightingStatus(false);
   };
-
+  const mobileToDesktopCoords = (itemsList) => {
+    let orgWidth, orgHeight;
+    let newWidth, newHeight;
+    if (!isMobile && createdResolution === "Mobile") {
+      orgWidth = phoneWidth;
+      orgHeight = phoneHeight;
+      newWidth = desktopWidth;
+      newHeight = desktopHeight;
+    } else if (isMobile && createdResolution === "Desktop") {
+      orgWidth = desktopWidth;
+      orgHeight = desktopHeight;
+      newWidth = phoneWidth;
+      newHeight = phoneHeight;
+    }
+    itemsList.map((item, i) => {
+      const newList = item.coords_list.map((coord, j) => {
+        if (j % 2 === 0 || j === 0) {
+          return Math.round((coord * newWidth) / orgWidth);
+        } else {
+          return Math.round((coord * newHeight) / orgHeight);
+        }
+      });
+      item.coords_list = newList;
+    });
+  };
+  // const mobileToDesktopCoords = (itemsList) => {
+  //     itemsList.map((item, i) => {
+  //       const newList = item.coords_list.map((coord, j) => {
+  //         if (j % 2 === 0 || j === 0) {
+  //           return Math.round((coord * 1000) / 375);
+  //         } else {
+  //           return Math.round((coord * 600) / 350);
+  //         }
+  //       });
+  //       item.coords_list = newList;
+  //     });
+  //   }
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -267,6 +303,11 @@ export default function SetupPage(props: Props) {
                         name={item.image_id}
                         areas={imageAreas}
                         onItemClick={highlightItem}
+                        mobileLoaded={mobileLoaded}
+                        phoneWidth={phoneWidth}
+                        phoneHeight={phoneHeight}
+                        desktopWidth={desktopWidth}
+                        desktopHeight={desktopHeight}
                       />
                     </div>
                   );
