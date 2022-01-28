@@ -16,6 +16,7 @@ import {
   Tabs,
   Divider,
   Switch,
+  List,
 } from "antd";
 import { GetServerSideProps } from "next";
 import {
@@ -27,6 +28,7 @@ import {
 import styles from "./setupPage.module.scss";
 import ImageMapContainer from "../../components/imageMapContainer/ImageMapContainer";
 import { useMediaQuery } from "react-responsive";
+import ItemList from "../../components/ItemList.tsx";
 
 const { Link, Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -53,8 +55,8 @@ export default function SetupPage(props: Props) {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const phoneWidth = 375;
   const phoneHeight = 350;
-  const desktopWidth = 1000;
-  const desktopHeight = 600;
+  const desktopWidth = 1100;
+  const desktopHeight = 500;
 
   useEffect(() => {
     if (isMobile) {
@@ -280,8 +282,8 @@ export default function SetupPage(props: Props) {
               />
             </Col>
           </Row>
-          <Row justify="center">
-            <Col>
+          <Row justify={isMobile ? "center" : "space-between"}>
+            <Col xs={{ span: 24 }} md={{ span: 12 }}>
               {/*Works as long not using carousel. List out images*/}
               {getSetUpInfo
                 .sort((a, b) =>
@@ -312,6 +314,9 @@ export default function SetupPage(props: Props) {
                     </div>
                   );
                 })}
+            </Col>
+            <Col xs={{ span: 0 }} md={{ span: 4 }}>
+              <ItemList itemList={imageAreas} highlightItem={highlightItem} />
             </Col>
           </Row>
           <Row justify="center" style={{ padding: ".5rem 0" }}>
@@ -355,34 +360,38 @@ export default function SetupPage(props: Props) {
                       </Text>
                     </Col>
                   </Row>
-                  {imageAreas.map((item, i) => {
-                    return (
-                      <div key={i} style={{ margin: "2rem 0" }}>
-                        <Row justify="space-between">
-                          <Col key={i}>
-                            {i + 1}.{" "}
-                            <Link
-                              href={`${item.href}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {item.name}
-                            </Link>
-                          </Col>
-                          <EyeOutlined
-                            onClick={() => {
-                              highlightItem(item.id);
-                            }}
-                          />
-                        </Row>
-                        {i !== imageAreas.length - 1 ? (
-                          <Divider orientation="left" />
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    );
-                  })}
+                  <ItemList
+                    itemList={imageAreas}
+                    highlightItem={highlightItem}
+                  />
+                  {/* {imageAreas.map((item, i) => { */}
+                  {/*   return ( */}
+                  {/*     <div key={i} style={{ margin: "2rem 0" }}> */}
+                  {/*       <Row justify="space-between"> */}
+                  {/*         <Col key={i}> */}
+                  {/*           {i + 1}.{" "} */}
+                  {/*           <Link */}
+                  {/*             href={`${item.href}`} */}
+                  {/*             target="_blank" */}
+                  {/*             rel="noopener noreferrer" */}
+                  {/*           > */}
+                  {/*             {item.name} */}
+                  {/*           </Link> */}
+                  {/*         </Col> */}
+                  {/*         <EyeOutlined */}
+                  {/*           onClick={() => { */}
+                  {/*             highlightItem(item.id); */}
+                  {/*           }} */}
+                  {/*         /> */}
+                  {/*       </Row> */}
+                  {/*       {i !== imageAreas.length - 1 ? ( */}
+                  {/*         <Divider orientation="left" /> */}
+                  {/*       ) : ( */}
+                  {/*         "" */}
+                  {/*       )} */}
+                  {/*     </div> */}
+                  {/*   ); */}
+                  {/* })} */}
                 </TabPane>
                 <TabPane tab="Description" key="2">
                   {getSetUpInfo[0].setup_description}
