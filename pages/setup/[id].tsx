@@ -52,11 +52,15 @@ export default function SetupPage(props: Props) {
   const [showHighlighting, setHighlightingStatus] = useState(false);
   const [createdResolution, setCreatedResolution] = useState("Mobile");
   const [mobileLoaded, setMobileLoad] = useState(false);
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
+  const isDesktop = useMediaQuery({ minWidth: 1440 });
+
   const phoneWidth = 375;
   const phoneHeight = 350;
-  const desktopWidth = 1100;
-  const desktopHeight = 500;
+  const desktopWidth = 1000;
+  const desktopHeight = 600;
 
   useEffect(() => {
     if (isMobile) {
@@ -282,8 +286,8 @@ export default function SetupPage(props: Props) {
               />
             </Col>
           </Row>
-          <Row justify={isMobile ? "center" : "space-between"}>
-            <Col xs={{ span: 24 }} md={{ span: 12 }}>
+          <Row justify={isMobile ? "center" : "space-around"}>
+            <Col xs={{ span: 24 }} lg={{ span: 14 }}>
               {/*Works as long not using carousel. List out images*/}
               {getSetUpInfo
                 .sort((a, b) =>
@@ -315,7 +319,20 @@ export default function SetupPage(props: Props) {
                   );
                 })}
             </Col>
-            <Col xs={{ span: 0 }} md={{ span: 4 }}>
+            <Col
+              xs={{ span: 0 }}
+              lg={{ span: 6 }}
+              style={{ border: "1px solid black" }}
+            >
+              <Title level={3} style={{ textAlign: "center" }}>
+                Items
+              </Title>
+              <Switch
+                onChange={onToggle}
+                checked={showHighlighting}
+                style={{ marginLeft: "1.5rem" }}
+              />{" "}
+              <Text style={{ marginLeft: ".5rem" }}>Highlight All </Text>
               <ItemList itemList={imageAreas} highlightItem={highlightItem} />
             </Col>
           </Row>

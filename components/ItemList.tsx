@@ -7,7 +7,7 @@ const ItemList = ({ itemList, highlightItem }) => {
     <div>
       {itemList.map((item, i) => {
         return (
-          <div key={i}>
+          <div key={i} style={{ padding: "1rem 2rem" }}>
             <Row justify="space-between">
               <Col key={i}>
                 {i + 1}.{" "}
