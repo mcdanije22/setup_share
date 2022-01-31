@@ -7,7 +7,7 @@ const ItemList = ({ itemList, highlightItem }) => {
     <div>
       {itemList.map((item, i) => {
         return (
-          <div key={i} style={{ padding: "1rem 2rem" }}>
+          <div key={i}>
             <Row justify="space-between">
               <Col key={i}>
                 {i + 1}.{" "}
@@ -19,13 +19,13 @@ const ItemList = ({ itemList, highlightItem }) => {
                   {item.name}
                 </Link>
               </Col>
-              <EyeOutlined
-                onClick={() => {
-                  highlightItem(item.id);
-                }}
-              />
+              {/* <EyeOutlined */}
+              {/*   onClick={() => { */}
+              {/*     highlightItem(item.id); */}
+              {/*   }} */}
+              {/* /> */}
             </Row>
-            {i !== itemList.length - 1 ? <Divider orientation="left" /> : ""}
+            {i !== itemList.length - 1 ? <Divider /> : ""}
           </div>
         );
       })}

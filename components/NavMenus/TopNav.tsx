@@ -44,7 +44,14 @@ const TopNavBar: React.FC = () => {
         </Row>
       </Drawer>
 
-      <Row justify="space-between" style={{ padding: "1rem" }}>
+      <Row
+        justify="space-between"
+        style={{
+          padding: "1rem",
+          borderBottom: "1px solid #D9D9D9",
+          boxShadow: "0 8px 12px -4px #D9D9D9",
+        }}
+      >
         <Col xs={{ flex: "auto" }} lg={{ span: 8 }}>
           <Title level={3} key="1">
             <Link href="/" key="2">

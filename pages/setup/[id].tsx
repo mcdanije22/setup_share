@@ -26,6 +26,7 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
+import layoutStyles from "../../components/Layout/layout.module.scss";
 import ImageMapContainer from "../../components/imageMapContainer/ImageMapContainer";
 import { useMediaQuery } from "react-responsive";
 import ItemList from "../../components/ItemList.tsx";
@@ -286,8 +287,11 @@ export default function SetupPage(props: Props) {
               />
             </Col>
           </Row>
-          <Row justify={isMobile ? "center" : "space-around"}>
-            <Col xs={{ span: 24 }} lg={{ span: 14 }}>
+          <Row
+            justify={isMobile ? "center" : "space-around"}
+            className={layoutStyles.container}
+          >
+            <Col>
               {/*Works as long not using carousel. List out images*/}
               {getSetUpInfo
                 .sort((a, b) =>
@@ -322,23 +326,31 @@ export default function SetupPage(props: Props) {
             <Col
               xs={{ span: 0 }}
               lg={{ span: 6 }}
-              style={{ border: "1px solid black" }}
+              style={{
+                border: "1px #D9D9D9 solid",
+                borderRadius: "1rem",
+                padding: "1rem",
+                backgroundColor: "white",
+                boxShadow: "0 8px 12px -4px #D9D9D9",
+              }}
             >
-              <Title level={3} style={{ textAlign: "center" }}>
-                Items
-              </Title>
-              <Switch
-                onChange={onToggle}
-                checked={showHighlighting}
-                style={{ marginLeft: "1.5rem" }}
-              />{" "}
-              <Text style={{ marginLeft: ".5rem" }}>Highlight All </Text>
+              <Row justify="end">
+                <Text>Show All </Text>
+                <Switch
+                  onChange={onToggle}
+                  checked={showHighlighting}
+                  style={{ marginLeft: ".5rem" }}
+                />
+              </Row>
+              <Divider>
+                <Title level={3}>Items</Title>
+              </Divider>
               <ItemList itemList={imageAreas} highlightItem={highlightItem} />
             </Col>
           </Row>
           <Row justify="center" style={{ padding: ".5rem 0" }}>
             <Col span={22}>
-              <Row justify="space-between" style={{ alignItems: "center" }}>
+              <Row justify="center" style={{ alignItems: "center" }}>
                 <Col>
                   <Button
                     type="link"
@@ -349,7 +361,7 @@ export default function SetupPage(props: Props) {
                   </Button>
                 </Col>
                 <Col>
-                  <Title level={3} style={{ margin: "0" }}>
+                  <Title level={3} style={{ margin: "0 1rem" }}>
                     {currentImageObject.image_position}
                   </Title>
                 </Col>
@@ -366,15 +378,13 @@ export default function SetupPage(props: Props) {
             </Col>
           </Row>
           <Row>
-            <Col span={24}>
+            <Col xs={{ span: 24 }} lg={{ span: 0 }}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
                   <Row style={{ margin: ".5rem 0" }}>
                     <Col>
                       <Switch onChange={onToggle} checked={showHighlighting} />{" "}
-                      <Text style={{ marginLeft: ".5rem" }}>
-                        Highlight All{" "}
-                      </Text>
+                      <Text style={{ marginLeft: ".5rem" }}>Show All</Text>
                     </Col>
                   </Row>
                   <ItemList
@@ -417,6 +427,9 @@ export default function SetupPage(props: Props) {
                   Content of Tab Pane 3
                 </TabPane>
               </Tabs>
+            </Col>
+            <Col xs={{ span: 0 }} lg={{ span: 22 }}>
+              <div>{getSetUpInfo[0].setup_description}</div>
             </Col>
           </Row>
         </div>

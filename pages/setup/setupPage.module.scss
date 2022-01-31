@@ -1,3 +1,9 @@
+$desktop: 992px;
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
 #setupPageContainer{
   min-height: 100vh;
   :global {
@@ -16,5 +22,11 @@
    .ant-tabs, .ant-tabs-top, .ant-tabs-mobile{
      padding: 1rem;
    }
+  
      }
+       @include desktop {
+     img{
+       border-radius: 1rem;
+     } 
+    }
 }
