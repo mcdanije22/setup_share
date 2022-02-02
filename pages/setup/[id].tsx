@@ -328,7 +328,7 @@ export default function SetupPage(props: Props) {
               lg={{ span: 6 }}
               style={{
                 border: "1px #D9D9D9 solid",
-                borderRadius: "1rem",
+                borderRadius: ".5rem",
                 padding: "1rem",
                 backgroundColor: "white",
                 boxShadow: "0 8px 12px -4px #D9D9D9",
@@ -377,7 +377,7 @@ export default function SetupPage(props: Props) {
               </Row>
             </Col>
           </Row>
-          <Row>
+          <Row className={layoutStyles.container} justify="center">
             <Col xs={{ span: 24 }} lg={{ span: 0 }}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
@@ -428,8 +428,26 @@ export default function SetupPage(props: Props) {
                 </TabPane>
               </Tabs>
             </Col>
-            <Col xs={{ span: 0 }} lg={{ span: 22 }}>
-              <div>{getSetUpInfo[0].setup_description}</div>
+            <Col span={22}>
+              <Col
+                xs={{ span: 0 }}
+                lg={{ span: 18 }}
+                style={{
+                  padding: "1rem",
+                  minHeight: "400px",
+                  border: "1px #D9D9D9 solid",
+                  borderRadius: ".5rem",
+                  backgroundColor: "white",
+                  boxShadow: "0 8px 12px -4px #D9D9D9",
+                }}
+              >
+                <div style={{ padding: "1rem" }}>
+                  <Divider>
+                    <Title level={3}>About This Setup</Title>
+                  </Divider>
+                  {getSetUpInfo[0].setup_description}
+                </div>
+              </Col>
             </Col>
           </Row>
         </div>
