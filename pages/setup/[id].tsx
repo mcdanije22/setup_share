@@ -257,7 +257,7 @@ export default function SetupPage(props: Props) {
     >
       <div id={styles.setupPageContainer}>
         <div>
-          <Row justify="center">
+          <Row justify="center" className={layoutStyles.container}>
             <Col span={24}>
               <Title
                 level={1}
@@ -287,11 +287,8 @@ export default function SetupPage(props: Props) {
               />
             </Col>
           </Row>
-          <Row
-            justify={isMobile ? "center" : "space-around"}
-            className={layoutStyles.container}
-          >
-            <Col>
+          <Row justify={isMobile ? "center" : "space-around"}>
+            <Col order={1}>
               {/*Works as long not using carousel. List out images*/}
               {getSetUpInfo
                 .sort((a, b) =>
@@ -324,8 +321,9 @@ export default function SetupPage(props: Props) {
                 })}
             </Col>
             <Col
-              xs={{ span: 0 }}
-              lg={{ span: 6 }}
+              xs={{ span: 0, order: 3 }}
+              md={{ span: 22 }}
+              xl={{ span: 6, order: 2 }}
               style={{
                 border: "1px #D9D9D9 solid",
                 borderRadius: ".5rem",
@@ -347,41 +345,48 @@ export default function SetupPage(props: Props) {
               </Divider>
               <ItemList itemList={imageAreas} highlightItem={highlightItem} />
             </Col>
-          </Row>
-          <Row justify="center" style={{ padding: ".5rem 0" }}>
-            <Col span={22}>
-              <Row justify="center" style={{ alignItems: "center" }}>
+            <Col
+              span={24}
+              xs={{ order: 2 }}
+              xl={{ order: 3 }}
+              className={layoutStyles.container}
+            >
+              <Row justify="center">
                 <Col>
-                  <Button
-                    type="link"
-                    disabled={leftSideImageEnd}
-                    style={{ padding: "0" }}
-                  >
-                    <LeftOutlined onClick={goLeftImage} />
-                  </Button>
-                </Col>
-                <Col>
-                  <Title level={3} style={{ margin: "0 1rem" }}>
-                    {currentImageObject.image_position}
-                  </Title>
-                </Col>
-                <Col>
-                  <Button
-                    type="link"
-                    disabled={rightSideImageEnd}
-                    style={{ padding: "0" }}
-                  >
-                    <RightOutlined onClick={goRightImage} />
-                  </Button>
+                  <Row justify="center" style={{ alignItems: "center" }}>
+                    <Col>
+                      <Button
+                        type="link"
+                        disabled={leftSideImageEnd}
+                        style={{ padding: "0" }}
+                      >
+                        <LeftOutlined onClick={goLeftImage} />
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Title level={3} style={{ margin: "0 1rem" }}>
+                        {currentImageObject.image_position}
+                      </Title>
+                    </Col>
+                    <Col>
+                      <Button
+                        type="link"
+                        disabled={rightSideImageEnd}
+                        style={{ padding: "0" }}
+                      >
+                        <RightOutlined onClick={goRightImage} />
+                      </Button>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Col>
           </Row>
           <Row className={layoutStyles.container} justify="center">
-            <Col xs={{ span: 24 }} lg={{ span: 0 }}>
+            <Col xs={{ span: 24 }} md={{ span: 0 }}>
               <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Items" key="1">
-                  <Row style={{ margin: ".5rem 0" }}>
+                  <Row style={{ margin: "0 0 1rem 0" }}>
                     <Col>
                       <Switch onChange={onToggle} checked={showHighlighting} />{" "}
                       <Text style={{ marginLeft: ".5rem" }}>Show All</Text>
@@ -391,34 +396,6 @@ export default function SetupPage(props: Props) {
                     itemList={imageAreas}
                     highlightItem={highlightItem}
                   />
-                  {/* {imageAreas.map((item, i) => { */}
-                  {/*   return ( */}
-                  {/*     <div key={i} style={{ margin: "2rem 0" }}> */}
-                  {/*       <Row justify="space-between"> */}
-                  {/*         <Col key={i}> */}
-                  {/*           {i + 1}.{" "} */}
-                  {/*           <Link */}
-                  {/*             href={`${item.href}`} */}
-                  {/*             target="_blank" */}
-                  {/*             rel="noopener noreferrer" */}
-                  {/*           > */}
-                  {/*             {item.name} */}
-                  {/*           </Link> */}
-                  {/*         </Col> */}
-                  {/*         <EyeOutlined */}
-                  {/*           onClick={() => { */}
-                  {/*             highlightItem(item.id); */}
-                  {/*           }} */}
-                  {/*         /> */}
-                  {/*       </Row> */}
-                  {/*       {i !== imageAreas.length - 1 ? ( */}
-                  {/*         <Divider orientation="left" /> */}
-                  {/*       ) : ( */}
-                  {/*         "" */}
-                  {/*       )} */}
-                  {/*     </div> */}
-                  {/*   ); */}
-                  {/* })} */}
                 </TabPane>
                 <TabPane tab="Description" key="2">
                   {getSetUpInfo[0].setup_description}
@@ -431,7 +408,8 @@ export default function SetupPage(props: Props) {
             <Col span={22}>
               <Col
                 xs={{ span: 0 }}
-                lg={{ span: 18 }}
+                md={{ span: 24 }}
+                xl={{ span: 18 }}
                 style={{
                   padding: "1rem",
                   minHeight: "400px",

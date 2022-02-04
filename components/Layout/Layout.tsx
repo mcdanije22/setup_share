@@ -17,9 +17,7 @@ const LayoutComponent = ({ children, title = "ShareStation" }: Props) => {
         <link rel="icon" href="/icon.png" />
       </Head>
       <TopNav />
-      <div id="pageContent" style={{ backgroundColor: "#F7F7F8" }}>
-        {children}
-      </div>
+      <div id={styles.pageContent}>{children}</div>
       <Footer />
     </div>
   );

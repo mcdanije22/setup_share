@@ -1,4 +1,4 @@
-$desktop: 992px;
+$desktop: 1024px;
 @mixin desktop {
   @media (min-width: #{$desktop}) {
     @content;
@@ -26,7 +26,7 @@ $desktop: 992px;
      }
        @include desktop {
      img{
-       border-radius: 1rem;
+       border-radius: .5rem;
      } 
     }
 }

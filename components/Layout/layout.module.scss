@@ -1,3 +1,14 @@
+$desktop: 1024px;
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+#pageContent{
+   @include desktop {
+      background-color:#F7F7F8
+   }
+}
 .container{
   padding: 2rem 0
 }
