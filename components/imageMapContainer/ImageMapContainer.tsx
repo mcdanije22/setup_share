@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ImageMapper from "react-image-mapper";
+import {
+  MobileWidth,
+  MobileHeight,
+  TabletWidth,
+  TabletHeight,
+  LaptopWidth,
+  LaptopHeight,
+} from "../../utils/constants/screenSize";
 
 const ImageMapContainer = ({
   src,
@@ -7,12 +15,6 @@ const ImageMapContainer = ({
   name,
   onItemClick,
   onLoadScreenType,
-  phoneWidth,
-  phoneHeight,
-  tabletWidth,
-  tabletHeight,
-  laptopWidth,
-  laptopHeight,
 }) => {
   var MAP = {
     name: name,
@@ -24,17 +26,17 @@ const ImageMapContainer = ({
       map={MAP}
       width={
         onLoadScreenType === "Mobile"
-          ? phoneWidth
+          ? MobileWidth
           : onLoadScreenType === "Tablet"
-          ? tabletWidth
-          : laptopWidth
+          ? TabletWidth
+          : LaptopWidth
       }
       height={
         onLoadScreenType === "Mobile"
-          ? phoneHeight
+          ? MobileHeight
           : onLoadScreenType === "Tablet"
-          ? tabletHeight
-          : laptopHeight
+          ? TabletHeight
+          : LaptopHeight
       }
       fillColor="#649758"
       strokeColor="black"

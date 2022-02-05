@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
+import {
+  MobileWidth,
+  MobileHeight,
+  TabletWidth,
+  TabletHeight,
+  LaptopWidth,
+  LaptopHeight,
+} from "../../utils/constants/screenSize";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import {
@@ -57,13 +65,6 @@ export default function SetupPage(props: Props) {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
-
-  const phoneWidth = 375;
-  const phoneHeight = 350;
-  const tabletWidth = 700;
-  const tabletHeight = 500;
-  const laptopWidth = 1000;
-  const laptopHeight = 600;
 
   useEffect(() => {
     if (isMobile) {
@@ -221,20 +222,52 @@ export default function SetupPage(props: Props) {
     setDataPageInfo();
     setHighlightingStatus(false);
   };
+  //Ugly logic but it works. Nested if statements cause react to crash on max updates on itemslist state
   const mobileToDesktopCoords = (itemsList) => {
     let orgWidth, orgHeight;
     let newWidth, newHeight;
-    if (!isMobile && createdResolution === "Mobile") {
-      orgWidth = phoneWidth;
-      orgHeight = phoneHeight;
-      newWidth = laptopWidth;
-      newHeight = laptopHeight;
+    if (isLaptop && createdResolution === "Mobile") {
+      orgWidth = MobileWidth;
+      orgHeight = MobileHeight;
+      newWidth = LaptopWidth;
+      newHeight = LaptopHeight;
+    } else if (isTablet && createdResolution === "Mobile") {
+      orgWidth = MobileWidth;
+      orgHeight = MobileHeight;
+      newWidth = TabletWidth;
+      newHeight = TabletHeight;
+    } else if (isMobile && createdResolution === "Tablet") {
+      orgWidth = TabletWidth;
+      orgHeight = TabletHeight;
+      newWidth = MobileWidth;
+      newHeight = MobileHeight;
+    } else if (isLaptop && createdResolution === "Tablet") {
+      orgWidth = TabletWidth;
+      orgHeight = TabletHeight;
+      newWidth = LaptopWidth;
+      newHeight = LaptopHeight;
     } else if (isMobile && createdResolution === "Laptop") {
-      orgWidth = laptopWidth;
-      orgHeight = laptopHeight;
-      newWidth = phoneWidth;
-      newHeight = phoneHeight;
+      orgWidth = LaptopWidth;
+      orgHeight = LaptopHeight;
+      newWidth = MobileWidth;
+      newHeight = MobileHeight;
+    } else if (isTablet && createdResolution === "Laptop") {
+      orgWidth = LaptopWidth;
+      orgHeight = LaptopHeight;
+      newWidth = TabletWidth;
+      newHeight = TabletHeight;
     }
+    // if (onLoadScreenType === "Mobile") {
+    //   newWidth = MobileWidth;
+    //   newHeight = MobileHeight;
+    //   if (createdResolution === "Tablet") {
+    //     orgWidth = TabletWidth;
+    //     orgHeight = TabletHeight;
+    //   } else if (createdResolution === "Laptop") {
+    //     orgWidth = LaptopWidth;
+    //     orgHeight = LaptopHeight;
+    //   }
+    // }
     itemsList.map((item, i) => {
       const newList = item.coords_list.map((coord, j) => {
         if (j % 2 === 0 || j === 0) {
@@ -306,12 +339,6 @@ export default function SetupPage(props: Props) {
                         areas={imageAreas}
                         onItemClick={highlightItem}
                         onLoadScreenType={onLoadScreenType}
-                        phoneWidth={phoneWidth}
-                        phoneHeight={phoneHeight}
-                        tabletWidth={tabletWidth}
-                        tabletHeight={tabletHeight}
-                        laptopWidth={laptopWidth}
-                        laptopHeight={laptopHeight}
                       />
                     </div>
                   );
