@@ -67,7 +67,6 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
                 paddingLeft: "0",
               }}
               bordered={false}
-              placeholder="Choose a Setup Title"
             />
           </Form.Item>
         </Col>

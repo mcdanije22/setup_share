@@ -52,27 +52,34 @@ export default function SetupPage(props: Props) {
   const [areaItemsHidden, setItemsHidden] = useState(false);
   const [showHighlighting, setHighlightingStatus] = useState(false);
   const [createdResolution, setCreatedResolution] = useState("Mobile");
-  const [mobileLoaded, setMobileLoad] = useState(false);
+  const [onLoadScreenType, setOnLoadScreenType] = useState();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-  const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
-  const isDesktop = useMediaQuery({ minWidth: 1440 });
+  // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
+  const isLaptop = useMediaQuery({ minWidth: 992 });
 
   const phoneWidth = 375;
   const phoneHeight = 350;
-  const desktopWidth = 1000;
-  const desktopHeight = 600;
+  const tabletWidth = 700;
+  const tabletHeight = 500;
+  const laptopWidth = 1000;
+  const laptopHeight = 600;
 
   useEffect(() => {
     if (isMobile) {
-      setMobileLoad(true);
+      setOnLoadScreenType("Mobile");
+    } else if (isTablet) {
+      setOnLoadScreenType("Tablet");
+    } else if (isLaptop) {
+      setOnLoadScreenType("Laptop");
     }
   }, []);
   useEffect(() => {
     console.log("getItems", getImageItems);
     if (
-      (!isMobile && createdResolution === "Mobile") ||
-      (isMobile && createdResolution === "Desktop")
+      (isMobile && createdResolution !== "Mobile") ||
+      (isTablet && createdResolution !== "Tablet") ||
+      (isLaptop && createdResolution !== "Laptop")
     ) {
       mobileToDesktopCoords(getImageItems);
     }
@@ -220,11 +227,11 @@ export default function SetupPage(props: Props) {
     if (!isMobile && createdResolution === "Mobile") {
       orgWidth = phoneWidth;
       orgHeight = phoneHeight;
-      newWidth = desktopWidth;
-      newHeight = desktopHeight;
-    } else if (isMobile && createdResolution === "Desktop") {
-      orgWidth = desktopWidth;
-      orgHeight = desktopHeight;
+      newWidth = laptopWidth;
+      newHeight = laptopHeight;
+    } else if (isMobile && createdResolution === "Laptop") {
+      orgWidth = laptopWidth;
+      orgHeight = laptopHeight;
       newWidth = phoneWidth;
       newHeight = phoneHeight;
     }
@@ -239,18 +246,6 @@ export default function SetupPage(props: Props) {
       item.coords_list = newList;
     });
   };
-  // const mobileToDesktopCoords = (itemsList) => {
-  //     itemsList.map((item, i) => {
-  //       const newList = item.coords_list.map((coord, j) => {
-  //         if (j % 2 === 0 || j === 0) {
-  //           return Math.round((coord * 1000) / 375);
-  //         } else {
-  //           return Math.round((coord * 600) / 350);
-  //         }
-  //       });
-  //       item.coords_list = newList;
-  //     });
-  //   }
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -310,11 +305,13 @@ export default function SetupPage(props: Props) {
                         name={item.image_id}
                         areas={imageAreas}
                         onItemClick={highlightItem}
-                        mobileLoaded={mobileLoaded}
+                        onLoadScreenType={onLoadScreenType}
                         phoneWidth={phoneWidth}
                         phoneHeight={phoneHeight}
-                        desktopWidth={desktopWidth}
-                        desktopHeight={desktopHeight}
+                        tabletWidth={tabletWidth}
+                        tabletHeight={tabletHeight}
+                        laptopWidth={laptopWidth}
+                        laptopHeight={laptopHeight}
                       />
                     </div>
                   );
@@ -399,9 +396,6 @@ export default function SetupPage(props: Props) {
                 </TabPane>
                 <TabPane tab="Description" key="2">
                   {getSetUpInfo[0].setup_description}
-                </TabPane>
-                <TabPane tab="Comments" key="3">
-                  Content of Tab Pane 3
                 </TabPane>
               </Tabs>
             </Col>

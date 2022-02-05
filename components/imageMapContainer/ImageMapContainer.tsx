@@ -6,11 +6,13 @@ const ImageMapContainer = ({
   areas,
   name,
   onItemClick,
-  mobileLoaded,
+  onLoadScreenType,
   phoneWidth,
   phoneHeight,
-  desktopWidth,
-  desktopHeight,
+  tabletWidth,
+  tabletHeight,
+  laptopWidth,
+  laptopHeight,
 }) => {
   var MAP = {
     name: name,
@@ -20,8 +22,20 @@ const ImageMapContainer = ({
     <ImageMapper
       src={`${src}`}
       map={MAP}
-      width={mobileLoaded ? phoneWidth : desktopWidth}
-      height={mobileLoaded ? phoneHeight : desktopHeight}
+      width={
+        onLoadScreenType === "Mobile"
+          ? phoneWidth
+          : onLoadScreenType === "Tablet"
+          ? tabletWidth
+          : laptopWidth
+      }
+      height={
+        onLoadScreenType === "Mobile"
+          ? phoneHeight
+          : onLoadScreenType === "Tablet"
+          ? tabletHeight
+          : laptopHeight
+      }
       fillColor="#649758"
       strokeColor="black"
       onMouseEnter={(area: any) => {
