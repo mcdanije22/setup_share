@@ -8,23 +8,16 @@ import {
   LaptopWidth,
   LaptopHeight,
 } from "../../utils/constants/screenSize";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import {
   Row,
   Col,
-  Form,
-  Input,
   Button,
-  Checkbox,
   PageHeader,
   Typography,
-  Avatar,
-  Space,
   Tabs,
   Divider,
   Switch,
-  List,
 } from "antd";
 import { GetServerSideProps } from "next";
 import {

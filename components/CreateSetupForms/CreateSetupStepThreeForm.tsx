@@ -20,6 +20,7 @@ import {
 // @ts-ignore
 import ImageMapper from "react-image-mapper";
 import { v4 as uuidv4 } from "uuid";
+import { useMediaQuery } from "react-responsive";
 
 interface Props {
   setStepThreeForm: Dispatch<SetStateAction<object>>;
@@ -73,10 +74,25 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const [tempAreas, setTempAreas] = useState<Array<Area>>([]);
   const [position, setPosition] = useState("");
   const [modalStatus, setModalStatus] = useState<boolean>(false);
+  const [onLoadScreenType, setOnLoadScreenType] = useState();
+
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isLaptop = useMediaQuery({ minWidth: 992 });
 
   const [form] = Form.useForm();
   const { Option } = Select;
   const { Text } = Typography;
+
+  useEffect(() => {
+    if (isMobile) {
+      setOnLoadScreenType("Mobile");
+    } else if (isTablet) {
+      setOnLoadScreenType("Tablet");
+    } else if (isLaptop) {
+      setOnLoadScreenType("Laptop");
+    }
+  }, []);
 
   const onPreview = async () => {
     setLoading(true);
