@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.string("setup_description");
     table.string("setup_type");
     table.dateTime("setup_created_date").defaultTo(date);
+    table.string("created_screen_type");
   });
 };
 

@@ -52,6 +52,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   stepOneForm,
   stepTwoForm,
   availImagePositions,
+  onLoadScreenType,
 }) => {
   const { Title, Text } = Typography;
   const { Panel } = Collapse;
@@ -158,6 +159,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       description: stepOneForm.description,
       setupType: stepOneForm.setupType,
       images: imageFiles,
+      createdScreenType: onLoadScreenType,
     };
     try {
       const submitRoom = await axios.post(

@@ -20,7 +20,15 @@ import {
 // @ts-ignore
 import ImageMapper from "react-image-mapper";
 import { v4 as uuidv4 } from "uuid";
-import { useMediaQuery } from "react-responsive";
+import {
+  MobileWidth,
+  MobileHeight,
+  TabletWidth,
+  TabletHeight,
+  LaptopWidth,
+  LaptopHeight,
+} from "../../utils/constants/screenSize";
+import layoutStyles from "../../components/Layout/layout.module.scss";
 
 interface Props {
   setStepThreeForm: Dispatch<SetStateAction<object>>;
@@ -32,6 +40,7 @@ interface Props {
   availImagePositions: Array<string>;
   removeImagePosition(position: string): void;
   addImagePosition(position: string): void;
+  onLoadScreenType: string;
 }
 
 interface Map {
@@ -65,6 +74,7 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   availImagePositions,
   removeImagePosition,
   addImagePosition,
+  onLoadScreenType,
 }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -74,25 +84,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
   const [tempAreas, setTempAreas] = useState<Array<Area>>([]);
   const [position, setPosition] = useState("");
   const [modalStatus, setModalStatus] = useState<boolean>(false);
-  const [onLoadScreenType, setOnLoadScreenType] = useState();
-
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-  const isLaptop = useMediaQuery({ minWidth: 992 });
 
   const [form] = Form.useForm();
   const { Option } = Select;
   const { Text } = Typography;
-
-  useEffect(() => {
-    if (isMobile) {
-      setOnLoadScreenType("Mobile");
-    } else if (isTablet) {
-      setOnLoadScreenType("Tablet");
-    } else if (isLaptop) {
-      setOnLoadScreenType("Laptop");
-    }
-  }, []);
 
   const onPreview = async () => {
     setLoading(true);
@@ -276,14 +271,26 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
             <Text>Continue Without Adding Item?</Text>
           </div>
         </Modal>
-        <div id="imgContainer">
-          <Row justify="center">
+        <div>
+          <Row justify="center" className={layoutStyles.container}>
             <Col>
               <ImageMapper
                 src={image}
                 map={MAP}
-                width={375}
-                height={350}
+                width={
+                  onLoadScreenType === "Mobile"
+                    ? MobileWidth
+                    : onLoadScreenType === "Tablet"
+                    ? TabletWidth
+                    : LaptopWidth
+                }
+                height={
+                  onLoadScreenType === "Mobile"
+                    ? MobileHeight
+                    : onLoadScreenType === "Tablet"
+                    ? TabletHeight
+                    : LaptopHeight
+                }
                 onMouseEnter={(area: any) => {
                   alert("test");
                 }}

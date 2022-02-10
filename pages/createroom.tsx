@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -16,6 +16,7 @@ import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupSt
 import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetupStepThreeForm";
 import CreateSetupConfirmation from "../components/CreateSetupForms/CreateSetupConfirmation";
 import styles from "../components/CreateSetupForms/createRoomForms.module.scss";
+import { useMediaQuery } from "react-responsive";
 
 const { Title } = Typography;
 
@@ -43,6 +44,20 @@ export default function CreateRoomPage() {
     "Left",
     "Right",
   ]);
+  const [onLoadScreenType, setOnLoadScreenType] = useState();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isLaptop = useMediaQuery({ minWidth: 992 });
+
+  useEffect(() => {
+    if (isMobile) {
+      setOnLoadScreenType("Mobile");
+    } else if (isTablet) {
+      setOnLoadScreenType("Tablet");
+    } else if (isLaptop) {
+      setOnLoadScreenType("Laptop");
+    }
+  }, []);
 
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
@@ -67,7 +82,6 @@ export default function CreateRoomPage() {
     s2: stepTwoForm,
     s3: stepThreeForm,
   });
-  console.log(currentStep);
   return (
     <Layout title="Create Setup">
       <div id={styles.createRoomContainer}>
@@ -103,6 +117,7 @@ export default function CreateRoomPage() {
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
+                onLoadScreenType={onLoadScreenType}
               />
             </Col>
           ) : currentStep === 4 ? (
@@ -118,6 +133,7 @@ export default function CreateRoomPage() {
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
+                onLoadScreenType={onLoadScreenType}
               />
             </Col>
           ) : currentStep === 5 ? (
@@ -133,6 +149,7 @@ export default function CreateRoomPage() {
                 availImagePositions={availImagePositions}
                 removeImagePosition={removeImagePosition}
                 addImagePosition={addImagePosition}
+                onLoadScreenType={onLoadScreenType}
               />
             </Col>
           ) : currentStep === 6 ? (
@@ -144,6 +161,7 @@ export default function CreateRoomPage() {
                 stepThreeForm={stepThreeForm}
                 currentStep={currentStep}
                 availImagePositions={availImagePositions}
+                onLoadScreenType={onLoadScreenType}
               />
             </Col>
           ) : (

@@ -56,8 +56,8 @@ export default function SetupPage(props: Props) {
   const [onLoadScreenType, setOnLoadScreenType] = useState();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-  // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
+  // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
 
   useEffect(() => {
     if (isMobile) {
@@ -300,10 +300,19 @@ export default function SetupPage(props: Props) {
           <Row justify="center">
             <Col span={22}>
               <PageHeader
-                title={`${getSetUpInfo[0].username}`}
+                //need user route here
+                title={[
+                  <Link href="/">
+                    <Title level={3} style={{ margin: "0" }}>
+                      {getSetUpInfo[0].username}
+                    </Title>
+                  </Link>,
+                ]}
                 extra={<HeartTwoTone twoToneColor="#eb2f96" />}
                 avatar={{
-                  src: "https://avatars1.githubusercontent.com/u/8186664?s=460&v=4",
+                  src: `https://avatars.dicebear.com/api/initials/${getSetUpInfo[0].username.charAt(
+                    0
+                  )}.svg`,
                 }}
               />
             </Col>
