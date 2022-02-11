@@ -20,40 +20,61 @@ import {
   Switch,
 } from "antd";
 import { GetServerSideProps } from "next";
-import {
-  HeartTwoTone,
-  EyeOutlined,
-  LeftOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined, RightOutlined, HeartTwoTone } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 import layoutStyles from "../../components/Layout/layout.module.scss";
 import ImageMapContainer from "../../components/imageMapContainer/ImageMapContainer";
 import { useMediaQuery } from "react-responsive";
-import ItemList from "../../components/ItemList.tsx";
+import ItemList from "../../components/ItemList";
 
 const { Link, Title, Text } = Typography;
 const { TabPane } = Tabs;
 
+interface SetupObject {
+  setup_id: string;
+  setup_title: string;
+  setup_description: string;
+  setup_type: string;
+  setup_created_date: Date;
+  created_screen_type?: any;
+  image_url: string;
+  image_position: string;
+  image_position_number: number;
+  user_id: string;
+  username: string;
+  image_id: string;
+}
+interface ImageItemsObject {
+  item_id: string;
+  image_id: string;
+  user_id?: any;
+  setup_id: string;
+  coords_list: number[];
+  item_name: string;
+  item_url: string;
+}
+
 interface Props {
-  getSetUpInfo: Array<any>;
+  getSetUpInfo: Array<SetupObject>;
+  getImageItems: Array<ImageItemsObject>;
 }
 
 export default function SetupPage(props: Props) {
   const [loading, setLoading] = useState(false);
   const [currentImageView, setImageView] = useState<string>("Main");
   const [currentImageObject, setImageObject] = useState<object>({});
-  const [currentImageItems, setImageItems] = useState([]);
+  const [currentImageItems, setImageItems] = useState<Array<ImageItemsObject>>(
+    []
+  );
   const [imageAreas, setImageAreas] = useState([]);
   const { getSetUpInfo, getImageItems } = props;
-  const [fillColor, setFillColor] = useState("");
-  const [imagePositions, setPositionList] = useState([]);
+  const [imagePositions, setPositionList] = useState<Array<string>>([]);
   const [rightSideImageEnd, setRightSideEnd] = useState(false);
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
   const [areaItemsHidden, setItemsHidden] = useState(false);
   const [showHighlighting, setHighlightingStatus] = useState(false);
   const [createdResolution, setCreatedResolution] = useState("Mobile");
-  const [onLoadScreenType, setOnLoadScreenType] = useState();
+  const [onLoadScreenType, setOnLoadScreenType] = useState<string>("");
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
@@ -69,7 +90,6 @@ export default function SetupPage(props: Props) {
     }
   }, []);
   useEffect(() => {
-    console.log("getItems", getImageItems);
     if (
       (isMobile && createdResolution !== "Mobile") ||
       (isTablet && createdResolution !== "Tablet") ||
@@ -81,8 +101,8 @@ export default function SetupPage(props: Props) {
   useEffect(() => {
     if (getSetUpInfo.length > 1) {
     }
-    const list = [];
-    getSetUpInfo.map((item, i) => {
+    const list: Array<string> = [];
+    getSetUpInfo.map((item: SetupObject) => {
       list.push(item.image_position);
       setPositionList(list);
     });
@@ -101,28 +121,34 @@ export default function SetupPage(props: Props) {
   }, [currentImageObject]);
 
   const setDataPageInfo = async () => {
-    const filteredImageObject = getSetUpInfo.filter((imageObject, i) => {
-      return imageObject.image_position === currentImageView;
-    });
+    const filteredImageObject = getSetUpInfo.filter(
+      (imageObject: SetupObject) => {
+        return imageObject.image_position === currentImageView;
+      }
+    );
     setImageObject(filteredImageObject[0]);
     //shouldn't need this logic but items dont show without it
-    const currentItems = await getImageItems.filter((item, i) => {
-      return item.image_id === filteredImageObject[0].image_id;
-    });
+    const currentItems = await getImageItems.filter(
+      (item: ImageItemsObject) => {
+        return item.image_id === filteredImageObject[0].image_id;
+      }
+    );
     setImageItems(currentItems);
   };
-  const createCurrentImageAreasList = async (status = false, id = null) => {
-    let currentList = [];
-    const createMapAreas = await getImageItems.map((item, i) => {
+  const createCurrentImageAreasList = async (
+    status: boolean = false,
+    id: string | null = null
+  ) => {
+    let currentList: Array<ImageItemsObject> = [];
+    await getImageItems.map((item: ImageItemsObject) => {
       if (item.image_id === currentImageObject.image_id) {
-        const addToAreaList = currentList.push(createArea(item, status, id));
+        currentList.push(createArea(item, status, id));
       }
-      console.log(currentList);
       setImageAreas(currentList);
     });
   };
 
-  const createArea = (item, status, id) => {
+  const createArea = (item: ImageItemsObject, status: boolean, id: string) => {
     let fill = "";
     if (status) {
       fill = "#649758";
@@ -141,9 +167,6 @@ export default function SetupPage(props: Props) {
     };
   };
 
-  function callback(key) {
-    console.log(key);
-  }
   const goRightImage = () => {
     //fix logic to disable buttons on end of images and not to loop
     const positionListLength = imagePositions.length;
@@ -300,7 +323,7 @@ export default function SetupPage(props: Props) {
           <Row justify="center">
             <Col span={22}>
               <PageHeader
-                //need user route here
+                //need user route here. Can't put link on top of avatar
                 title={[
                   <Link href="/">
                     <Title level={3} style={{ margin: "0" }}>
@@ -410,7 +433,7 @@ export default function SetupPage(props: Props) {
           </Row>
           <Row className={layoutStyles.container} justify="center">
             <Col xs={{ span: 24 }} md={{ span: 0 }}>
-              <Tabs defaultActiveKey="1" onChange={callback}>
+              <Tabs defaultActiveKey="1">
                 <TabPane tab="Items" key="1">
                   <Row style={{ margin: "0 0 1rem 0" }}>
                     <Col>
