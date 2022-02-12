@@ -9,7 +9,6 @@ setupRoutes.post(
     try {
       const { title, setupType, description, images, createdScreenType } =
         req.body;
-      console.log(req.body);
       const insertResult = await db("setups")
         .insert({
           // user_id: "placeholder",
@@ -51,35 +50,39 @@ setupRoutes.post(
   }
 );
 setupRoutes.get("/:id", async (req: express.Request, res: express.Response) => {
-  const getSetUpInfo = await db("setups")
-    .innerJoin("users", "setups.user_id", "users.user_id")
-    .innerJoin("images", "setups.setup_id", "=", "images.setup_id")
-    .where("setups.setup_id", req.params.id)
-    .select(
-      "setups.setup_id",
-      "setups.setup_title",
-      "setups.setup_description",
-      "setups.setup_type",
-      "setups.setup_created_date",
-      "setups.created_screen_type",
-      "images.image_id",
-      "images.image_url",
-      "images.image_position",
-      "images.image_position_number",
-      "images.setup_id",
-      "users.user_id",
-      "users.username"
-    );
-  const getImageItems = await db("image_items")
-    .where("image_items.setup_id", req.params.id)
-    .select(
-      "image_items.item_id",
-      "image_items.image_id",
-      "image_items.coords_list",
-      "image_items.item_name",
-      "image_items.item_url"
-    );
-  res.send({ getSetUpInfo, getImageItems });
+  try {
+    const getSetUpInfo = await db("setups")
+      .innerJoin("users", "setups.user_id", "users.user_id")
+      .innerJoin("images", "setups.setup_id", "images.setup_id")
+      .where("setups.setup_id", req.params.id)
+      .select(
+        "setups.setup_id",
+        "setups.setup_title",
+        "setups.setup_description",
+        "setups.setup_type",
+        "setups.setup_created_date",
+        "setups.created_screen_type",
+        "images.image_id",
+        "images.image_url",
+        "images.image_position",
+        "images.image_position_number",
+        "images.setup_id",
+        "users.user_id",
+        "users.username"
+      );
+    const getImageItems = await db("image_items")
+      .where("image_items.setup_id", req.params.id)
+      .select(
+        "image_items.item_id",
+        "image_items.image_id",
+        "image_items.coords_list",
+        "image_items.item_name",
+        "image_items.item_url"
+      );
+    res.send({ getSetUpInfo, getImageItems });
+  } catch (e) {
+    res.status(404).send("Setup does not exist");
+  }
 });
 
 export default setupRoutes;

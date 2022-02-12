@@ -107,7 +107,6 @@ export default function Home() {
           </Form.Item>
         </Form>
         {/* <Map /> */}
-        <Mapper />
         {/* <img src="https://share-set-up-uploads.s3.us-east-2.amazonaws.com/front+view" /> */}
       </main>
 

@@ -12,6 +12,7 @@ const ItemList = ({ itemList, highlightItem }) => {
               <Col key={i}>
                 {i + 1}.{" "}
                 <Link
+                  style={{ color: "black" }}
                   href={`${item.href}`}
                   target="_blank"
                   rel="noopener noreferrer"

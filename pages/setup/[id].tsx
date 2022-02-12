@@ -20,6 +20,7 @@ import {
   Switch,
 } from "antd";
 import { GetServerSideProps } from "next";
+import Router from "next/router";
 import { LeftOutlined, RightOutlined, HeartTwoTone } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 import layoutStyles from "../../components/Layout/layout.module.scss";
@@ -53,7 +54,13 @@ interface ImageItemsObject {
   item_name: string;
   item_url: string;
 }
-
+interface MapAreaItem {
+  id: string;
+  name: string;
+  shape: string;
+  coords: number[];
+  preFillColor: string;
+}
 interface Props {
   getSetUpInfo: Array<SetupObject>;
   getImageItems: Array<ImageItemsObject>;
@@ -62,11 +69,11 @@ interface Props {
 export default function SetupPage(props: Props) {
   const [loading, setLoading] = useState(false);
   const [currentImageView, setImageView] = useState<string>("Main");
-  const [currentImageObject, setImageObject] = useState<object>({});
+  const [currentImageObject, setImageObject] = useState<any>({});
   const [currentImageItems, setImageItems] = useState<Array<ImageItemsObject>>(
     []
   );
-  const [imageAreas, setImageAreas] = useState([]);
+  const [imageAreas, setImageAreas] = useState<Array<MapAreaItem>>([]);
   const { getSetUpInfo, getImageItems } = props;
   const [imagePositions, setPositionList] = useState<Array<string>>([]);
   const [rightSideImageEnd, setRightSideEnd] = useState(false);
@@ -139,7 +146,7 @@ export default function SetupPage(props: Props) {
     status: boolean = false,
     id: string | null = null
   ) => {
-    let currentList: Array<ImageItemsObject> = [];
+    let currentList: Array<MapAreaItem> = [];
     await getImageItems.map((item: ImageItemsObject) => {
       if (item.image_id === currentImageObject.image_id) {
         currentList.push(createArea(item, status, id));
@@ -148,7 +155,11 @@ export default function SetupPage(props: Props) {
     });
   };
 
-  const createArea = (item: ImageItemsObject, status: boolean, id: string) => {
+  const createArea = (
+    item: ImageItemsObject,
+    status: boolean,
+    id: string | null
+  ) => {
     let fill = "";
     if (status) {
       fill = "#649758";
@@ -168,7 +179,6 @@ export default function SetupPage(props: Props) {
   };
 
   const goRightImage = () => {
-    //fix logic to disable buttons on end of images and not to loop
     const positionListLength = imagePositions.length;
     const currentImageIndex = imagePositions.indexOf(currentImageView);
     if (currentImageIndex !== positionListLength - 1) {
@@ -177,7 +187,6 @@ export default function SetupPage(props: Props) {
     setItemsHidden(false);
   };
   const goLeftImage = () => {
-    const positionListLength = imagePositions.length;
     const currentImageIndex = imagePositions.indexOf(currentImageView);
     if (currentImageIndex !== 0) {
       setImageView(imagePositions[currentImageIndex - 1]);
@@ -202,17 +211,6 @@ export default function SetupPage(props: Props) {
       setLeftSideEnd(false);
     }
   };
-  const hideItemAreas = () => {
-    setItemsHidden(true);
-    setHighlightingStatus(false);
-    setImageAreas([]);
-    setDataPageInfo();
-  };
-  const showItemAreas = () => {
-    setItemsHidden(false);
-    createCurrentImageAreasList();
-    setDataPageInfo();
-  };
   const hideHighlighting = () => {
     setHighlightingStatus(false);
     setImageAreas([]);
@@ -225,23 +223,23 @@ export default function SetupPage(props: Props) {
     createCurrentImageAreasList(true);
     setDataPageInfo();
   };
-  function onToggle(checked) {
+  function onToggle(checked: boolean) {
     if (checked) {
       showImageHighlighting();
     } else {
       hideHighlighting();
     }
   }
-  const highlightItem = (id) => {
+  const highlightItem = (id: string) => {
     setImageAreas([]);
     createCurrentImageAreasList(false, id);
     setDataPageInfo();
     setHighlightingStatus(false);
   };
   //Ugly logic but it works. Nested if statements cause react to crash on max updates on itemslist state
-  const mobileToDesktopCoords = (itemsList) => {
-    let orgWidth, orgHeight;
-    let newWidth, newHeight;
+  const mobileToDesktopCoords = (itemsList: Array<ImageItemsObject>) => {
+    let orgWidth: number, orgHeight: number;
+    let newWidth: number, newHeight: number;
     if (isLaptop && createdResolution === "Mobile") {
       orgWidth = MobileWidth;
       orgHeight = MobileHeight;
@@ -273,18 +271,7 @@ export default function SetupPage(props: Props) {
       newWidth = TabletWidth;
       newHeight = TabletHeight;
     }
-    // if (onLoadScreenType === "Mobile") {
-    //   newWidth = MobileWidth;
-    //   newHeight = MobileHeight;
-    //   if (createdResolution === "Tablet") {
-    //     orgWidth = TabletWidth;
-    //     orgHeight = TabletHeight;
-    //   } else if (createdResolution === "Laptop") {
-    //     orgWidth = LaptopWidth;
-    //     orgHeight = LaptopHeight;
-    //   }
-    // }
-    itemsList.map((item, i) => {
+    itemsList.map((item: ImageItemsObject) => {
       const newList = item.coords_list.map((coord, j) => {
         if (j % 2 === 0 || j === 0) {
           return Math.round((coord * newWidth) / orgWidth);
@@ -482,9 +469,18 @@ export default function SetupPage(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
-  const response = await axios.get(`${process.env.BASE_API}/setup/${id}`);
-  const setUpPageData = await response.data;
-  return {
-    props: setUpPageData,
-  };
+  try {
+    const response = await axios.get(`${process.env.BASE_API}/setup/${id}`);
+    const setUpPageData = await response.data;
+    return {
+      props: setUpPageData,
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
 };
