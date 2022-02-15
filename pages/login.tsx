@@ -1,5 +1,7 @@
-import { Row, Col, Form, Input, Button, Checkbox } from "antd";
+import { useState } from "react";
+import { Row, Col, Form, Input, Button, Checkbox, message } from "antd";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 interface User {
   email: string;
@@ -7,20 +9,31 @@ interface User {
 }
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const userLogin = async (values: User) => {
     const { email, password } = values;
-    const getUser = await axios.post(
-      "http://localhost:5000/user/login",
-      {
-        email,
-        password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    const response = await getUser;
-    console.log(response);
+    setLoading(true);
+    try {
+      const getUser = await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      const response = getUser;
+      message.success("Logged in successfully");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
   };
   const test = async () => {
     const getTest = await axios.get("http://localhost:5000/user/test", {
@@ -67,7 +80,7 @@ export default function LoginPage() {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading}>
                 Submit
               </Button>
             </Form.Item>

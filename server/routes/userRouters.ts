@@ -126,7 +126,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
     const dbHashPassword: Array<passwordHash> = await getUserHash();
     if (!dbHashPassword) {
       //receives null if no account found
-      res.send({ message: "No account for email" });
+      res.status(400).send({ message: "No account for email" });
     } else {
       const hashedPassword = await dbHashPassword[0].password;
       bcrypt.compare(password, hashedPassword, function (err, result: boolean) {
@@ -134,7 +134,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
           console.log("success");
           logUserIn();
         } else {
-          res.send({ message: "Incorrect password!" });
+          return res.status(400).json({ error: "Incorrect password!" });
         }
       });
     }

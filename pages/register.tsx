@@ -1,5 +1,7 @@
-import { Row, Col, Form, Input, Button, Checkbox, PageHeader } from "antd";
+import { useState } from "react";
+import { Row, Col, Form, Input, Button, message } from "antd";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function RegisterPage() {
   interface User {
@@ -12,6 +14,8 @@ export default function RegisterPage() {
   }
 
   const userRegistration = async (values: User) => {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
     const {
       first_name,
       last_name,
@@ -21,20 +25,28 @@ export default function RegisterPage() {
       confrim_password,
     } = values;
     if (password !== confrim_password) {
-      console.log("passwords dont match");
+      message.error("Passswords do not match");
     } else {
-      const registerUser = await axios.post(
-        "http://localhost:5000/user/register",
-        {
-          first_name,
-          last_name,
-          username,
-          email,
-          password,
-        }
-      );
-      const response = registerUser;
-      console.log(response);
+      try {
+        const registerUser = await axios.post(
+          "http://localhost:5000/user/register",
+          {
+            first_name,
+            last_name,
+            username,
+            email,
+            password,
+          }
+        );
+        const response = registerUser;
+        message.success("Registration successful");
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+        console.log(response);
+      } catch (e) {
+        message.error("Error in registration, try again");
+      }
     }
   };
   return (
