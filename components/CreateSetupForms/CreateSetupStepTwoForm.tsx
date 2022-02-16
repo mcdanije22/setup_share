@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import ImgCrop from "antd-img-crop";
 import styles from "./createRoomForms.module.scss";
+import { BaseAPI } from "../../utils/constants/common";
 import {
   ArrowRightOutlined,
   ArrowLeftOutlined,
@@ -77,7 +78,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     }
   };
   const deleteS3File = async (key: number) => {
-    const result = await axios.post("http://localhost:5000/image/delete", {
+    const result = await axios.post(`${BaseAPI}/image/delete`, {
       key,
     });
   };
@@ -122,15 +123,11 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     const data = new FormData();
     data.append("image-file", file.originFileObj);
     try {
-      const result = await axios.post(
-        "http://localhost:5000/image/upload",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const result = await axios.post(`${BaseAPI}/image/upload`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const awsData = { ...file, ...result.data.aws };
       const currentAws: any = awsList;
       const pushToAwsList = currentAws.push({

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Row, Col, Form, Input, Button, message } from "antd";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { BaseAPI } from "../utils/constants/common";
 
 export default function RegisterPage() {
   interface User {
@@ -28,24 +29,25 @@ export default function RegisterPage() {
       message.error("Passswords do not match");
     } else {
       try {
-        const registerUser = await axios.post(
-          "http://localhost:5000/user/register",
-          {
-            first_name,
-            last_name,
-            username,
-            email,
-            password,
-          }
-        );
+        setLoading(true);
+        const registerUser = await axios.post(`${BaseAPI}/user/register`, {
+          first_name,
+          last_name,
+          username,
+          email,
+          password,
+        });
         const response = registerUser;
         message.success("Registration successful");
         setTimeout(() => {
           router.push("/login");
+          setLoading(false);
         }, 1000);
         console.log(response);
-      } catch (e) {
-        message.error("Error in registration, try again");
+      } catch (error: any) {
+        const errorMessage = error.response.data.message;
+        message.error(errorMessage);
+        setLoading(false);
       }
     }
   };

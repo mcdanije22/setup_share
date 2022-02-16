@@ -64,13 +64,12 @@ userRouter.post("/register", (req: express.Request, res: express.Response) => {
         const data = await createUser;
         res.send({ message: "user registered" });
       } catch (error) {
-        console.log(error);
         if (error.constraint === "users_email_unique") {
-          res.send({ message: "email already has an account" });
+          res.status(400).send({ message: "email already has an account" });
         } else if (error.constraint === "users_username_unique") {
-          res.send({ message: "username already taken" });
+          res.status(400).send({ message: "username already taken" });
         } else {
-          res.send({ message: error.detail });
+          res.status(400).send({ message: "Error in registration, try again" });
         }
       }
     })();
@@ -134,7 +133,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
           console.log("success");
           logUserIn();
         } else {
-          return res.status(400).json({ error: "Incorrect password!" });
+          return res.status(400).send({ message: "Incorrect password!" });
         }
       });
     }
@@ -167,7 +166,7 @@ userRouter.get(
         );
       res.send({ getUserInfo });
     } catch (e) {
-      res.status(400).send("Not Logged in");
+      res.status(400).send({ message: "Not Logged in" });
     }
   }
 );

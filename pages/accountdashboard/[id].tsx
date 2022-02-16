@@ -10,6 +10,7 @@ import {
   Switch,
 } from "antd";
 import { GetServerSideProps } from "next";
+import { BaseAPI } from "../../utils/constants/common";
 import axios from "axios";
 import layoutStyles from "../../components/Layout/layout.module.scss";
 
@@ -20,7 +21,7 @@ export default function AccountDashboard(props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
-  const response = await axios.get(`${process.env.BASE_API}/setup/${id}`);
+  const response = await axios.get(`${BaseAPI}/setup/${id}`);
   const setUpPageData = await response.data;
   return {
     props: setUpPageData,

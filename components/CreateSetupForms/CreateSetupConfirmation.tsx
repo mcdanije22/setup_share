@@ -17,6 +17,7 @@ import {
   Divider,
   Collapse,
 } from "antd";
+import { BaseAPI } from "../../utils/constants/common";
 import {
   ArrowRightOutlined,
   ArrowLeftOutlined,
@@ -32,6 +33,7 @@ interface Props {
   currentStep: number;
   stepTwoForm: any;
   availImagePositions: Array<string>;
+  onLoadScreenType: string;
 }
 interface StepOne {
   title: string;
@@ -111,7 +113,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const openSubmitModal = () => {
     setSubmitModalStatus(true);
   };
-  const addImagePositionNumber = (position) => {
+  const addImagePositionNumber = (position: string) => {
     if (position === "Left") {
       return 0;
     } else if (position === "Main") {
@@ -162,10 +164,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       createdScreenType: onLoadScreenType,
     };
     try {
-      const submitRoom = await axios.post(
-        "http://localhost:5000/setup/create",
-        roomData
-      );
+      const submitRoom = await axios.post(`${BaseAPI}/setup/create`, roomData);
       const response = submitRoom;
       setSubmissionSetup_id(response.data.setup_id);
       setDataSubmitStatus(true);

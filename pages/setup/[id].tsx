@@ -8,6 +8,7 @@ import {
   LaptopWidth,
   LaptopHeight,
 } from "../../utils/constants/screenSize";
+import { BaseAPI } from "../../utils/constants/common";
 import axios from "axios";
 import {
   Row,
@@ -20,7 +21,6 @@ import {
   Switch,
 } from "antd";
 import { GetServerSideProps } from "next";
-import Router from "next/router";
 import { LeftOutlined, RightOutlined, HeartTwoTone } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 import layoutStyles from "../../components/Layout/layout.module.scss";
@@ -470,7 +470,7 @@ export default function SetupPage(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   try {
-    const response = await axios.get(`${process.env.BASE_API}/setup/${id}`);
+    const response = await axios.get(`${BaseAPI}/setup/${id}`);
     const setUpPageData = await response.data;
     return {
       props: setUpPageData,
