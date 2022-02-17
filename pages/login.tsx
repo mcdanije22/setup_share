@@ -74,13 +74,12 @@ export default function LoginPage() {
             <Text>To Continue</Text>
           </div>
           <Form
+            labelCol={{ span: 24 }}
             name="login"
-            initialValues={{ remember: true }}
             onFinish={userLogin}
             // onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              labelCol={{ span: 24 }}
               label="Email"
               name="email"
               rules={[
@@ -93,7 +92,6 @@ export default function LoginPage() {
               <Input />
             </Form.Item>
             <Form.Item
-              labelCol={{ span: 24 }}
               label="Password"
               name="password"
               rules={[

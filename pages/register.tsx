@@ -1,22 +1,26 @@
 import { useState } from "react";
-import { Row, Col, Form, Input, Button, message } from "antd";
+import { Row, Col, Form, Input, Button, message, Typography } from "antd";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../utils/constants/common";
+import styles from "../pageStyles/register.module.scss";
+
+const { Title, Text } = Typography;
+
+interface User {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+  confrim_password: string;
+}
 
 export default function RegisterPage() {
-  interface User {
-    first_name: string;
-    last_name: string;
-    username: string;
-    email: string;
-    password: string;
-    confrim_password: string;
-  }
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const userRegistration = async (values: User) => {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
     const {
       first_name,
       last_name,
@@ -52,12 +56,24 @@ export default function RegisterPage() {
     }
   };
   return (
-    <div id="container">
+    <div id={styles.registerPageContainer}>
       <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
-        <Col xs={{ span: 20 }} sm={{ span: 12 }}>
+        <Col
+          xs={{ span: 20 }}
+          md={{ span: 18 }}
+          lg={{ span: 12 }}
+          xl={{ span: 8 }}
+          id={styles.formWindow}
+        >
+          <div style={{ textAlign: "center" }}>
+            <Title level={2}>ShareStation</Title>
+            <Title level={3}>Sign In</Title>
+            <Text>To Continue</Text>
+          </div>
           <Form
             name="register"
             onFinish={userRegistration}
+            labelCol={{ span: 24 }}
             // onFinishFailed={onFinishFailed}
           >
             <Form.Item
@@ -129,7 +145,14 @@ export default function RegisterPage() {
               <Input.Password />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                size="large"
+                shape="round"
+                htmlType="submit"
+                style={{ width: "100%", marginTop: ".5rem" }}
+                loading={loading}
+              >
                 Submit
               </Button>
             </Form.Item>
