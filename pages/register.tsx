@@ -43,8 +43,8 @@ export default function RegisterPage() {
         });
         const response = registerUser;
         message.success("Registration successful");
-        setTimeout(() => {
-          router.push("/login");
+        setTimeout(async () => {
+          await router.push("/login");
           setLoading(false);
         }, 1000);
         console.log(response);

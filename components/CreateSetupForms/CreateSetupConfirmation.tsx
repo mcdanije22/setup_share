@@ -17,6 +17,7 @@ import {
   Divider,
   Collapse,
 } from "antd";
+import { useRouter } from "next/router";
 import { BaseAPI } from "../../utils/constants/common";
 import {
   ArrowRightOutlined,
@@ -58,6 +59,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
 }) => {
   const { Title, Text } = Typography;
   const { Panel } = Collapse;
+  const router = useRouter();
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState([]);
@@ -164,15 +166,22 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       createdScreenType: onLoadScreenType,
     };
     try {
-      const submitRoom = await axios.post(`${BaseAPI}/setup/create`, roomData);
+      const submitRoom = await axios.post(`${BaseAPI}/setup/create`, roomData, {
+        withCredentials: true,
+      });
       const response = submitRoom;
       setSubmissionSetup_id(response.data.setup_id);
       setDataSubmitStatus(true);
-      handleSubmitModalCancel();
-    } catch (e) {
-      message.error("Failed to add setup, try again");
-      console.log(e);
+    } catch (error: any) {
+      const errorMessage = error.response.data.message;
+      message.error(errorMessage);
+      if (error.response.status) {
+        setTimeout(async () => {
+          await router.push("/login");
+        }, 1000);
+      }
     }
+    handleSubmitModalCancel();
     setLoading(false);
   };
   console.log({ s1: stepOneForm, s2: stepTwoForm, s3: stepThreeForm });

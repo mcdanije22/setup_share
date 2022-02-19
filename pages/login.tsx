@@ -41,8 +41,8 @@ export default function LoginPage() {
       );
       const response = getUser;
       message.success("Logged in successfully");
-      setTimeout(() => {
-        router.push("/");
+      setTimeout(async () => {
+        await router.push("/");
         setLoading(false);
       }, 1000);
     } catch (error: any) {
@@ -114,7 +114,7 @@ export default function LoginPage() {
             </Form.Item>
           </Form>
         </Col>
-        {/* <Button onClick={test}>test</Button> */}
+        <Button onClick={test}>test</Button>
       </Row>
     </div>
   );

@@ -44,7 +44,7 @@ export default function CreateRoomPage() {
     "Left",
     "Right",
   ]);
-  const [onLoadScreenType, setOnLoadScreenType] = useState();
+  const [onLoadScreenType, setOnLoadScreenType] = useState<string>("");
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
