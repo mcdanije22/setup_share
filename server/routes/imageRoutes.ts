@@ -9,6 +9,12 @@ const upload = multer({ dest: "uploads/" });
 
 const imageRouter = Router();
 
+interface Token {
+  data: string;
+  iat: number;
+  exp: number;
+}
+
 imageRouter.post(
   "/upload",
   upload.single("image-file"),

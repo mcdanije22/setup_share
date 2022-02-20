@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../services/dbConnection";
 import cookieParser from "cookie-parser";
+import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 
 express().use(cookieParser());
 
@@ -28,23 +29,27 @@ interface passwordHash {
   password: string;
 }
 
-userRouter.get("/test", (req: express.Request, res: express.Response) => {
-  if (req.headers.cookie) {
-    //route to test cookie access and jwt token verify
-    const cookie = req.headers.cookie.replace("token=", "");
+userRouter.get(
+  "/test",
+  checkAPIAuthMiddleware,
+  (req: express.Request, res: express.Response) => {
+    res.send({ message: "test middleware" });
+  }
+);
+
+userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
+  const { cookie } = req.body;
+  if (cookie) {
     jwt.verify(cookie, "secret", function (err, decoded: Token) {
       if (decoded) {
-        console.log("good token");
-        res.send({ message: "good token" });
+        return res.send(true);
       } else {
         //bycrypt compare fails(false) has does not equal password entered
-        console.log("bad token");
-        res.send({ message: "bad token" });
+        return res.status(401).send(false);
       }
     });
   } else {
-    console.log("need to re-verify log in and obtain cookie");
-    res.send({ message: 'need to re-verify log in and obtain cookie"' });
+    return res.status(401).send(false);
   }
 });
 
@@ -130,7 +135,6 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
       const hashedPassword = await dbHashPassword[0].password;
       bcrypt.compare(password, hashedPassword, function (err, result: boolean) {
         if (result) {
-          console.log("success");
           logUserIn();
         } else {
           return res.status(400).send({ message: "Incorrect password!" });

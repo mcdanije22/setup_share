@@ -52,11 +52,15 @@ export default function LoginPage() {
     }
   };
   const test = async () => {
-    const getTest = await axios.get(`${BaseAPI}/user/test`, {
-      withCredentials: true,
-    });
-    const data = getTest;
-    console.log(data);
+    try {
+      const getTest = await axios.get(`${BaseAPI}/user/test`, {
+        withCredentials: true,
+      });
+      const data = getTest;
+      console.log(data);
+    } catch (error: any) {
+      console.log(error.response.data.message);
+    }
   };
   return (
     <div id={styles.loginPageContainer}>

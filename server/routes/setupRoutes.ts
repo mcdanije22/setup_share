@@ -1,10 +1,6 @@
 import express, { Router } from "express";
 import db from "../services/dbConnection";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
-
-express().use(cookieParser());
+import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 
 const setupRoutes = Router();
 
@@ -14,112 +10,52 @@ interface Token {
   exp: number;
 }
 
-const test = async (req, res) => {
-  try {
-    const { title, setupType, description, images, createdScreenType } =
-      req.body;
-    const insertResult = await db("setups")
-      .insert({
-        // user_id: "placeholder",
-        setup_title: title,
-        setup_description: description,
-        setup_type: setupType,
-        created_screen_type: createdScreenType,
-      })
-      .returning("setup_id");
-    const mapImages = await images.map(async (image, i) => {
-      const insertedImage = await db("images")
-        .insert({
-          // user_id: "placeholder",
-          setup_id: insertResult[0],
-          image_url: image.link,
-          aws_key: image.key,
-          image_position: image.imagePosition,
-          image_position_number: image.imagePositionNumber,
-        })
-        .returning("image_id");
-      if (image.areas !== 0) {
-        const mapImageItems = await image.areas.map(async (item, i) => {
-          const insertedItem = await db("image_items").insert({
-            // user_id: "placeholder",
-            setup_id: insertResult[0],
-            image_id: insertedImage[0],
-            item_name: item.name,
-            item_url: item.url,
-            coords_list: item.coords,
-          });
-        });
-      }
-    });
-    res.send({ setup_id: insertResult[0] });
-  } catch (e) {
-    console.log(e);
-    return res
-      .status(400)
-      .send({ message: "Setup failed to submit, please try again" });
-  }
-};
-
 setupRoutes.post(
   "/create",
+  checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
-    if (req.headers.cookie) {
-      //route to test cookie access and jwt token verify
-      const cookie = req.headers.cookie.replace("token=", "");
-      jwt.verify(cookie, "secret", function (err, decoded: Token) {
-        if (decoded) {
-          console.log("good token");
-          test(req, res);
-        } else {
-          //bycrypt compare fails(false) has does not equal password entered
-          console.log("bad token");
-          res.status(401).send({ message: "Need to log back in" });
+    try {
+      const { title, setupType, description, images, createdScreenType } =
+        req.body;
+      const insertResult = await db("setups")
+        .insert({
+          // user_id: "placeholder",
+          setup_title: title,
+          setup_description: description,
+          setup_type: setupType,
+          created_screen_type: createdScreenType,
+        })
+        .returning("setup_id");
+      const mapImages = await images.map(async (image, i) => {
+        const insertedImage = await db("images")
+          .insert({
+            // user_id: "placeholder",
+            setup_id: insertResult[0],
+            image_url: image.link,
+            aws_key: image.key,
+            image_position: image.imagePosition,
+            image_position_number: image.imagePositionNumber,
+          })
+          .returning("image_id");
+        if (image.areas !== 0) {
+          const mapImageItems = await image.areas.map(async (item, i) => {
+            const insertedItem = await db("image_items").insert({
+              // user_id: "placeholder",
+              setup_id: insertResult[0],
+              image_id: insertedImage[0],
+              item_name: item.name,
+              item_url: item.url,
+              coords_list: item.coords,
+            });
+          });
         }
       });
-    } else {
-      res.status(401).send({ message: "Need to log back in" });
+      res.send({ setup_id: insertResult[0] });
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ message: "Setup failed to submit, please try again" });
     }
-    //   try {
-    //     const { title, setupType, description, images, createdScreenType } =
-    //       req.body;
-    //     const insertResult = await db("setups")
-    //       .insert({
-    //         // user_id: "placeholder",
-    //         setup_title: title,
-    //         setup_description: description,
-    //         setup_type: setupType,
-    //         created_screen_type: createdScreenType,
-    //       })
-    //       .returning("setup_id");
-    //     const mapImages = await images.map(async (image, i) => {
-    //       const insertedImage = await db("images")
-    //         .insert({
-    //           // user_id: "placeholder",
-    //           setup_id: insertResult[0],
-    //           image_url: image.link,
-    //           aws_key: image.key,
-    //           image_position: image.imagePosition,
-    //           image_position_number: image.imagePositionNumber,
-    //         })
-    //         .returning("image_id");
-    //       if (image.areas !== 0) {
-    //         const mapImageItems = await image.areas.map(async (item, i) => {
-    //           const insertedItem = await db("image_items").insert({
-    //             // user_id: "placeholder",
-    //             setup_id: insertResult[0],
-    //             image_id: insertedImage[0],
-    //             item_name: item.name,
-    //             item_url: item.url,
-    //             coords_list: item.coords,
-    //           });
-    //         });
-    //       }
-    //     });
-    //     res.send({ setup_id: insertResult[0] });
-    //   } catch (e) {
-    //     console.log(e);
-    //     return res.status(400).send({ message: "Setup failed to submit" });
-    //   }
   }
 );
 setupRoutes.get("/:id", async (req: express.Request, res: express.Response) => {

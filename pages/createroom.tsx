@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  PageHeader,
-  Typography,
-  Space,
-} from "antd";
+import { Row, Col, Typography } from "antd";
+import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 import Layout from "../components/Layout/Layout";
 import CreateSetupStepOneForm from "../components/CreateSetupForms/CreateSetupStepOneForm";
 import CreateSetupStepTwoForm from "../components/CreateSetupForms/CreateSetupStepTwoForm";
@@ -17,6 +9,7 @@ import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetup
 import CreateSetupConfirmation from "../components/CreateSetupForms/CreateSetupConfirmation";
 import styles from "../components/CreateSetupForms/createRoomForms.module.scss";
 import { useMediaQuery } from "react-responsive";
+import { authCheck } from "../utils/helperFunctions/pageAuthCheck";
 
 const { Title } = Typography;
 
@@ -27,6 +20,8 @@ interface StepOne {
 }
 
 export default function CreateRoomPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [stepOneForm, setStepOneForm] = useState<StepOne>({
     title: "",
     description: "",
@@ -172,3 +167,7 @@ export default function CreateRoomPage() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return authCheck(context);
+};
