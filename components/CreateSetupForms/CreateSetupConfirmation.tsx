@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import axios from "axios";
 import {
@@ -17,6 +17,7 @@ import {
   Divider,
   Collapse,
 } from "antd";
+import { UserContext } from "../../utils/context/userContext";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../../utils/constants/common";
 import {
@@ -61,6 +62,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
   const { Panel } = Collapse;
   const router = useRouter();
 
+  const { currentUser } = useContext<any>(UserContext);
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [previewImages, setPreviewImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -159,6 +161,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       }
     });
     const roomData = {
+      userId: currentUser.user_id,
       title: stepOneForm.title,
       description: stepOneForm.description,
       setupType: stepOneForm.setupType,

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../utils/context/userContext";
 import { Row, Col, Typography } from "antd";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
@@ -9,7 +10,8 @@ import CreateSetupStepThreeForm from "../components/CreateSetupForms/CreateSetup
 import CreateSetupConfirmation from "../components/CreateSetupForms/CreateSetupConfirmation";
 import styles from "../components/CreateSetupForms/createRoomForms.module.scss";
 import { useMediaQuery } from "react-responsive";
-import { authCheck } from "../utils/helperFunctions/pageAuthCheck";
+import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
+import { UserContextRenew } from "../utils/helperFunctions/userContextRenew";
 
 const { Title } = Typography;
 
@@ -20,6 +22,7 @@ interface StepOne {
 }
 
 export default function CreateRoomPage() {
+  const { currentUser, setUser } = useContext<any>(UserContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [stepOneForm, setStepOneForm] = useState<StepOne>({
@@ -43,6 +46,10 @@ export default function CreateRoomPage() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
+
+  // useEffect(() => {
+  //   UserContextRenew();
+  // }, []);
 
   useEffect(() => {
     if (isMobile) {
@@ -77,6 +84,7 @@ export default function CreateRoomPage() {
     s2: stepTwoForm,
     s3: stepThreeForm,
   });
+  console.log(currentUser);
   return (
     <Layout title="Create Setup">
       <div id={styles.createRoomContainer}>
@@ -169,5 +177,5 @@ export default function CreateRoomPage() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  return authCheck(context);
+  return pageAuthCheck(context);
 };

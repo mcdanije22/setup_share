@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, Dispatch, SetStateAction } from "react";
 import {
   Row,
   Col,
@@ -14,6 +14,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/login.module.scss";
+import { UserContext } from "../utils/context/userContext";
 
 const { Title, Text } = Typography;
 
@@ -23,6 +24,7 @@ interface User {
 }
 
 export default function LoginPage() {
+  const { currentUser, setUser } = useContext<any>(UserContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const userLogin = async (values: User) => {
@@ -40,6 +42,7 @@ export default function LoginPage() {
         }
       );
       const response = getUser;
+      setUser(getUser.data.user);
       message.success("Logged in successfully");
       setTimeout(async () => {
         await router.push("/");

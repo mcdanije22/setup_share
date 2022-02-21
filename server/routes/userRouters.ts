@@ -53,6 +53,27 @@ userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
   }
 });
 
+userRouter.get(
+  "/usercontext",
+  checkAPIAuthMiddleware,
+  (req: express.Request, res: express.Response) => {
+    const logUserIn = async () => {
+      const user = await db("users")
+        .select(
+          "user_id",
+          "email",
+          "username",
+          "first_name",
+          "last_name",
+          "user_created_date",
+          "subscription_exp_date"
+        )
+        .where("email", res.locals.user.email);
+      res.send({ user: user[0] });
+    };
+  }
+);
+
 userRouter.post("/register", (req: express.Request, res: express.Response) => {
   const saltRounds = 10;
   const { username, email, first_name, last_name }: RegisterUser = req.body;
@@ -122,7 +143,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
         "subscription_exp_date"
       )
       .where("email", email);
-    createJWTToken(user[0].userID);
+    createJWTToken(user[0].user_id);
     res.send({ user: user[0] });
   };
 

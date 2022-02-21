@@ -1,12 +1,15 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Upload, message, Form } from "antd";
 import { ControlFilled, InboxOutlined } from "@ant-design/icons";
 import axios from "axios";
 import CanvasImg from "../components/CanvasImg";
+import { UserContext } from "../utils/context/userContext";
+
 export default function Home() {
   const [imageList, setFileList] = useState([]);
   const [isLoading, setLoadingStatus] = useState(false);
+  const { currentUser, setUser } = useContext<any>(UserContext);
 
   const { Dragger } = Upload;
 
@@ -35,6 +38,7 @@ export default function Home() {
   //   //likely wont need this list tracking, will look to have custom preview images and single uploads
   //   // setFileList([...imageList, values.imageFile.file.originFileObj]);
   // };
+  console.log(currentUser);
   const upload = async (file) => {
     const data = new FormData();
     data.append("image-file", file);

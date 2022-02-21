@@ -1,8 +1,7 @@
 import axios from "axios";
 import { BaseAPI } from "../constants/common";
 
-export const authCheck = async (context: any) => {
-  console.log(context);
+export const pageAuthCheck = async (context: any) => {
   try {
     const cookie = context.req.headers.cookie.replace("token=", "");
     const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });

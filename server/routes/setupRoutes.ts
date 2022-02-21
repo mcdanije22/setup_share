@@ -14,12 +14,21 @@ setupRoutes.post(
   "/create",
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
+    if (res.locals.user !== req.body.userId) {
+      return res.status(401).send({ message: "Need to log in" });
+    }
     try {
-      const { title, setupType, description, images, createdScreenType } =
-        req.body;
+      const {
+        title,
+        setupType,
+        description,
+        images,
+        createdScreenType,
+        userId,
+      } = req.body;
       const insertResult = await db("setups")
         .insert({
-          // user_id: "placeholder",
+          user_id: userId,
           setup_title: title,
           setup_description: description,
           setup_type: setupType,
@@ -29,7 +38,7 @@ setupRoutes.post(
       const mapImages = await images.map(async (image, i) => {
         const insertedImage = await db("images")
           .insert({
-            // user_id: "placeholder",
+            user_id: userId,
             setup_id: insertResult[0],
             image_url: image.link,
             aws_key: image.key,
@@ -40,7 +49,7 @@ setupRoutes.post(
         if (image.areas !== 0) {
           const mapImageItems = await image.areas.map(async (item, i) => {
             const insertedItem = await db("image_items").insert({
-              // user_id: "placeholder",
+              user_id: userId,
               setup_id: insertResult[0],
               image_id: insertedImage[0],
               item_name: item.name,
