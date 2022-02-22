@@ -1,4 +1,10 @@
-import { useState, useContext, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 import {
   Row,
   Col,
@@ -11,10 +17,12 @@ import {
   Typography,
 } from "antd";
 import axios from "axios";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/login.module.scss";
 import { UserContext } from "../utils/context/userContext";
+import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
 
 const { Title, Text } = Typography;
 
@@ -27,6 +35,18 @@ export default function LoginPage() {
   const { currentUser, setUser } = useContext<any>(UserContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // contextCheck();
+  }, []);
+
+  const contextCheck = () => {
+    console.log(currentUser);
+    if (!currentUser) {
+      router.push("/");
+    }
+  };
+
   const userLogin = async (values: User) => {
     const { email, password } = values;
     setLoading(true);
@@ -126,3 +146,18 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  try {
+    const response = await axios.get(`${BaseAPI}/user/logincheck`);
+    const data = await response.data;
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  } catch (e) {
+    return { props: {} };
+  }
+};

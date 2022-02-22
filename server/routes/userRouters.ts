@@ -56,8 +56,9 @@ userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
 userRouter.get(
   "/usercontext",
   checkAPIAuthMiddleware,
-  (req: express.Request, res: express.Response) => {
-    const logUserIn = async () => {
+  async (req: express.Request, res: express.Response) => {
+    if (res.locals.user) {
+      const tokenEmail = res.locals.user.email;
       const user = await db("users")
         .select(
           "user_id",
@@ -68,9 +69,24 @@ userRouter.get(
           "user_created_date",
           "subscription_exp_date"
         )
-        .where("email", res.locals.user.email);
+        .where("email", tokenEmail);
       res.send({ user: user[0] });
-    };
+    } else {
+      res.status(400).send({ message: "Need to log in" });
+    }
+  }
+);
+
+userRouter.get(
+  "/logincheck",
+  checkAPIAuthMiddleware,
+  async (req: express.Request, res: express.Response) => {
+    console.log("test");
+    if (res.locals.user) {
+      res.send(true);
+    } else {
+      res.status(401).send(false);
+    }
   }
 );
 
@@ -143,7 +159,7 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
         "subscription_exp_date"
       )
       .where("email", email);
-    createJWTToken(user[0].user_id);
+    createJWTToken(user[0]);
     res.send({ user: user[0] });
   };
 

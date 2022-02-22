@@ -12,6 +12,8 @@ import styles from "../components/CreateSetupForms/createRoomForms.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
 import { UserContextRenew } from "../utils/helperFunctions/userContextRenew";
+import { BaseAPI } from "../utils/constants/common";
+import axios from "axios";
 
 const { Title } = Typography;
 
@@ -47,9 +49,13 @@ export default function CreateRoomPage() {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
 
-  // useEffect(() => {
-  //   UserContextRenew();
-  // }, []);
+  useEffect(() => {
+    // const cookieUser = UserContextRenew();
+    // setUser(cookieUser);
+    // console.log(currentUser);
+    //TODO need to figure out logic to set context on reload if cookie present
+    reload();
+  }, []);
 
   useEffect(() => {
     if (isMobile) {
@@ -61,6 +67,23 @@ export default function CreateRoomPage() {
     }
   }, []);
 
+  const reload = async () => {
+    try {
+      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
+        withCredentials: true,
+      });
+      const userInfo = await response.data;
+      setUser(userInfo);
+    } catch (error) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+      };
+    }
+  };
+  console.log(currentUser);
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
   };
