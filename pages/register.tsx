@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Row, Col, Form, Input, Button, message, Typography } from "antd";
 import axios from "axios";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/register.module.scss";
@@ -162,3 +163,21 @@ export default function RegisterPage() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  try {
+    const cookie = context.req.headers.cookie.replace("token=", "");
+    const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
+    const data = await response.data;
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
+};

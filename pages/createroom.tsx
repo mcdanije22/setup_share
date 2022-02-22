@@ -50,11 +50,9 @@ export default function CreateRoomPage() {
   const isLaptop = useMediaQuery({ minWidth: 992 });
 
   useEffect(() => {
-    // const cookieUser = UserContextRenew();
-    // setUser(cookieUser);
-    // console.log(currentUser);
-    //TODO need to figure out logic to set context on reload if cookie present
-    reload();
+    if (!currentUser) {
+      reload();
+    }
   }, []);
 
   useEffect(() => {

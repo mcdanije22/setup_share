@@ -1,28 +1,11 @@
-import {
-  useState,
-  useContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from "react";
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  message,
-  PageHeader,
-  Typography,
-} from "antd";
+import { useState, useContext } from "react";
+import { Row, Col, Form, Input, Button, message, Typography } from "antd";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/login.module.scss";
 import { UserContext } from "../utils/context/userContext";
-import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
 
 const { Title, Text } = Typography;
 
@@ -32,20 +15,9 @@ interface User {
 }
 
 export default function LoginPage() {
-  const { currentUser, setUser } = useContext<any>(UserContext);
+  const { setUser } = useContext<any>(UserContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    // contextCheck();
-  }, []);
-
-  const contextCheck = () => {
-    console.log(currentUser);
-    if (!currentUser) {
-      router.push("/");
-    }
-  };
 
   const userLogin = async (values: User) => {
     const { email, password } = values;
@@ -141,15 +113,15 @@ export default function LoginPage() {
             </Form.Item>
           </Form>
         </Col>
-        <Button onClick={test}>test</Button>
       </Row>
     </div>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   try {
-    const response = await axios.get(`${BaseAPI}/user/logincheck`);
+    const cookie = context.req.headers.cookie.replace("token=", "");
+    const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
     const data = await response.data;
     return {
       redirect: {
@@ -157,7 +129,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         destination: "/",
       },
     };
-  } catch (e) {
-    return { props: {} };
+  } catch (error) {
+    return {
+      props: {},
+    };
   }
 };

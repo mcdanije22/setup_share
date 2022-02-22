@@ -77,19 +77,6 @@ userRouter.get(
   }
 );
 
-userRouter.get(
-  "/logincheck",
-  checkAPIAuthMiddleware,
-  async (req: express.Request, res: express.Response) => {
-    console.log("test");
-    if (res.locals.user) {
-      res.send(true);
-    } else {
-      res.status(401).send(false);
-    }
-  }
-);
-
 userRouter.post("/register", (req: express.Request, res: express.Response) => {
   const saltRounds = 10;
   const { username, email, first_name, last_name }: RegisterUser = req.body;

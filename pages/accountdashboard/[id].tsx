@@ -22,12 +22,4 @@ export default function AccountDashboard(props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
-  return pageAuthCheck(context);
-  //will likely have to change this as it loads data. eg. try to load data->not authd->redirect.
-  //mauy have to just do in api call instead
-  // const response = await axios.get(`${BaseAPI}/setup/${id}`);
-  // const setUpPageData = await response.data;
-  // return {
-  //   props: setUpPageData,
-  // };
 };
