@@ -1,4 +1,5 @@
 import Layout from "../../components/Layout/Layout";
+import DashboardLayout from "../../components/Layout/dashboardLayout";
 import {
   Row,
   Col,
@@ -15,11 +16,12 @@ import axios from "axios";
 import layoutStyles from "../../components/Layout/layout.module.scss";
 import { pageAuthCheck } from "../../utils/helperFunctions/pageAuthCheck";
 
-export default function AccountDashboard(props) {
+export default function Dashboard(props) {
   console.log(props);
-  return <Layout>test</Layout>;
+  return <DashboardLayout>test</DashboardLayout>;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
+  return { props: {} };
 };
