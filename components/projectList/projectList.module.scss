@@ -1,0 +1,52 @@
+$desktop: 992px;
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+$mobile: 576px;
+@mixin mobile {
+  @media (max-width: #{$mobile}) {
+    @content;
+  }
+}
+#ProjectList {
+  :global {
+    .ant-page-header,
+    .ant-page-header-ghost,
+    .ant-page-header-compact,
+    .ant-page-header-heading-title {
+      color: white;
+      padding: 0;
+      .ant-page-header,
+      .ant-divider-vertical {
+        margin: 0;
+      }
+      .ant-page-header-heading-extra > * {
+        margin: 0.5rem;
+      }
+    }
+    .ant-card-body {
+      padding: 16px;
+    }
+    .ant-card-meta-title,
+    .ant-card-meta-description {
+      color: white;
+    }
+    .ant-card ant-card-bordered,
+    .ant-card-hoverable {
+      width: 300px;
+      height: 150px;
+      border-radius: 1rem;
+      @include desktop {
+        width: 350px;
+        height: 200px;
+      }
+    }
+    .ant-row-start {
+      @include mobile {
+        justify-content: center;
+      }
+    }
+  }
+}

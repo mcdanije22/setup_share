@@ -17,7 +17,7 @@ const TopNavBar: React.FC = () => {
   };
 
   return (
-    <div id="landingPageContainer">
+    <div id={styles.topNavBarContainer}>
       <Drawer
         title="ShareStation"
         placement="right"
@@ -30,6 +30,7 @@ const TopNavBar: React.FC = () => {
           justify="center"
           gutter={[0, 32]}
           style={{ width: "100%", textAlign: "center" }}
+          id={styles.topNavBar}
         >
           <Col span={24}>
             <Link href="/login">

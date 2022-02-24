@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
 import styles from "./layout.module.scss";
-import TopNav from "../NavMenus/TopNav";
+import TopNavBar from "../NavMenus/TopNavBar";
 import Footer from "../Footer/Footer";
 
 type Props = {
@@ -16,7 +16,7 @@ const LayoutComponent = ({ children, title = "ShareStation" }: Props) => {
         <title>{`${title} | ShareStation`}</title>
         <link rel="icon" href="/icon.png" />
       </Head>
-      <TopNav />
+      <TopNavBar />
       <div id={styles.pageContent}>{children}</div>
       <Footer />
     </div>

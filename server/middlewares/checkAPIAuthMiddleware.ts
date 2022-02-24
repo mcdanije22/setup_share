@@ -14,7 +14,6 @@ export default function authenticateToken(req, res, next) {
     const cookie = req.headers.cookie.replace("token=", "");
     jwt.verify(cookie, "secret", function (err, decoded: Token) {
       if (decoded) {
-        console.log("decoded good");
         res.locals.user = decoded.data;
         next();
       } else {

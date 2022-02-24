@@ -13,7 +13,7 @@ import {
   Menu,
   message,
 } from "antd";
-import TopNavBar from "../NavMenus/TopNav";
+import TopNavBar from "../NavMenus/TopNavBar";
 import SideNavBar from "../NavMenus/SideNavBar";
 import {
   DashboardOutlined,
@@ -31,11 +31,7 @@ type Props = {
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const DashboardLayoutComponent = ({
-  children,
-  title = "Project Plann",
-}: Props) => {
-  const router = useRouter();
+const DashboardLayout = ({ children, title = "Project Plann" }: Props) => {
   const { Title, Text } = Typography;
   const [drawerStatus, showDrawer] = useState<boolean>(false);
   const { SubMenu } = Menu;
@@ -80,4 +76,4 @@ const DashboardLayoutComponent = ({
     </div>
   );
 };
-export default DashboardLayoutComponent;
+export default DashboardLayout;
