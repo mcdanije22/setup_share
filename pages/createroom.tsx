@@ -81,7 +81,6 @@ export default function CreateRoomPage() {
       };
     }
   };
-  console.log(currentUser);
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
   };

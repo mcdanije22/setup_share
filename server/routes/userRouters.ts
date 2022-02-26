@@ -172,14 +172,12 @@ userRouter.get(
   "/dashboard/:id",
   async (req: express.Request, res: express.Response) => {
     try {
-      const getUserInfo = await db("users")
+      const userDashboardInfo = await db("users")
         .innerJoin("setups", "setups.user_id", "users.user_id")
         .innerJoin("images", "setups.setup_id", "images.setup_id")
         .where("users.user_id", req.params.id)
         .andWhere("images.image_position", "Main")
         .select(
-          "users.user_id",
-          "users.username",
           "setups.setup_id",
           "setups.setup_title",
           "setups.setup_description",
@@ -192,7 +190,7 @@ userRouter.get(
           "images.image_position_number",
           "images.setup_id"
         );
-      res.send({ getUserInfo });
+      res.send({ userDashboardInfo });
     } catch (e) {
       res.status(400).send({ message: "Not Logged in" });
     }
