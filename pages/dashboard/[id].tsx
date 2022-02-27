@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../../utils/context/userContext";
 import styles from "../../pageStyles/dashboard.module.scss";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
@@ -23,6 +23,8 @@ interface Props {
   userDashboardInfo: Array<dashboardItem>;
 }
 interface dashboardItem {
+  user_id: string;
+  username: string;
   setup_id: string;
   setup_title: string;
   setup_description: string;
@@ -38,6 +40,7 @@ interface dashboardItem {
 export default function Dashboard(props: Props) {
   const { currentUser, setUser } = useContext<any>(UserContext);
   const { userDashboardInfo } = props;
+  const [activeSetup, setActiveSetup] = useState();
   console.log(props);
   useEffect(() => {
     if (!currentUser) {
@@ -61,6 +64,10 @@ export default function Dashboard(props: Props) {
       };
     }
   };
+  // const getactiveSetup = async (id: string) =>{
+  //   const setupId = id;
+
+  // }
   console.log(props);
   return (
     <DashboardLayout>
@@ -75,11 +82,7 @@ export default function Dashboard(props: Props) {
             </Button>,
           ]}
         />
-        <ProjectsList
-          projects={userDashboardInfo}
-          // setProjectFunction={setActiveProject}
-          // activeProject={activeProject}
-        />
+        <ProjectsList projects={userDashboardInfo} />
       </div>
     </DashboardLayout>
   );

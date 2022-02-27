@@ -10,7 +10,7 @@ $mobile: 576px;
     @content;
   }
 }
-#ProjectList {
+#analyticsContainer {
   :global {
     .ant-page-header,
     .ant-page-header-ghost,
@@ -60,6 +60,11 @@ $mobile: 576px;
     }
   }
   .cardSpacer {
-    padding: 4rem 2rem;
+    padding: 2rem;
+  }
+  .active {
+    border-bottom: 1px solid #1890ff;
+    padding-bottom: 0.5rem;
+    width: 15%;
   }
 }

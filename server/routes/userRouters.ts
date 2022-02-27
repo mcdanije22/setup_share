@@ -178,6 +178,8 @@ userRouter.get(
         .where("users.user_id", req.params.id)
         .andWhere("images.image_position", "Main")
         .select(
+          "users.user_id",
+          "users.username",
           "setups.setup_id",
           "setups.setup_title",
           "setups.setup_description",
@@ -193,6 +195,45 @@ userRouter.get(
       res.send({ userDashboardInfo });
     } catch (e) {
       res.status(400).send({ message: "Not Logged in" });
+    }
+  }
+);
+
+userRouter.get(
+  "/analytics/:id",
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const setUpInfo = await db("setups")
+        .innerJoin("users", "setups.user_id", "users.user_id")
+        .innerJoin("images", "setups.setup_id", "images.setup_id")
+        .where("setups.setup_id", req.params.id)
+        .select(
+          "setups.setup_id",
+          "setups.setup_title",
+          "setups.setup_description",
+          "setups.setup_type",
+          "setups.setup_created_date",
+          "setups.created_screen_type",
+          "images.image_id",
+          "images.image_url",
+          "images.image_position",
+          "images.image_position_number",
+          "images.setup_id",
+          "users.user_id",
+          "users.username"
+        );
+      const imageItems = await db("image_items")
+        .where("image_items.setup_id", req.params.id)
+        .select(
+          "image_items.item_id",
+          "image_items.image_id",
+          "image_items.coords_list",
+          "image_items.item_name",
+          "image_items.item_url"
+        );
+      res.send({ setUpInfo, imageItems });
+    } catch (e) {
+      res.status(404).send("Setup does not exist");
     }
   }
 );

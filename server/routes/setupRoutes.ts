@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import db from "../services/dbConnection";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 
-const setupRoutes = Router();
+const setupRouter = Router();
 
 interface Token {
   data: string;
@@ -10,7 +10,7 @@ interface Token {
   exp: number;
 }
 
-setupRoutes.post(
+setupRouter.post(
   "/create",
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
@@ -67,7 +67,7 @@ setupRoutes.post(
     }
   }
 );
-setupRoutes.get("/:id", async (req: express.Request, res: express.Response) => {
+setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
   try {
     const getSetUpInfo = await db("setups")
       .innerJoin("users", "setups.user_id", "users.user_id")
@@ -103,4 +103,4 @@ setupRoutes.get("/:id", async (req: express.Request, res: express.Response) => {
   }
 });
 
-export default setupRoutes;
+export default setupRouter;
