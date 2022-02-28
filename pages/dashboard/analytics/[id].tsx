@@ -19,6 +19,7 @@ import {
   Table,
   Space,
 } from "antd";
+import { useEffect, useState } from "react";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -53,6 +54,30 @@ interface Item {
 
 export default function AnalyticsPage(props: Props) {
   const { setUpInfo, imageItems } = props;
+  const [selectedImageItems, setSelectedImageItems] = useState<Array<Item>>();
+  const [activeSelection, setActiveSelection] = useState<string>();
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!activeSelection) {
+      setActiveSelection(setUpInfo[0].image_id);
+    }
+  }, []);
+
+  useEffect(() => {
+    filterActiveImageSelection();
+  }, [activeSelection]);
+
+  const filterActiveImageSelection = async () => {
+    setLoading(true);
+    const orgList = imageItems;
+    const newList = orgList.filter((item) => {
+      return item.image_id === activeSelection;
+    });
+    setSelectedImageItems(newList);
+    setLoading(false);
+  };
+
   const data = [
     {
       key: "1",
@@ -77,12 +102,24 @@ export default function AnalyticsPage(props: Props) {
     },
   ];
 
+  const tableData = selectedImageItems?.map((item, i) => {
+    return {
+      key: i,
+      ItemName: item.item_name,
+      affilateLink: item.item_url,
+    };
+  });
+
   const columns = [
     {
-      title: "Item",
-      dataIndex: "name",
+      title: "Item Name",
+      dataIndex: "ItemName",
       key: "name",
-      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Affilate Link",
+      dataIndex: "affilateLink",
+      key: "link",
     },
     {
       title: "Clicks",
@@ -90,41 +127,16 @@ export default function AnalyticsPage(props: Props) {
       key: "age",
     },
     {
-      title: "Affilate",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (tags) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
       title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
           <a>Delete</a>
         </Space>
       ),
     },
   ];
+
   console.log(props);
   return (
     <DashboardLayout>
@@ -133,13 +145,13 @@ export default function AnalyticsPage(props: Props) {
           style={{ padding: "1rem 0" }}
           title={`${setUpInfo[0].setup_title} Analytics`}
         />
-        <div id={styles.ProjectList}>
+        <div>
           <Row gutter={[48, 28]} justify="start">
             {setUpInfo
               .sort((a, b) =>
                 a.image_position_number > b.image_position_number ? 1 : -1
               )
-              .map((project, i) => {
+              .map((setupImage, i) => {
                 return (
                   <div key={i}>
                     <Col
@@ -151,15 +163,25 @@ export default function AnalyticsPage(props: Props) {
                       <Card
                         hoverable
                         cover={
-                          <img alt="setup photo" src={project.image_url} />
+                          <img alt="setup photo" src={setupImage.image_url} />
                         }
+                        onClick={() => {
+                          console.log(setupImage.setup_id);
+                          setActiveSelection(setupImage.image_id);
+                        }}
                       >
                         <Meta
                           title={[
-                            //If setup is selected put classname as active
-                            //Todo, track active selection and filter items based off selection
-                            <Title level={5} className={styles.active}>
-                              {project.image_position} Image
+                            <Title
+                              level={5}
+                              className={
+                                setupImage.image_id === activeSelection
+                                  ? styles.active
+                                  : ""
+                              }
+                              key="1"
+                            >
+                              {setupImage.image_position} Image
                             </Title>,
                           ]}
                         />
@@ -171,9 +193,10 @@ export default function AnalyticsPage(props: Props) {
           </Row>
         </div>
         <Table
-          style={{ marginTop: "8rem" }}
+          style={{ marginTop: "6rem" }}
           columns={columns}
-          dataSource={data}
+          dataSource={tableData}
+          loading={isLoading}
         />
       </div>
     </DashboardLayout>
@@ -187,9 +210,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
       const response = await axios.get(`${BaseAPI}/user/analytics/${id}`);
       const setupAnalyticsInfo = await response.data;
-      return {
-        props: setupAnalyticsInfo,
-      };
+      if (setupAnalyticsInfo.setUpInfo.length === 0) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/login",
+          },
+        };
+      } else {
+        return {
+          props: setupAnalyticsInfo,
+        };
+      }
     } catch (e) {
       return {
         redirect: {

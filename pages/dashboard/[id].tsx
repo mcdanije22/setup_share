@@ -95,6 +95,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
       const response = await axios.get(`${BaseAPI}/user/dashboard/${id}`);
       const userDashboardInfo = await response.data;
+      //TODO if wrong userid provided need to redirect using cookie to correct page or to login
       return {
         props: userDashboardInfo,
       };
