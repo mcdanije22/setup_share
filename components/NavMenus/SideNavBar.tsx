@@ -1,5 +1,4 @@
 import styles from "./sideNavbar.module.scss";
-import { useState, useContext } from "react";
 import Link from "next/link";
 import { Menu } from "antd";
 import {
@@ -10,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
-const SideNavBar: React.FC = () => {
+const SideNavBar: React.FC = ({ user }: any) => {
   const router = useRouter();
   return (
     <div
@@ -40,7 +39,7 @@ const SideNavBar: React.FC = () => {
           key="1"
           icon={<DashboardOutlined />}
         >
-          <Link href="/dashboard">
+          <Link href={`/dashboard/${user?.user.user_id}`}>
             <a>Dashboard</a>
           </Link>
         </Menu.Item>
@@ -61,34 +60,6 @@ const SideNavBar: React.FC = () => {
             <a>Code Snippets</a>
           </Link>
         </Menu.Item>
-        {/* <Menu.Item
-          className={
-            router.pathname === '/databasedesign' && activeProject
-              ? 'ant-menu-item-selected'
-              : 'ant-menu-item'
-          }
-          key="5"
-          icon={<UserOutlined />}
-          disabled={activeProject === null ? true : false}
-        >
-          <Link href="/databasedesign">
-            <a>Database Design</a>
-          </Link>
-        </Menu.Item> */}
-        {/* <Menu.Item
-          className={
-            router.pathname === '/settings' && activeProject
-              ? 'ant-menu-item-selected'
-              : 'ant-menu-item'
-          }
-          key="6"
-          icon={<UserOutlined />}
-          disabled={activeProject === null ? true : false}
-        >
-          <Link href="/settings">
-            <a>Project Settings</a>
-          </Link>
-        </Menu.Item> */}
       </Menu>
     </div>
   );

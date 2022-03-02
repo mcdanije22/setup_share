@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { useRouter } from "next/router";
 import styles from "../../../pageStyles/analytics.module.scss";
 import dashboardStyles from "../../../components/Layout/DashboardLayout.module.scss";
 import DashboardLayout from "../../../components/Layout/DashboardLayout";
@@ -18,8 +20,11 @@ import {
   message,
   Table,
   Space,
+  Breadcrumb,
 } from "antd";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { UserContext } from "../../../utils/context/userContext";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -53,10 +58,47 @@ interface Item {
 }
 
 export default function AnalyticsPage(props: Props) {
+  const router = useRouter();
   const { setUpInfo, imageItems } = props;
+  const { currentUser, setUser } = useContext<any>(UserContext);
   const [selectedImageItems, setSelectedImageItems] = useState<Array<Item>>();
   const [activeSelection, setActiveSelection] = useState<string>();
   const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!currentUser) {
+      reload();
+    }
+  }, []);
+
+  useEffect(() => {
+    //need for users who tries to view someone else's information
+    // authUserCheck();
+  }, []);
+
+  const authUserCheck = () => {
+    if (currentUser?.user?.user_id !== setUpInfo[0].user_id) {
+      router.push(`/dashboard/${currentUser?.user?.user_id}`);
+    }
+  };
+  console.log("context", currentUser?.user?.user_id);
+  console.log("set", setUpInfo[0].user_id);
+  const reload = async () => {
+    try {
+      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
+        withCredentials: true,
+      });
+      const userInfo = await response.data;
+      setUser(userInfo);
+    } catch (error) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+      };
+    }
+  };
 
   useEffect(() => {
     if (!activeSelection) {
@@ -77,30 +119,6 @@ export default function AnalyticsPage(props: Props) {
     setSelectedImageItems(newList);
     setLoading(false);
   };
-
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
 
   const tableData = selectedImageItems?.map((item, i) => {
     return {
@@ -129,21 +147,35 @@ export default function AnalyticsPage(props: Props) {
     {
       title: "Action",
       key: "action",
-      render: (text, record) => (
+      render: (text: string, record: any) => (
         <Space size="middle">
-          <a>Delete</a>
+          <Button danger type="link">
+            Delete
+          </Button>
         </Space>
       ),
     },
   ];
-
-  console.log(props);
   return (
     <DashboardLayout>
       <div id={styles.analyticsContainer}>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link href={`/dashboard/${currentUser?.user.user_id}`}>
+              Dashboard
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>{setUpInfo[0].setup_title} setup</Breadcrumb.Item>
+        </Breadcrumb>
         <PageHeader
           style={{ padding: "1rem 0" }}
           title={`${setUpInfo[0].setup_title} Analytics`}
+          subTitle="10 Views"
+          extra={[
+            <Button key="2" danger>
+              Delete
+            </Button>,
+          ]}
         />
         <div>
           <Row gutter={[48, 28]} justify="start">
@@ -206,6 +238,7 @@ export default function AnalyticsPage(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   const authCheck = await pageAuthCheck(context);
+  console.log(authCheck);
   if (authCheck.props?.authStatus) {
     try {
       const response = await axios.get(`${BaseAPI}/user/analytics/${id}`);
@@ -214,7 +247,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return {
           redirect: {
             permanent: false,
-            destination: "/login",
+            destination: "/404",
           },
         };
       } else {
@@ -226,7 +259,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return {
         redirect: {
           permanent: false,
-          destination: "/login",
+          destination: "/404",
         },
       };
     }

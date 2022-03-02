@@ -1,4 +1,5 @@
 import { useEffect, useContext, useState } from "react";
+import { useRouter } from "next/router";
 import { UserContext } from "../../utils/context/userContext";
 import styles from "../../pageStyles/dashboard.module.scss";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
@@ -38,15 +39,26 @@ interface dashboardItem {
 }
 
 export default function Dashboard(props: Props) {
+  const router = useRouter();
   const { currentUser, setUser } = useContext<any>(UserContext);
   const { userDashboardInfo } = props;
   const [activeSetup, setActiveSetup] = useState();
-  console.log(props);
   useEffect(() => {
     if (!currentUser) {
       reload();
     }
   }, []);
+
+  // useEffect(() => {
+  //likely need better auth check. Page loads and then redirects but is delayed and can see info
+  //   authUserCheck();
+  // }, []);
+
+  // const authUserCheck = () => {
+  //   if (currentUser?.user?.user_id !== userDashboardInfo[0].user_id) {
+  //     router.push(`/dashboard/${currentUser?.user?.user_id}`);
+  //   }
+  // };
 
   const reload = async () => {
     try {
@@ -68,7 +80,6 @@ export default function Dashboard(props: Props) {
   //   const setupId = id;
 
   // }
-  console.log(props);
   return (
     <DashboardLayout>
       <div id={styles.dashboardContainer}>

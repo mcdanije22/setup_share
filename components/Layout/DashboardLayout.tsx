@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useContext } from "react";
+import React, { ReactNode, useState, useContext, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "./dashboardlayout.module.scss";
@@ -13,6 +13,7 @@ import {
   Menu,
   message,
 } from "antd";
+import axios from "axios";
 import TopNavBar from "../NavMenus/TopNavBar";
 import SideNavBar from "../NavMenus/SideNavBar";
 import {
@@ -23,6 +24,8 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
+import { UserContext } from "../../utils/context/userContext";
+import { BaseAPI } from "../../utils/constants/common";
 
 type Props = {
   children?: ReactNode;
@@ -32,6 +35,7 @@ type Props = {
 const { Header, Footer, Sider, Content } = Layout;
 
 const DashboardLayout = ({ children, title = "Project Plann" }: Props) => {
+  const { currentUser, setUser } = useContext<any>(UserContext);
   const { Title, Text } = Typography;
   const [drawerStatus, showDrawer] = useState<boolean>(false);
   const { SubMenu } = Menu;
@@ -43,6 +47,26 @@ const DashboardLayout = ({ children, title = "Project Plann" }: Props) => {
     showDrawer(false);
   };
 
+  useEffect(() => {
+    reload();
+  }, []);
+
+  const reload = async () => {
+    try {
+      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
+        withCredentials: true,
+      });
+      const userInfo = await response.data;
+      setUser(userInfo);
+    } catch (error) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+      };
+    }
+  };
   return (
     <div id={styles.layoutcontainer}>
       <Head>
@@ -59,7 +83,7 @@ const DashboardLayout = ({ children, title = "Project Plann" }: Props) => {
               width={200}
               theme="light"
             >
-              <SideNavBar />
+              <SideNavBar user={currentUser} />
             </Sider>
           </div>
           <Layout>
