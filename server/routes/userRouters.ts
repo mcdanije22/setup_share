@@ -15,13 +15,14 @@ interface RegisterUser {
   password: string;
   first_name: string;
   last_name: string;
+  user_id: string;
 }
 interface LoginUser {
   email: string;
   password: string;
 }
 interface Token {
-  data: string;
+  data: RegisterUser;
   iat: number;
   exp: number;
 }
@@ -42,7 +43,7 @@ userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
   if (cookie) {
     jwt.verify(cookie, "secret", function (err, decoded: Token) {
       if (decoded) {
-        return res.send(true);
+        return res.send({ authd: true, user: decoded.data.user_id });
       } else {
         //bycrypt compare fails(false) has does not equal password entered
         return res.status(401).send(false);

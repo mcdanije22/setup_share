@@ -7,7 +7,7 @@ export const pageAuthCheck = async (context: any) => {
     const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
     const data = await response.data;
     return {
-      props: { authStatus: true },
+      props: { data },
     };
   } catch (error) {
     return {

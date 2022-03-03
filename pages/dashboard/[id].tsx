@@ -49,17 +49,6 @@ export default function Dashboard(props: Props) {
     }
   }, []);
 
-  // useEffect(() => {
-  //likely need better auth check. Page loads and then redirects but is delayed and can see info
-  //   authUserCheck();
-  // }, []);
-
-  // const authUserCheck = () => {
-  //   if (currentUser?.user?.user_id !== userDashboardInfo[0].user_id) {
-  //     router.push(`/dashboard/${currentUser?.user?.user_id}`);
-  //   }
-  // };
-
   const reload = async () => {
     try {
       const response = await axios.get(`${BaseAPI}/user/usercontext`, {
@@ -76,10 +65,7 @@ export default function Dashboard(props: Props) {
       };
     }
   };
-  // const getactiveSetup = async (id: string) =>{
-  //   const setupId = id;
 
-  // }
   return (
     <DashboardLayout>
       <div id={styles.dashboardContainer}>
@@ -102,11 +88,19 @@ export default function Dashboard(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   const authCheck = await pageAuthCheck(context);
-  if (authCheck.props?.authStatus) {
+  console.log(authCheck);
+  if (authCheck.props?.data.authd) {
+    if (authCheck.props.data.user !== id) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `/dashboard/${authCheck.props.data.user}`,
+        },
+      };
+    }
     try {
       const response = await axios.get(`${BaseAPI}/user/dashboard/${id}`);
       const userDashboardInfo = await response.data;
-      //TODO if wrong userid provided need to redirect using cookie to correct page or to login
       return {
         props: userDashboardInfo,
       };

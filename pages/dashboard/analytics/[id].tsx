@@ -70,6 +70,7 @@ export default function AnalyticsPage(props: Props) {
       reload();
     }
   }, []);
+  console.log(props);
 
   useEffect(() => {
     //need for users who tries to view someone else's information
@@ -238,8 +239,7 @@ export default function AnalyticsPage(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   const authCheck = await pageAuthCheck(context);
-  console.log(authCheck);
-  if (authCheck.props?.authStatus) {
+  if (authCheck.props?.data.authd) {
     try {
       const response = await axios.get(`${BaseAPI}/user/analytics/${id}`);
       const setupAnalyticsInfo = await response.data;
@@ -248,6 +248,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           redirect: {
             permanent: false,
             destination: "/404",
+          },
+        };
+      }
+      if (
+        authCheck.props.data.user !== setupAnalyticsInfo.setUpInfo[0].user_id
+      ) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: `/dashboard/${authCheck.props.data.user}`,
           },
         };
       } else {
