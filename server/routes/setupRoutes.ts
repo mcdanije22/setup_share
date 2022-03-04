@@ -103,4 +103,14 @@ setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
   }
 });
 
+setupRouter.post(
+  "/item/delete",
+  checkAPIAuthMiddleware,
+  async (req: express.Request, res: express.Response) => {
+    if (res.locals.user !== req.body.userId) {
+      return res.status(401).send({ message: "Need to log in" });
+    }
+  }
+);
+
 export default setupRouter;

@@ -1,22 +1,6 @@
-import { useState } from "react";
 import styles from "./projectList.module.scss";
-import {
-  Card,
-  Row,
-  Col,
-  Modal,
-  Button,
-  PageHeader,
-  Tag,
-  Divider,
-  Typography,
-  message,
-  Table,
-  Space,
-} from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Card, Row, Col, PageHeader, Tag, Typography } from "antd";
 import Link from "next/link";
-import axios from "axios";
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -42,7 +26,6 @@ type DashboardProps = {
 
 const ProjectsList = (props: DashboardProps) => {
   const { projects } = props;
-  console.log("test", projects);
   return (
     <div id={styles.ProjectList}>
       <Row gutter={[48, 28]} justify="start">
@@ -59,29 +42,25 @@ const ProjectsList = (props: DashboardProps) => {
                   lg={{ span: 6 }}
                   className={styles.cardSpacer}
                 >
-                  <Card
-                    hoverable
-                    cover={<img alt="Main photo" src={project.image_url} />}
-                  >
-                    <Meta
-                      title={
-                        <PageHeader
-                          title={[
-                            <div key={1}>{project.setup_title} setup</div>,
-                          ]}
-                          extra={[
-                            <DeleteOutlined
-                              key={1}
-                              onClick={() => {
-                                alert("test");
-                              }}
-                            />,
-                          ]}
-                        ></PageHeader>
-                      }
-                      description={<Tag color="blue">{project.setup_type}</Tag>}
-                    />
-                  </Card>
+                  <Link href={`/dashboard/analytics/${project.setup_id}`}>
+                    <Card
+                      hoverable
+                      cover={<img alt="Main photo" src={project.image_url} />}
+                    >
+                      <Meta
+                        title={
+                          <PageHeader
+                            title={[
+                              <div key={1}>{project.setup_title} setup</div>,
+                            ]}
+                          ></PageHeader>
+                        }
+                        description={
+                          <Tag color="blue">{project.setup_type}</Tag>
+                        }
+                      />
+                    </Card>
+                  </Link>
                 </Col>
               </div>
             );

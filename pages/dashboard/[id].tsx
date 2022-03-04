@@ -3,17 +3,8 @@ import { useRouter } from "next/router";
 import { UserContext } from "../../utils/context/userContext";
 import styles from "../../pageStyles/dashboard.module.scss";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-import {
-  Row,
-  Col,
-  Button,
-  PageHeader,
-  Typography,
-  Tabs,
-  Divider,
-  Switch,
-} from "antd";
-import { ConsoleSqlOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, PageHeader } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { GetServerSideProps } from "next";
 import { BaseAPI } from "../../utils/constants/common";
 import axios from "axios";
@@ -43,6 +34,7 @@ export default function Dashboard(props: Props) {
   const { currentUser, setUser } = useContext<any>(UserContext);
   const { userDashboardInfo } = props;
   const [activeSetup, setActiveSetup] = useState();
+
   useEffect(() => {
     if (!currentUser) {
       reload();

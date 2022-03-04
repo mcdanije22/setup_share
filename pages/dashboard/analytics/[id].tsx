@@ -14,20 +14,18 @@ import {
   Modal,
   Button,
   PageHeader,
-  Tag,
-  Divider,
   Typography,
-  message,
   Table,
   Space,
   Breadcrumb,
 } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { UserContext } from "../../../utils/context/userContext";
 
 const { Meta } = Card;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 interface Props {
   setUpInfo: Array<Setup>;
@@ -57,33 +55,28 @@ interface Item {
   item_url: string;
 }
 
+interface RowItem {
+  key: string;
+  itemName: string;
+  affilateLink: string;
+}
+
 export default function AnalyticsPage(props: Props) {
   const router = useRouter();
   const { setUpInfo, imageItems } = props;
   const { currentUser, setUser } = useContext<any>(UserContext);
   const [selectedImageItems, setSelectedImageItems] = useState<Array<Item>>();
   const [activeSelection, setActiveSelection] = useState<string>();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isModalOpen, setModalStatus] = useState<boolean>(false);
+  const [selectedItem, setItemSelection] = useState<RowItem>();
 
   useEffect(() => {
     if (!currentUser) {
       reload();
     }
   }, []);
-  console.log(props);
 
-  useEffect(() => {
-    //need for users who tries to view someone else's information
-    // authUserCheck();
-  }, []);
-
-  const authUserCheck = () => {
-    if (currentUser?.user?.user_id !== setUpInfo[0].user_id) {
-      router.push(`/dashboard/${currentUser?.user?.user_id}`);
-    }
-  };
-  console.log("context", currentUser?.user?.user_id);
-  console.log("set", setUpInfo[0].user_id);
   const reload = async () => {
     try {
       const response = await axios.get(`${BaseAPI}/user/usercontext`, {
@@ -123,8 +116,8 @@ export default function AnalyticsPage(props: Props) {
 
   const tableData = selectedImageItems?.map((item, i) => {
     return {
-      key: i,
-      ItemName: item.item_name,
+      key: item.item_id,
+      itemName: item.item_name,
       affilateLink: item.item_url,
     };
   });
@@ -132,7 +125,7 @@ export default function AnalyticsPage(props: Props) {
   const columns = [
     {
       title: "Item Name",
-      dataIndex: "ItemName",
+      dataIndex: "itemName",
       key: "name",
     },
     {
@@ -150,15 +143,68 @@ export default function AnalyticsPage(props: Props) {
       key: "action",
       render: (text: string, record: any) => (
         <Space size="middle">
-          <Button danger type="link">
+          <Button
+            danger
+            type="link"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              setSelectedItem(record);
+              handleModalOpen();
+            }}
+          >
             Delete
           </Button>
         </Space>
       ),
     },
   ];
+  const handleModalCancel = () => {
+    setModalStatus(false);
+  };
+  const handleModalOpen = () => {
+    setModalStatus(true);
+  };
+  const setSelectedItem = (item: RowItem) => {
+    setItemSelection(item);
+  };
+  const deleteItem = async () => {
+    axios.post(`${BaseAPI}/setup/item/delete`, {
+      itemId: selectedItem?.key,
+      userId: setUpInfo[0].user_id,
+    });
+  };
+  console.log(props);
   return (
     <DashboardLayout>
+      <Modal
+        visible={isModalOpen}
+        title={`Delete Item ${selectedItem?.itemName}?`}
+        onCancel={handleModalCancel}
+        footer={[
+          <Button
+            key="back"
+            onClick={handleModalCancel}
+            className="buttonShadow"
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            danger
+            className="buttonShadow"
+            onClick={() => {}}
+          >
+            Delete
+          </Button>,
+        ]}
+      >
+        <div
+          id="modalContainer"
+          style={{ textAlign: "center", padding: "1rem" }}
+        >
+          <Text>Delete Item From Setup</Text>
+        </div>
+      </Modal>
       <div id={styles.analyticsContainer}>
         <Breadcrumb>
           <Breadcrumb.Item>

@@ -41,6 +41,7 @@ const ImageMapContainer = ({
       fillColor="#649758"
       strokeColor="black"
       onMouseEnter={(area: any) => {
+        //Todo, add action
         console.log(area);
       }}
       onClick={(area: any) => {

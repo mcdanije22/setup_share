@@ -291,9 +291,6 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                     ? TabletHeight
                     : LaptopHeight
                 }
-                onMouseEnter={(area: any) => {
-                  alert("test");
-                }}
                 onImageClick={(e: any) => {
                   if (drawingStatus) {
                     addCoordToItem([
@@ -365,7 +362,10 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                         { required: true, message: "Please input a url" },
                       ]}
                     >
-                      <Input placeholder="www.amazon.com/youraffilatelink" />
+                      <Input
+                        type="url"
+                        placeholder="www.amazon.com/youraffilatelink"
+                      />
                     </Form.Item>
                   </>
                 ) : (

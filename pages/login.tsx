@@ -88,7 +88,7 @@ export default function LoginPage() {
                 },
               ]}
             >
-              <Input />
+              <Input type="email" />
             </Form.Item>
             <Form.Item
               label="Password"
