@@ -39,7 +39,7 @@ const SideNavBar: React.FC = ({ user }: any) => {
           key="1"
           icon={<DashboardOutlined />}
         >
-          <Link href={`/dashboard/${user?.user.user_id}`}>
+          <Link href="/dashboard">
             <a>Dashboard</a>
           </Link>
         </Menu.Item>

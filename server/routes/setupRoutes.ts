@@ -14,7 +14,8 @@ setupRouter.post(
   "/create",
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
-    if (res.locals.user !== req.body.userId) {
+    //TODO changed to add user_id at the end of check due to other part of code. Need to verify
+    if (res.locals.user.user_id !== req.body.userId) {
       return res.status(401).send({ message: "Need to log in" });
     }
     try {
@@ -103,12 +104,26 @@ setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
   }
 });
 
-setupRouter.post(
+setupRouter.put(
   "/item/delete",
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
-    if (res.locals.user !== req.body.userId) {
-      return res.status(401).send({ message: "Need to log in" });
+    const { userId, itemId } = req.body;
+    console.log("userid", userId);
+    console.log("cookie", res.locals.user);
+    if (res.locals.user.user_id !== userId) {
+      return res.status(401).send({ message: "Unauthorized" });
+    } else {
+      try {
+        const deleteItem = await db("image_items")
+          .where("image_items.item_id", itemId)
+          .del();
+        res.send({ message: "Item Deleted Successfully" });
+      } catch (e) {
+        return res
+          .status(500)
+          .send({ message: "There was an error in processing, try again" });
+      }
     }
   }
 );

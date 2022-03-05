@@ -1,15 +1,15 @@
 import { useEffect, useContext, useState } from "react";
 import { useRouter } from "next/router";
-import { UserContext } from "../../utils/context/userContext";
-import styles from "../../pageStyles/dashboard.module.scss";
-import DashboardLayout from "../../components/Layout/DashboardLayout";
+import { UserContext } from "../utils/context/userContext";
+import styles from "../pageStyles/dashboard.module.scss";
+import DashboardLayout from "../components/Layout/DashboardLayout";
 import { Button, PageHeader } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { GetServerSideProps } from "next";
-import { BaseAPI } from "../../utils/constants/common";
+import { BaseAPI } from "../utils/constants/common";
 import axios from "axios";
-import { pageAuthCheck } from "../../utils/helperFunctions/pageAuthCheck";
-import ProjectsList from "../../components/projectList/ProjectList";
+import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
+import ProjectsList from "../components/projectList/ProjectList";
 
 interface Props {
   userDashboardInfo: Array<dashboardItem>;
@@ -78,20 +78,13 @@ export default function Dashboard(props: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query;
   const authCheck = await pageAuthCheck(context);
   console.log(authCheck);
   if (authCheck.props?.data.authd) {
-    if (authCheck.props.data.user !== id) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: `/dashboard/${authCheck.props.data.user}`,
-        },
-      };
-    }
     try {
-      const response = await axios.get(`${BaseAPI}/user/dashboard/${id}`);
+      const response = await axios.get(
+        `${BaseAPI}/user/dashboard/${authCheck.props.data.user}`
+      );
       const userDashboardInfo = await response.data;
       return {
         props: userDashboardInfo,

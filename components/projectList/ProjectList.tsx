@@ -36,13 +36,13 @@ const ProjectsList = (props: DashboardProps) => {
           .map((project, i) => {
             return (
               <div key={i}>
-                <Col
-                  xs={{ span: 24 }}
-                  md={{ span: 12 }}
-                  lg={{ span: 6 }}
-                  className={styles.cardSpacer}
-                >
-                  <Link href={`/dashboard/analytics/${project.setup_id}`}>
+                <Link href={`/analytics/${project.setup_id}`}>
+                  <Col
+                    xs={{ span: 24 }}
+                    md={{ span: 12 }}
+                    lg={{ span: 6 }}
+                    className={styles.cardSpacer}
+                  >
                     <Card
                       hoverable
                       cover={<img alt="Main photo" src={project.image_url} />}
@@ -60,8 +60,8 @@ const ProjectsList = (props: DashboardProps) => {
                         }
                       />
                     </Card>
-                  </Link>
-                </Col>
+                  </Col>
+                </Link>
               </div>
             );
           })}

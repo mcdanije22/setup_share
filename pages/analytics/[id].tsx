@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useRouter } from "next/router";
-import styles from "../../../pageStyles/analytics.module.scss";
+import styles from "../../pageStyles/analytics.module.scss";
 import dashboardStyles from "../../../components/Layout/DashboardLayout.module.scss";
-import DashboardLayout from "../../../components/Layout/DashboardLayout";
+import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { GetServerSideProps } from "next";
-import { pageAuthCheck } from "../../../utils/helperFunctions/pageAuthCheck";
-import { BaseAPI } from "../../../utils/constants/common";
+import { pageAuthCheck } from "../../utils/helperFunctions/pageAuthCheck";
+import { BaseAPI } from "../../utils/constants/common";
 import axios from "axios";
 import {
   Card,
@@ -18,11 +18,12 @@ import {
   Table,
   Space,
   Breadcrumb,
+  message,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { UserContext } from "../../../utils/context/userContext";
+import { UserContext } from "../../utils/context/userContext";
 
 const { Meta } = Card;
 const { Title, Text } = Typography;
@@ -168,12 +169,27 @@ export default function AnalyticsPage(props: Props) {
     setItemSelection(item);
   };
   const deleteItem = async () => {
-    axios.post(`${BaseAPI}/setup/item/delete`, {
-      itemId: selectedItem?.key,
-      userId: setUpInfo[0].user_id,
-    });
+    console.log(currentUser.user.user_id);
+    //TODO finish logic
+    try {
+      const response = await axios.put(
+        `${BaseAPI}/setup/item/delete`,
+        {
+          itemId: selectedItem?.key,
+          userId: setUpInfo[0].user_id,
+        },
+        { withCredentials: true }
+      );
+      const result = await response.data;
+      const successMessage = await result.message;
+      message.success(successMessage);
+    } catch (error: any) {
+      const errorMessage = error.response.data.message;
+      message.error(errorMessage);
+    }
   };
   console.log(props);
+  console.log(currentUser);
   return (
     <DashboardLayout>
       <Modal
@@ -192,7 +208,7 @@ export default function AnalyticsPage(props: Props) {
             key="submit"
             danger
             className="buttonShadow"
-            onClick={() => {}}
+            onClick={deleteItem}
           >
             Delete
           </Button>,
@@ -208,9 +224,7 @@ export default function AnalyticsPage(props: Props) {
       <div id={styles.analyticsContainer}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <Link href={`/dashboard/${currentUser?.user.user_id}`}>
-              Dashboard
-            </Link>
+            <Link href={`/dashboard`}>Dashboard</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>{setUpInfo[0].setup_title} setup</Breadcrumb.Item>
         </Breadcrumb>
@@ -303,7 +317,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return {
           redirect: {
             permanent: false,
-            destination: `/dashboard/${authCheck.props.data.user}`,
+            destination: "/dashboard",
           },
         };
       } else {
