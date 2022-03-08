@@ -1,6 +1,8 @@
 import express, { Router } from "express";
 import db from "../services/dbConnection";
+import deleteFile from "../services/s3_delete";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
+import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
 const setupRouter = Router();
 
@@ -14,7 +16,7 @@ setupRouter.post(
   "/create",
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
-    //TODO changed to add user_id at the end of check due to other part of code. Need to verify
+    //TODO changed to add user_id at the end of check due to other part of code. Need to verify that this still works
     if (res.locals.user.user_id !== req.body.userId) {
       return res.status(401).send({ message: "Need to log in" });
     }
@@ -109,16 +111,51 @@ setupRouter.put(
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
     const { userId, itemId } = req.body;
-    console.log("userid", userId);
-    console.log("cookie", res.locals.user);
     if (res.locals.user.user_id !== userId) {
       return res.status(401).send({ message: "Unauthorized" });
     } else {
       try {
-        const deleteItem = await db("image_items")
-          .where("image_items.item_id", itemId)
-          .del();
+        await db("image_items").where("image_items.item_id", itemId).del();
         res.send({ message: "Item Deleted Successfully" });
+      } catch (e) {
+        return res
+          .status(500)
+          .send({ message: "There was an error in processing, try again" });
+      }
+    }
+  }
+);
+
+setupRouter.put(
+  "/delete",
+  checkAPIAuthMiddleware,
+  async (req: express.Request, res: express.Response) => {
+    const { userId, setupId } = req.body;
+    if (res.locals.user.user_id !== userId) {
+      return res.status(401).send({ message: "Unauthorized" });
+    } else {
+      try {
+        const keyList = await db("setups")
+          .innerJoin("images", "setups.setup_id", "images.setup_id")
+          .where("setups.setup_id", setupId)
+          .select("images.aws_key");
+        if (keyList.length !== 0) {
+          try {
+            await db("setups").where("setups.setup_id", setupId).del();
+            await keyList.forEach((image) => {
+              deleteFile(image.aws_key);
+            });
+            res.send({ message: "Setup Deleted Successfully" });
+          } catch (error) {
+            return res
+              .status(500)
+              .send({ message: "There was an error in processing, try again" });
+          }
+        } else {
+          return res
+            .status(500)
+            .send({ message: "There was an error in processing, try again" });
+        }
       } catch (e) {
         return res
           .status(500)

@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { useRouter } from "next/router";
 import styles from "../../pageStyles/analytics.module.scss";
+import { useRouter } from "next/router";
 import dashboardStyles from "../../../components/Layout/DashboardLayout.module.scss";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { GetServerSideProps } from "next";
@@ -65,12 +65,14 @@ interface RowItem {
 export default function AnalyticsPage(props: Props) {
   const router = useRouter();
   const { setUpInfo, imageItems } = props;
+  const [currentImageItems, setCurrentImageItems] = useState(imageItems);
   const { currentUser, setUser } = useContext<any>(UserContext);
   const [selectedImageItems, setSelectedImageItems] = useState<Array<Item>>();
   const [activeSelection, setActiveSelection] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isItemModalOpen, setItemModalStatus] = useState<boolean>(false);
+  const [selectedItem, setItemSelection] = useState<RowItem | null>(null);
   const [isModalOpen, setModalStatus] = useState<boolean>(false);
-  const [selectedItem, setItemSelection] = useState<RowItem>();
 
   useEffect(() => {
     if (!currentUser) {
@@ -103,11 +105,11 @@ export default function AnalyticsPage(props: Props) {
 
   useEffect(() => {
     filterActiveImageSelection();
-  }, [activeSelection]);
+  }, [activeSelection, currentImageItems]);
 
   const filterActiveImageSelection = async () => {
     setLoading(true);
-    const orgList = imageItems;
+    const orgList = currentImageItems;
     const newList = orgList.filter((item) => {
       return item.image_id === activeSelection;
     });
@@ -116,6 +118,7 @@ export default function AnalyticsPage(props: Props) {
   };
 
   const tableData = selectedImageItems?.map((item, i) => {
+    //need object to update here in useeffect after item delete
     return {
       key: item.item_id,
       itemName: item.item_name,
@@ -150,7 +153,7 @@ export default function AnalyticsPage(props: Props) {
             icon={<DeleteOutlined />}
             onClick={() => {
               setSelectedItem(record);
-              handleModalOpen();
+              handleItemModalOpen();
             }}
           >
             Delete
@@ -159,47 +162,88 @@ export default function AnalyticsPage(props: Props) {
       ),
     },
   ];
+  const handleItemModalCancel = () => {
+    setItemModalStatus(false);
+    setItemSelection(null);
+  };
+  const handleItemModalOpen = () => {
+    setItemModalStatus(true);
+  };
+  const setSelectedItem = (item: RowItem) => {
+    setItemSelection(item);
+  };
+  const filterItemList = (itemId: string | undefined) => {
+    const orgItemList = currentImageItems;
+    const newList = orgItemList.filter((item) => {
+      return item.item_id != itemId;
+    });
+    setCurrentImageItems(newList);
+  };
+
+  const deleteItem = async () => {
+    try {
+      const response = await axios.put(
+        `${BaseAPI}/setup/item/delete`,
+        {
+          itemId: selectedItem?.key,
+          userId: currentUser.user.user_id,
+        },
+        { withCredentials: true }
+      );
+      const result = await response.data;
+      const successMessage = await result.message;
+      filterItemList(selectedItem?.key);
+      message.success(successMessage);
+      handleItemModalCancel();
+    } catch (error: any) {
+      const errorMessage = error.response.data.message;
+      message.error(errorMessage);
+      handleItemModalCancel();
+    }
+  };
+
   const handleModalCancel = () => {
     setModalStatus(false);
   };
   const handleModalOpen = () => {
     setModalStatus(true);
   };
-  const setSelectedItem = (item: RowItem) => {
-    setItemSelection(item);
-  };
-  const deleteItem = async () => {
-    console.log(currentUser.user.user_id);
-    //TODO finish logic
+
+  const deleteSetup = async () => {
     try {
       const response = await axios.put(
-        `${BaseAPI}/setup/item/delete`,
+        `${BaseAPI}/setup/delete`,
         {
-          itemId: selectedItem?.key,
-          userId: setUpInfo[0].user_id,
+          setupId: setUpInfo[0].setup_id,
+          userId: currentUser.user.user_id,
         },
         { withCredentials: true }
       );
       const result = await response.data;
       const successMessage = await result.message;
       message.success(successMessage);
+      handleModalCancel();
+      setTimeout(async () => {
+        await router.push("/dashboard");
+        setLoading(false);
+      }, 1000);
     } catch (error: any) {
       const errorMessage = error.response.data.message;
       message.error(errorMessage);
+      handleModalCancel();
     }
   };
-  console.log(props);
-  console.log(currentUser);
+
   return (
-    <DashboardLayout>
+    <DashboardLayout title={`${setUpInfo[0].setup_title} setup`}>
       <Modal
-        visible={isModalOpen}
-        title={`Delete Item ${selectedItem?.itemName}?`}
-        onCancel={handleModalCancel}
+        visible={isItemModalOpen}
+        title={"Delete Item?"}
+        onCancel={handleItemModalCancel}
         footer={[
           <Button
             key="back"
-            onClick={handleModalCancel}
+            onClick={handleItemModalCancel}
             className="buttonShadow"
           >
             Cancel
@@ -218,7 +262,40 @@ export default function AnalyticsPage(props: Props) {
           id="modalContainer"
           style={{ textAlign: "center", padding: "1rem" }}
         >
-          <Text>Delete Item From Setup</Text>
+          <Text>
+            Delete <b>{selectedItem?.itemName}</b> Item From Setup
+          </Text>
+        </div>
+      </Modal>
+      <Modal
+        visible={isModalOpen}
+        title={"Delete setup?"}
+        onCancel={handleModalCancel}
+        footer={[
+          <Button
+            key="back"
+            onClick={handleModalCancel}
+            className="buttonShadow"
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            danger
+            className="buttonShadow"
+            onClick={deleteSetup}
+          >
+            Delete
+          </Button>,
+        ]}
+      >
+        <div
+          id="modalContainer"
+          style={{ textAlign: "center", padding: "1rem" }}
+        >
+          <Text>
+            Delete <b>{setUpInfo[0].setup_title}</b> setup
+          </Text>
         </div>
       </Modal>
       <div id={styles.analyticsContainer}>
@@ -233,7 +310,7 @@ export default function AnalyticsPage(props: Props) {
           title={`${setUpInfo[0].setup_title} Analytics`}
           subTitle="10 Views"
           extra={[
-            <Button key="2" danger>
+            <Button key="2" danger onClick={handleModalOpen}>
               Delete
             </Button>,
           ]}
@@ -259,7 +336,6 @@ export default function AnalyticsPage(props: Props) {
                           <img alt="setup photo" src={setupImage.image_url} />
                         }
                         onClick={() => {
-                          console.log(setupImage.setup_id);
                           setActiveSelection(setupImage.image_id);
                         }}
                       >

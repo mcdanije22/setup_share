@@ -30,7 +30,6 @@ imageRouter.post(
 imageRouter.post(
   "/delete",
   async (req: express.Request, res: express.Response) => {
-    console.log(req.body);
     const result = await deleteFile(req.body.key);
     res.send({ message: "deleted" });
   }

@@ -59,7 +59,7 @@ export default function Dashboard(props: Props) {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Dashboard">
       <div id={styles.dashboardContainer}>
         <PageHeader
           style={{ padding: "1rem 0" }}
@@ -79,7 +79,6 @@ export default function Dashboard(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const authCheck = await pageAuthCheck(context);
-  console.log(authCheck);
   if (authCheck.props?.data.authd) {
     try {
       const response = await axios.get(

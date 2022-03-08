@@ -7,7 +7,6 @@ const s3 = new AWS.S3({
 });
 
 const deleteFile = (key) => {
-  console.log("s3utl", key);
   // Setting up S3 upload parameters
   const params = {
     Bucket: process.env.BUCKET_NAME,

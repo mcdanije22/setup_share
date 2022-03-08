@@ -203,7 +203,6 @@ userRouter.get(
 userRouter.get(
   "/analytics/:id",
   async (req: express.Request, res: express.Response) => {
-    console.log("test", res);
     try {
       const setUpInfo = await db("setups")
         .innerJoin("users", "setups.user_id", "users.user_id")
