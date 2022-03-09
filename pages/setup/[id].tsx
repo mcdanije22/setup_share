@@ -27,6 +27,7 @@ import layoutStyles from "../../components/Layout/layout.module.scss";
 import ImageMapContainer from "../../components/imageMapContainer/ImageMapContainer";
 import { useMediaQuery } from "react-responsive";
 import ItemList from "../../components/ItemList";
+import { useCookies } from "react-cookie";
 
 const { Link, Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -85,7 +86,12 @@ export default function SetupPage(props: Props) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
+  const [cookies, setCookies] = useCookies<any>(["visitor"]);
   // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
+
+  useEffect(() => {
+    setupCookieClickFunction();
+  }, []);
 
   useEffect(() => {
     if (isMobile) {
@@ -282,6 +288,45 @@ export default function SetupPage(props: Props) {
       item.coords_list = newList;
     });
   };
+
+  const visitUpdate = () => {
+    console.log("test");
+    axios.put(`${BaseAPI}/setup/click`, {
+      setupId: getSetUpInfo[0].setup_id,
+    });
+  };
+
+  const setupCookieClickFunction = () => {
+    if (!cookies.visitor) {
+      const initialData = {
+        setups: [getSetUpInfo[0].setup_id],
+        items: [],
+      };
+      setCookies("visitor", JSON.stringify(initialData), {
+        path: "/",
+        maxAge: 604800, // Expires after 24hr
+        sameSite: true,
+      });
+      visitUpdate();
+    } else {
+      const cookieCheck = cookies.visitor.setups.includes(
+        getSetUpInfo[0].setup_id
+      );
+      if (!cookieCheck) {
+        const newData = {
+          setups: [getSetUpInfo[0].setup_id, ...cookies.visitor.setups],
+          items: [...cookies.visitor.items],
+        };
+        setCookies("visitor", JSON.stringify(newData), {
+          path: "/",
+          maxAge: 604800, // Expires after 24hr
+          sameSite: true,
+        });
+        visitUpdate();
+      }
+    }
+  };
+  console.log(cookies.visitor);
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -312,13 +357,11 @@ export default function SetupPage(props: Props) {
               <PageHeader
                 //need user route here. Can't put link on top of avatar
                 title={[
-                  <Link href="/">
-                    <Title level={3} style={{ margin: "0" }}>
-                      {getSetUpInfo[0].username}
-                    </Title>
-                  </Link>,
+                  <Title level={3} style={{ margin: "0" }}>
+                    {getSetUpInfo[0].username}
+                  </Title>,
                 ]}
-                extra={<HeartTwoTone twoToneColor="#eb2f96" />}
+                // extra={<HeartTwoTone twoToneColor="#eb2f96" />}
                 avatar={{
                   src: `https://avatars.dicebear.com/api/initials/${getSetUpInfo[0].username.charAt(
                     0

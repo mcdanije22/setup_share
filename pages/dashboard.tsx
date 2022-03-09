@@ -71,6 +71,7 @@ export default function Dashboard(props: Props) {
             </Button>,
           ]}
         />
+
         <ProjectsList projects={userDashboardInfo} />
       </div>
     </DashboardLayout>

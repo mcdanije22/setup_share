@@ -165,4 +165,12 @@ setupRouter.put(
   }
 );
 
+setupRouter.put(
+  "/click",
+  async (req: express.Request, res: express.Response) => {
+    const { setupId } = req.body;
+    db("setups").where("setup_id", setupId).increment("clicks", 1);
+  }
+);
+
 export default setupRouter;
