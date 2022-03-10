@@ -2,7 +2,6 @@ import express, { Router } from "express";
 import db from "../services/dbConnection";
 import deleteFile from "../services/s3_delete";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
-import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
 const setupRouter = Router();
 
@@ -16,7 +15,6 @@ setupRouter.post(
   "/create",
   checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
-    //TODO changed to add user_id at the end of check due to other part of code. Need to verify that this still works
     if (res.locals.user.user_id !== req.body.userId) {
       return res.status(401).send({ message: "Need to log in" });
     }
@@ -100,7 +98,11 @@ setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
         "image_items.item_name",
         "image_items.item_url"
       );
-    res.send({ getSetUpInfo, getImageItems });
+    if (getSetUpInfo.length === 0) {
+      res.status(404).send("Setup does not exist");
+    } else {
+      res.send({ getSetUpInfo, getImageItems });
+    }
   } catch (e) {
     res.status(404).send("Setup does not exist");
   }
@@ -169,7 +171,7 @@ setupRouter.put(
   "/click",
   async (req: express.Request, res: express.Response) => {
     const { setupId } = req.body;
-    db("setups").where("setup_id", setupId).increment("clicks", 1);
+    db("setups").where("setup_id", setupId).increment("number_of_visits", 1);
   }
 );
 

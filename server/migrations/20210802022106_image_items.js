@@ -7,6 +7,7 @@ exports.up = function (knex) {
     table.specificType("coords_list", "integer ARRAY");
     table.string("item_name");
     table.string("item_url");
+    table.integer("number_of_clicks");
   });
 };
 

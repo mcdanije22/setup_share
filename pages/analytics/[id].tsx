@@ -181,6 +181,7 @@ export default function AnalyticsPage(props: Props) {
   };
 
   const deleteItem = async () => {
+    setLoading(true);
     try {
       const response = await axios.put(
         `${BaseAPI}/setup/item/delete`,
@@ -200,6 +201,7 @@ export default function AnalyticsPage(props: Props) {
       message.error(errorMessage);
       handleItemModalCancel();
     }
+    setLoading(false);
   };
 
   const handleModalCancel = () => {
@@ -253,6 +255,7 @@ export default function AnalyticsPage(props: Props) {
             danger
             className="buttonShadow"
             onClick={deleteItem}
+            disabled={isLoading}
           >
             Delete
           </Button>,
@@ -284,6 +287,7 @@ export default function AnalyticsPage(props: Props) {
             danger
             className="buttonShadow"
             onClick={deleteSetup}
+            disabled={isLoading}
           >
             Delete
           </Button>,

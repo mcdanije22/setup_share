@@ -48,7 +48,6 @@ export default function RegisterPage() {
           await router.push("/login");
           setLoading(false);
         }, 1000);
-        console.log(response);
       } catch (error: any) {
         const errorMessage = error.response.data.message;
         message.error(errorMessage);
@@ -124,7 +123,7 @@ export default function RegisterPage() {
                 },
               ]}
             >
-              <Input />
+              <Input type="email" />
             </Form.Item>
 
             <Form.Item

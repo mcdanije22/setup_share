@@ -290,7 +290,6 @@ export default function SetupPage(props: Props) {
   };
 
   const visitUpdate = () => {
-    console.log("test");
     axios.put(`${BaseAPI}/setup/click`, {
       setupId: getSetUpInfo[0].setup_id,
     });
@@ -522,7 +521,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/404",
       },
     };
   }

@@ -10,6 +10,7 @@ import { BaseAPI } from "../utils/constants/common";
 import axios from "axios";
 import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
 import ProjectsList from "../components/projectList/ProjectList";
+import Link from "next/link";
 
 interface Props {
   userDashboardInfo: Array<dashboardItem>;
@@ -65,10 +66,12 @@ export default function Dashboard(props: Props) {
           style={{ padding: "1rem 0" }}
           title="Setups"
           extra={[
-            <Button type="primary" key="1" value="small" shape="round">
-              <PlusOutlined key="2" />
-              New setup
-            </Button>,
+            <Link href="/createroom">
+              <Button type="primary" key="1" value="small" shape="round">
+                <PlusOutlined key="2" />
+                New setup
+              </Button>
+            </Link>,
           ]}
         />
 

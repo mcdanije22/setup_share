@@ -10,11 +10,11 @@ export const pageAuthCheck = async (context: any) => {
       props: { data },
     };
   } catch (error) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/login",
-      },
-    };
+    // return {
+    //   redirect: {
+    //     permanent: false,
+    //     destination: "/login",
+    //   },
+    // };
   }
 };

@@ -161,7 +161,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       }
     });
     const roomData = {
-      userId: currentUser.user_id,
+      userId: currentUser.user.user_id,
       title: stepOneForm.title,
       description: stepOneForm.description,
       setupType: stepOneForm.setupType,
@@ -187,7 +187,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     handleSubmitModalCancel();
     setLoading(false);
   };
-  console.log({ s1: stepOneForm, s2: stepTwoForm, s3: stepThreeForm });
+  console.log(currentUser);
   if (loading) {
     return <div>test</div>;
   } else {

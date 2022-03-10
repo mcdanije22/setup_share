@@ -37,7 +37,7 @@ export default function LoginPage() {
       setUser(getUser.data.user);
       message.success("Logged in successfully");
       setTimeout(async () => {
-        await router.push("/");
+        await router.push("/dashboard");
         setLoading(false);
       }, 1000);
     } catch (error: any) {
@@ -46,17 +46,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-  const test = async () => {
-    try {
-      const getTest = await axios.get(`${BaseAPI}/user/test`, {
-        withCredentials: true,
-      });
-      const data = getTest;
-      console.log(data);
-    } catch (error: any) {
-      console.log(error.response.data.message);
-    }
-  };
+
   return (
     <div id={styles.loginPageContainer}>
       <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>

@@ -30,21 +30,15 @@ interface passwordHash {
   password: string;
 }
 
-userRouter.get(
-  "/test",
-  checkAPIAuthMiddleware,
-  (req: express.Request, res: express.Response) => {
-    res.send({ message: "test middleware" });
-  }
-);
-
 userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
   const { cookie } = req.body;
   if (cookie) {
+    //failing
     jwt.verify(cookie, "secret", function (err, decoded: Token) {
       if (decoded) {
         return res.send({ authd: true, user: decoded.data.user_id });
       } else {
+        console.log("test");
         //bycrypt compare fails(false) has does not equal password entered
         return res.status(401).send(false);
       }
