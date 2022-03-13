@@ -289,25 +289,34 @@ export default function SetupPage(props: Props) {
     });
   };
 
-  const visitUpdate = () => {
-    axios.put(`${BaseAPI}/setup/trackVisit`, {
-      setupId: getSetUpInfo[0].setup_id,
-    });
+  const visitUpdate = async () => {
+    const response = await axios.put(
+      `${BaseAPI}/setup/trackVisit`,
+      {
+        setupId: getSetUpInfo[0].setup_id,
+        setupUserId: getSetUpInfo[0].user_id,
+      },
+      { withCredentials: true }
+    );
+    return response.data;
   };
-  //not updating
-
-  const setupCookieClickFunction = () => {
+  const setupCookieClickFunction = async () => {
     if (!cookies.visitor) {
       const initialData = {
         setups: [getSetUpInfo[0].setup_id],
         items: [],
       };
-      setCookies("visitor", JSON.stringify(initialData), {
-        path: "/",
-        maxAge: 604800, // Expires after 24hr
-        sameSite: true,
-      });
-      visitUpdate();
+      const response = await visitUpdate();
+      console.log("res", response);
+      if (response) {
+        console.log("test");
+        setCookies("visitor", JSON.stringify(initialData), {
+          path: "/",
+          maxAge: 604800, // Expires after 24hr
+          sameSite: true,
+        });
+      }
+      // visitUpdate();
     } else {
       const cookieCheck = cookies.visitor.setups.includes(
         getSetUpInfo[0].setup_id
@@ -326,7 +335,7 @@ export default function SetupPage(props: Props) {
       }
     }
   };
-  console.log(cookies.visitor);
+  console.log("test", cookies.visitor);
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -515,9 +524,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const response = await axios.get(`${BaseAPI}/setup/${id}`);
     const setUpPageData = await response.data;
-    // const uniqueVisitUpdate = await axios.put(`${BaseAPI}/setup/trackVisit`, {
-    //   id,
-    // });
     return {
       props: setUpPageData,
     };

@@ -3,13 +3,24 @@ import db from "../services/dbConnection";
 import deleteFile from "../services/s3_delete";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 import Cookies from "universal-cookie";
+import jwt from "jsonwebtoken";
 
 const setupRouter = Router();
 
 interface Token {
-  data: string;
+  data: Data;
   iat: number;
   exp: number;
+}
+
+interface Data {
+  user_id: string;
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  user_created_date: Date;
+  subscription_exp_date: Date;
 }
 
 setupRouter.post(
@@ -171,19 +182,23 @@ setupRouter.put(
 setupRouter.put(
   "/trackVisit",
   async (req: express.Request, res: express.Response) => {
-    const { id } = req.body;
-    const cookies = new Cookies(req.body.cookie);
+    const { setupId, setupUserId } = req.body;
+    const cookies = new Cookies(req.headers.cookie);
     const authCookieToken = cookies.get("token");
-    if (authCookieToken) {
-      return res.send("Setup User Logged In");
-    } else {
-      try {
-        db("setups").where("setup_id", id).increment("number_of_visits", 1);
-        return res.send("Visit Information Updated");
-      } catch (error) {
-        console.log(error);
+    jwt.verify(authCookieToken, "secret", async function (err, decoded: Token) {
+      if (decoded?.data.user_id === setupUserId) {
+        return res.send(false);
+      } else {
+        try {
+          await db("setups")
+            .where("setup_id", setupId)
+            .increment("number_of_visits", 1);
+          return res.send(true);
+        } catch (error) {
+          return res.send(false);
+        }
       }
-    }
+    });
   }
 );
 
