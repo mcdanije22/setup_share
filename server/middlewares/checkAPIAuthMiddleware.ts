@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import Cookies from "universal-cookie";
 
 express().use(cookieParser());
 
@@ -11,8 +12,9 @@ interface Token {
 }
 export default function authenticateToken(req, res, next) {
   if (req.headers.cookie) {
-    const cookie = req.headers.cookie.replace("token=", "");
-    jwt.verify(cookie, "secret", function (err, decoded: Token) {
+    const cookies = new Cookies(req.headers.cookie);
+    const authCookieToken = cookies.get("token");
+    jwt.verify(authCookieToken, "secret", function (err, decoded: Token) {
       if (decoded) {
         res.locals.user = decoded.data;
         next();

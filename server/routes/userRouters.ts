@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import db from "../services/dbConnection";
 import cookieParser from "cookie-parser";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
+import Cookies from "universal-cookie";
 
 express().use(cookieParser());
 
@@ -31,14 +32,14 @@ interface passwordHash {
 }
 
 userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
-  const { cookie } = req.body;
-  if (cookie) {
-    //failing
-    jwt.verify(cookie, "secret", function (err, decoded: Token) {
+  const cookies = new Cookies(req.body.cookie);
+  console.log("test", cookies.get("token"));
+  const authCookieToken = cookies.get("token");
+  if (authCookieToken) {
+    jwt.verify(authCookieToken, "secret", function (err, decoded: Token) {
       if (decoded) {
         return res.send({ authd: true, user: decoded.data.user_id });
       } else {
-        console.log("test");
         //bycrypt compare fails(false) has does not equal password entered
         return res.status(401).send(false);
       }
