@@ -290,10 +290,11 @@ export default function SetupPage(props: Props) {
   };
 
   const visitUpdate = () => {
-    axios.put(`${BaseAPI}/setup/click`, {
+    axios.put(`${BaseAPI}/setup/trackVisit`, {
       setupId: getSetUpInfo[0].setup_id,
     });
   };
+  //not updating
 
   const setupCookieClickFunction = () => {
     if (!cookies.visitor) {
@@ -514,6 +515,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const response = await axios.get(`${BaseAPI}/setup/${id}`);
     const setUpPageData = await response.data;
+    // const uniqueVisitUpdate = await axios.put(`${BaseAPI}/setup/trackVisit`, {
+    //   id,
+    // });
     return {
       props: setUpPageData,
     };

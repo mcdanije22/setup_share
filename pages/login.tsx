@@ -110,13 +110,14 @@ export default function LoginPage() {
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   try {
-    const cookie = context.req.headers.cookie.replace("token=", "");
+    const cookie = context.req.headers.cookie;
     const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
     const data = await response.data;
+    //If logged in already with cookie, redirect to dashboard page
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/dashboard",
       },
     };
   } catch (error) {

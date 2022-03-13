@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import db from "../services/dbConnection";
 import deleteFile from "../services/s3_delete";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
+import Cookies from "universal-cookie";
 
 const setupRouter = Router();
 
@@ -168,10 +169,21 @@ setupRouter.put(
 );
 
 setupRouter.put(
-  "/click",
+  "/trackVisit",
   async (req: express.Request, res: express.Response) => {
-    const { setupId } = req.body;
-    db("setups").where("setup_id", setupId).increment("number_of_visits", 1);
+    const { id } = req.body;
+    const cookies = new Cookies(req.body.cookie);
+    const authCookieToken = cookies.get("token");
+    if (authCookieToken) {
+      return res.send("Setup User Logged In");
+    } else {
+      try {
+        db("setups").where("setup_id", id).increment("number_of_visits", 1);
+        return res.send("Visit Information Updated");
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 );
 

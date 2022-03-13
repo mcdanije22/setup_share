@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/register.module.scss";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
@@ -165,13 +166,14 @@ export default function RegisterPage() {
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   try {
-    const cookie = context.req.headers.cookie.replace("token=", "");
+    const cookie = context.req.headers.cookie;
     const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
     const data = await response.data;
+    //If logged in already with cookie, redirect to dashboard page
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/dashboard",
       },
     };
   } catch (error) {

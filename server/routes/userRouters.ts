@@ -33,7 +33,6 @@ interface passwordHash {
 
 userRouter.post("/pageauth", (req: express.Request, res: express.Response) => {
   const cookies = new Cookies(req.body.cookie);
-  console.log("test", cookies.get("token"));
   const authCookieToken = cookies.get("token");
   if (authCookieToken) {
     jwt.verify(authCookieToken, "secret", function (err, decoded: Token) {
