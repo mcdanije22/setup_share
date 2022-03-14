@@ -2,10 +2,23 @@ import { Row, Col, Typography, Divider } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 const { Link } = Typography;
 
-const ItemList = ({ itemList, highlightItem }) => {
+interface Item {
+  coords: number[];
+  href: string;
+  id: string;
+  name: string;
+  preFillColor: string;
+  shape: string;
+}
+interface Props {
+  itemList: Array<Item>;
+  highlightItem: (id: string) => void;
+}
+
+const ItemList = ({ itemList, highlightItem }: Props) => {
   return (
     <div>
-      {itemList.map((item, i) => {
+      {itemList.map((item: Item, i: number) => {
         return (
           <div key={i}>
             <Row justify="space-between">

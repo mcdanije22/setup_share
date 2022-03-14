@@ -61,6 +61,7 @@ interface MapAreaItem {
   shape: string;
   coords: number[];
   preFillColor: string;
+  href: string;
 }
 interface Props {
   getSetUpInfo: Array<SetupObject>;
@@ -81,7 +82,9 @@ export default function SetupPage(props: Props) {
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
   const [areaItemsHidden, setItemsHidden] = useState(false);
   const [showHighlighting, setHighlightingStatus] = useState(false);
-  const [createdResolution, setCreatedResolution] = useState("Mobile");
+  const [createdResolution, setCreatedResolution] = useState(
+    getSetUpInfo[0]?.created_screen_type
+  );
   const [onLoadScreenType, setOnLoadScreenType] = useState<string>("");
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
@@ -181,6 +184,7 @@ export default function SetupPage(props: Props) {
       shape: "poly",
       coords: [...item.coords_list],
       preFillColor: fill,
+      href: item.item_url,
     };
   };
 
