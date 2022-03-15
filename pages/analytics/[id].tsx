@@ -46,6 +46,7 @@ interface Setup {
   image_position_number: number;
   user_id: string;
   username: string;
+  number_of_visits: number;
 }
 
 interface Item {
@@ -54,6 +55,7 @@ interface Item {
   coords_list: number[];
   item_name: string;
   item_url: string;
+  number_of_clicks: number;
 }
 
 interface RowItem {
@@ -73,6 +75,7 @@ export default function AnalyticsPage(props: Props) {
   const [isItemModalOpen, setItemModalStatus] = useState<boolean>(false);
   const [selectedItem, setItemSelection] = useState<RowItem | null>(null);
   const [isModalOpen, setModalStatus] = useState<boolean>(false);
+  console.log(setUpInfo, imageItems);
 
   useEffect(() => {
     if (!currentUser) {
@@ -123,6 +126,7 @@ export default function AnalyticsPage(props: Props) {
       key: item.item_id,
       itemName: item.item_name,
       affilateLink: item.item_url,
+      clicks: item.number_of_clicks,
     };
   });
 
@@ -139,8 +143,8 @@ export default function AnalyticsPage(props: Props) {
     },
     {
       title: "Clicks",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "clicks",
+      key: "clicks",
     },
     {
       title: "Action",
@@ -312,7 +316,7 @@ export default function AnalyticsPage(props: Props) {
         <PageHeader
           style={{ padding: "1rem 0" }}
           title={`${setUpInfo[0].setup_title} Analytics`}
-          subTitle="10 Views"
+          subTitle={`${setUpInfo[0].number_of_visits} Views`}
           extra={[
             <Button key="2" danger onClick={handleModalOpen}>
               Delete

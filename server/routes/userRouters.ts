@@ -203,6 +203,7 @@ userRouter.get(
         .innerJoin("images", "setups.setup_id", "images.setup_id")
         .where("setups.setup_id", req.params.id)
         .select(
+          "setups.number_of_visits",
           "setups.setup_id",
           "setups.setup_title",
           "setups.setup_description",
@@ -224,7 +225,8 @@ userRouter.get(
           "image_items.image_id",
           "image_items.coords_list",
           "image_items.item_name",
-          "image_items.item_url"
+          "image_items.item_url",
+          "image_items.number_of_clicks"
         );
       res.send({ setUpInfo, imageItems });
     } catch (e) {
