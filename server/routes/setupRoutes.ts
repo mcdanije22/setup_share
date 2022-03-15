@@ -202,4 +202,27 @@ setupRouter.put(
   }
 );
 
+setupRouter.put(
+  "/trackItemClick",
+  async (req: express.Request, res: express.Response) => {
+    const { itemId, setupUserId } = req.body;
+    const cookies = new Cookies(req.headers.cookie);
+    const authCookieToken = cookies.get("token");
+    jwt.verify(authCookieToken, "secret", async function (err, decoded: Token) {
+      if (decoded?.data.user_id === setupUserId) {
+        return res.send(false);
+      } else {
+        try {
+          await db("image_items")
+            .where("item_id", itemId)
+            .increment("number_of_clicks", 1);
+          return res.send(true);
+        } catch (error) {
+          return res.send(false);
+        }
+      }
+    });
+  }
+);
+
 export default setupRouter;

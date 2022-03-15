@@ -293,6 +293,13 @@ export default function SetupPage(props: Props) {
     });
   };
 
+  const createCookie = (data: { setups: string[]; items: string[] }) => {
+    setCookies("visitor", JSON.stringify(data), {
+      path: "/",
+      maxAge: 604800, // Expires after 24hr
+      sameSite: true,
+    });
+  };
   const visitUpdate = async () => {
     const response = await axios.put(
       `${BaseAPI}/setup/trackVisit`,
@@ -313,14 +320,8 @@ export default function SetupPage(props: Props) {
       const response = await visitUpdate();
       console.log("res", response);
       if (response) {
-        console.log("test");
-        setCookies("visitor", JSON.stringify(initialData), {
-          path: "/",
-          maxAge: 604800, // Expires after 24hr
-          sameSite: true,
-        });
+        createCookie(initialData);
       }
-      // visitUpdate();
     } else {
       const cookieCheck = cookies.visitor.setups.includes(
         getSetUpInfo[0].setup_id
@@ -330,15 +331,50 @@ export default function SetupPage(props: Props) {
           setups: [getSetUpInfo[0].setup_id, ...cookies.visitor.setups],
           items: [...cookies.visitor.items],
         };
-        setCookies("visitor", JSON.stringify(newData), {
-          path: "/",
-          maxAge: 604800, // Expires after 24hr
-          sameSite: true,
-        });
-        visitUpdate();
+        const response = await visitUpdate();
+        if (response) {
+          createCookie(newData);
+        }
       }
     }
   };
+  const itemClickUpdate = async (itemId: string) => {
+    const response = await axios.put(
+      `${BaseAPI}/setup/trackItemClick`,
+      {
+        itemId: itemId,
+        setupUserId: getSetUpInfo[0].user_id,
+      },
+      { withCredentials: true }
+    );
+    return response.data;
+  };
+  const itemCookieClickFunction = async (itemId: string) => {
+    if (!cookies.visitor) {
+      const initialData = {
+        setups: [],
+        items: [itemId],
+      };
+      const response = await itemClickUpdate(itemId);
+      console.log("res", response);
+      if (response) {
+        createCookie(initialData);
+      }
+    } else {
+      const cookieCheck = cookies.visitor.items.includes(itemId);
+      if (!cookieCheck) {
+        const newData = {
+          setups: [...cookies.visitor.setups],
+          items: [itemId, ...cookies.visitor.items],
+        };
+        const response = await itemClickUpdate(itemId);
+        if (response) {
+          createCookie(newData);
+        }
+      }
+    }
+  };
+
   console.log("test", cookies.visitor);
   return (
     <Layout
@@ -435,7 +471,11 @@ export default function SetupPage(props: Props) {
               <Divider>
                 <Title level={3}>Items</Title>
               </Divider>
-              <ItemList itemList={imageAreas} highlightItem={highlightItem} />
+              <ItemList
+                itemList={imageAreas}
+                highlightItem={highlightItem}
+                itemCookieClickFunction={itemCookieClickFunction}
+              />
             </Col>
             <Col
               span={24}
@@ -487,6 +527,7 @@ export default function SetupPage(props: Props) {
                   <ItemList
                     itemList={imageAreas}
                     highlightItem={highlightItem}
+                    itemCookieClickFunction={itemCookieClickFunction}
                   />
                 </TabPane>
                 <TabPane tab="Description" key="2">
