@@ -9,17 +9,36 @@ import {
   LaptopHeight,
 } from "../../utils/constants/screenSize";
 
+interface Props {
+  src: string;
+  areas: Array<Item>;
+  name: string;
+  highlightItem: (id: string) => void;
+  onLoadScreenType: string;
+  handleModalOpen: any;
+}
+interface Item {
+  coords: number[];
+  href: string;
+  id: string;
+  name: string;
+  preFillColor: string;
+  shape: string;
+}
+
 const ImageMapContainer = ({
   src,
   areas,
   name,
-  onItemClick,
+  highlightItem,
   onLoadScreenType,
-}) => {
+  handleModalOpen,
+}: Props) => {
   var MAP = {
     name: name,
     areas: [...areas],
   };
+  console.log(areas);
   return (
     <ImageMapper
       src={`${src}`}
@@ -38,14 +57,13 @@ const ImageMapContainer = ({
           ? TabletHeight
           : LaptopHeight
       }
-      fillColor="#649758"
+      fillColor="649758"
       strokeColor="black"
       onMouseEnter={(area: any) => {
-        //Todo, add action
-        console.log(area);
+        highlightItem(area.id);
       }}
       onClick={(area: any) => {
-        onItemClick(area.id);
+        handleModalOpen(area);
       }}
     />
   );

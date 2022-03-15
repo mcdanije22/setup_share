@@ -19,6 +19,7 @@ import {
   Tabs,
   Divider,
   Switch,
+  Modal,
 } from "antd";
 import { GetServerSideProps } from "next";
 import { LeftOutlined, RightOutlined, HeartTwoTone } from "@ant-design/icons";
@@ -90,6 +91,8 @@ export default function SetupPage(props: Props) {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isLaptop = useMediaQuery({ minWidth: 992 });
   const [cookies, setCookies] = useCookies<any>(["visitor"]);
+  const [isOpen, setModalStatus] = useState<boolean>(false);
+  const [currentItem, setCurrentItem] = useState<MapAreaItem | null>();
   // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
 
   useEffect(() => {
@@ -350,6 +353,7 @@ export default function SetupPage(props: Props) {
     return response.data;
   };
   const itemCookieClickFunction = async (itemId: string) => {
+    console.log(itemId);
     if (!cookies.visitor) {
       const initialData = {
         setups: [],
@@ -375,11 +379,49 @@ export default function SetupPage(props: Props) {
     }
   };
 
-  console.log("test", cookies.visitor);
+  const handleModalOpen = (areaItem: any) => {
+    console.log("new", areaItem);
+    setCurrentItem(areaItem);
+    setModalStatus(true);
+  };
+  const handleModalClose = () => {
+    setCurrentItem(null);
+    setModalStatus(false);
+  };
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
     >
+      <Modal
+        visible={isOpen}
+        title={`${currentItem?.name} Item`}
+        onCancel={handleModalClose}
+        footer={[
+          <Button key="back" onClick={handleModalClose}>
+            Go back
+          </Button>,
+          <Button key="submit" type="primary">
+            <Link
+              onClick={() => {
+                itemCookieClickFunction(currentItem?.id ?? "");
+                handleModalClose();
+              }}
+              href={`${currentItem?.href}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Continue
+            </Link>
+          </Button>,
+        ]}
+      >
+        <div
+          id="modalContainer"
+          style={{ textAlign: "center", padding: "1rem" }}
+        >
+          <Text>Go to Product Page for More Info?</Text>
+        </div>
+      </Modal>
       <div id={styles.setupPageContainer}>
         <div>
           <Row justify="center" className={layoutStyles.container}>
@@ -441,8 +483,9 @@ export default function SetupPage(props: Props) {
                         src={item.image_url}
                         name={item.image_id}
                         areas={imageAreas}
-                        onItemClick={highlightItem}
+                        highlightItem={highlightItem}
                         onLoadScreenType={onLoadScreenType}
+                        handleModalOpen={handleModalOpen}
                       />
                     </div>
                   );
@@ -473,7 +516,6 @@ export default function SetupPage(props: Props) {
               </Divider>
               <ItemList
                 itemList={imageAreas}
-                highlightItem={highlightItem}
                 itemCookieClickFunction={itemCookieClickFunction}
               />
             </Col>
@@ -526,7 +568,6 @@ export default function SetupPage(props: Props) {
                   </Row>
                   <ItemList
                     itemList={imageAreas}
-                    highlightItem={highlightItem}
                     itemCookieClickFunction={itemCookieClickFunction}
                   />
                 </TabPane>

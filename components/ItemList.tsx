@@ -12,15 +12,10 @@ interface Item {
 }
 interface Props {
   itemList: Array<Item>;
-  highlightItem: (id: string) => void;
   itemCookieClickFunction: (id: string) => void;
 }
 
-const ItemList = ({
-  itemList,
-  highlightItem,
-  itemCookieClickFunction,
-}: Props) => {
+const ItemList = ({ itemList, itemCookieClickFunction }: Props) => {
   return (
     <div>
       {itemList.map((item: Item, i: number) => {
