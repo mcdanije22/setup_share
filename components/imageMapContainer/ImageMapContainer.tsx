@@ -57,12 +57,12 @@ const ImageMapContainer = ({
           ? TabletHeight
           : LaptopHeight
       }
-      fillColor="649758"
+      fillColor="transparent"
       strokeColor="black"
-      onMouseEnter={(area: any) => {
+      onMouseEnter={(area: Item) => {
         highlightItem(area.id);
       }}
-      onClick={(area: any) => {
+      onClick={(area: Item) => {
         handleModalOpen(area);
       }}
     />

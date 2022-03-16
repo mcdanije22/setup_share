@@ -174,12 +174,12 @@ export default function SetupPage(props: Props) {
   ) => {
     let fill = "";
     if (status) {
-      fill = "#649758";
+      fill = "rgba(0, 255, 0, 0.3)";
     } else {
       fill = "";
     }
     if (id !== null && item.item_id == id) {
-      fill = "#649758";
+      fill = "rgba(0, 255, 0, 0.3)";
     }
     return {
       id: item.item_id,
