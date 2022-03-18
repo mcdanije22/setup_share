@@ -26,7 +26,8 @@ const ItemList = ({ itemList, itemCookieClickFunction }: Props) => {
                 {i + 1}.{" "}
                 <Link
                   onClick={() => itemCookieClickFunction(item.id)}
-                  style={{ color: "black" }}
+                  // style={{ color: "black" }}
+                  //onhover underline?
                   href={`${item.href}`}
                   target="_blank"
                   rel="noopener noreferrer"

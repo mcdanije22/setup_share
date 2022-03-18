@@ -22,7 +22,13 @@ import {
   Modal,
 } from "antd";
 import { GetServerSideProps } from "next";
-import { LeftOutlined, RightOutlined, HeartTwoTone } from "@ant-design/icons";
+import {
+  LeftOutlined,
+  RightOutlined,
+  FacebookFilled,
+  TwitterSquareFilled,
+  InstagramFilled,
+} from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 import layoutStyles from "../../components/Layout/layout.module.scss";
 import ImageMapContainer from "../../components/imageMapContainer/ImageMapContainer";
@@ -388,9 +394,14 @@ export default function SetupPage(props: Props) {
     setCurrentItem(null);
     setModalStatus(false);
   };
+  console.log(getSetUpInfo[0].username);
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
+      keywords={getSetUpInfo[0].setup_type}
+      description={getSetUpInfo[0].setup_description}
+      author={getSetUpInfo[0].username}
+      image_url={getSetUpInfo[0].image_url}
     >
       <Modal
         visible={isOpen}
@@ -453,6 +464,11 @@ export default function SetupPage(props: Props) {
                   </Title>,
                 ]}
                 // extra={<HeartTwoTone twoToneColor="#eb2f96" />}
+                extra={[
+                  <FacebookFilled />,
+                  <TwitterSquareFilled />,
+                  <InstagramFilled />,
+                ]}
                 avatar={{
                   src: `https://avatars.dicebear.com/api/initials/${getSetUpInfo[0].username.charAt(
                     0
