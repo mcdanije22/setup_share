@@ -19,6 +19,8 @@ import {
   Space,
   Breadcrumb,
   message,
+  Menu,
+  Dropdown,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import Link from "next/link";
@@ -317,7 +319,44 @@ export default function AnalyticsPage(props: Props) {
           style={{ padding: "1rem 0" }}
           title={`${setUpInfo[0].setup_title} Analytics`}
           subTitle={`${setUpInfo[0].number_of_visits} Views`}
+          //TODO: need to change url when chosen
           extra={[
+            <Dropdown
+              key="1"
+              overlay={
+                <Menu>
+                  <Menu.Item>
+                    <a
+                      href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${setUpInfo[0].setup_id}`}
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Facebook
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a
+                      href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${setUpInfo[0].setup_id}`}
+                      target="_blank"
+                    >
+                      Twitter
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a
+                      href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${setUpInfo[0].setup_id}`}
+                      target="_blank"
+                    >
+                      Reddit
+                    </a>
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              <Button type="primary" ghost onClick={handleModalOpen}>
+                Share
+              </Button>
+            </Dropdown>,
             <Button key="2" danger onClick={handleModalOpen}>
               Delete
             </Button>,

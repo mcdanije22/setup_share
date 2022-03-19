@@ -20,6 +20,8 @@ import {
   Divider,
   Switch,
   Modal,
+  Menu,
+  Dropdown,
 } from "antd";
 import { GetServerSideProps } from "next";
 import {
@@ -463,27 +465,44 @@ export default function SetupPage(props: Props) {
                     {getSetUpInfo[0].username}
                   </Title>,
                 ]}
-                // extra={<HeartTwoTone twoToneColor="#eb2f96" />}
+                //TODO: need to change url when chosen
                 extra={[
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
-                    target="_blank"
-                    rel="noopener"
+                  <Dropdown
+                    key="1"
+                    overlay={
+                      <Menu>
+                        <Menu.Item>
+                          <a
+                            href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            Facebook
+                          </a>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a
+                            href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                            target="_blank"
+                          >
+                            Twitter
+                          </a>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a
+                            href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                            target="_blank"
+                          >
+                            Reddit
+                          </a>
+                        </Menu.Item>
+                      </Menu>
+                    }
                   >
-                    <FacebookFilled />
-                  </a>,
-                  <a
-                    href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
-                    target="_blank"
-                  >
-                    <TwitterSquareFilled />
-                  </a>,
-                  <a
-                    href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
-                    target="_blank"
-                  >
-                    <RedditCircleFilled />
-                  </a>,
+                    <Button type="primary" ghost onClick={handleModalOpen}>
+                      Share
+                    </Button>
+                  </Dropdown>,
                 ]}
                 avatar={{
                   src: `https://avatars.dicebear.com/api/initials/${getSetUpInfo[0].username.charAt(
