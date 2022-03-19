@@ -27,7 +27,7 @@ import {
   RightOutlined,
   FacebookFilled,
   TwitterSquareFilled,
-  InstagramFilled,
+  RedditCircleFilled,
 } from "@ant-design/icons";
 import styles from "./setupPage.module.scss";
 import layoutStyles from "../../components/Layout/layout.module.scss";
@@ -465,9 +465,25 @@ export default function SetupPage(props: Props) {
                 ]}
                 // extra={<HeartTwoTone twoToneColor="#eb2f96" />}
                 extra={[
-                  <FacebookFilled />,
-                  <TwitterSquareFilled />,
-                  <InstagramFilled />,
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <FacebookFilled />
+                  </a>,
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                    target="_blank"
+                  >
+                    <TwitterSquareFilled />
+                  </a>,
+                  <a
+                    href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                    target="_blank"
+                  >
+                    <RedditCircleFilled />
+                  </a>,
                 ]}
                 avatar={{
                   src: `https://avatars.dicebear.com/api/initials/${getSetUpInfo[0].username.charAt(
