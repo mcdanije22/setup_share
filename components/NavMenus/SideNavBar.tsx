@@ -1,12 +1,7 @@
 import styles from "./sideNavbar.module.scss";
 import Link from "next/link";
 import { Menu } from "antd";
-import {
-  DashboardOutlined,
-  FileOutlined,
-  HeartOutlined,
-  CodeOutlined,
-} from "@ant-design/icons";
+import { DashboardOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
 const SideNavBar: React.FC = ({ user }: any) => {
@@ -20,7 +15,7 @@ const SideNavBar: React.FC = ({ user }: any) => {
       }}
     >
       <div id={styles.logoSection}>
-        <h1>Plan Code</h1>
+        <h1>ShareStation</h1>
       </div>
       <Menu
         theme="dark"
@@ -41,23 +36,6 @@ const SideNavBar: React.FC = ({ user }: any) => {
         >
           <Link href="/dashboard">
             <a>Dashboard</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="2" icon={<FileOutlined />}>
-          <Link href="/overview">
-            <a>Overview</a>
-          </Link>
-        </Menu.Item>
-
-        <Menu.Item key="3" icon={<HeartOutlined />}>
-          <Link href="/inspiration">
-            <a>Inspiration</a>
-          </Link>
-        </Menu.Item>
-
-        <Menu.Item key="4" icon={<CodeOutlined />}>
-          <Link href="/codesnippets">
-            <a>Code Snippets</a>
           </Link>
         </Menu.Item>
       </Menu>

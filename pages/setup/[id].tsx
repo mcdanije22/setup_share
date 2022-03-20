@@ -465,7 +465,7 @@ export default function SetupPage(props: Props) {
                     {getSetUpInfo[0].username}
                   </Title>,
                 ]}
-                //TODO: need to change url when chosen
+                //TODO: need to change url when site name chosen
                 extra={[
                   <Dropdown
                     key="1"

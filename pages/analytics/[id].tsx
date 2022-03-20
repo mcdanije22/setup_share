@@ -319,7 +319,7 @@ export default function AnalyticsPage(props: Props) {
           style={{ padding: "1rem 0" }}
           title={`${setUpInfo[0].setup_title} Analytics`}
           subTitle={`${setUpInfo[0].number_of_visits} Views`}
-          //TODO: need to change url when chosen
+          //TODO: need to change url when site name chosen
           extra={[
             <Dropdown
               key="1"
