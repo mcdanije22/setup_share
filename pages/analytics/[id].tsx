@@ -123,7 +123,7 @@ export default function AnalyticsPage(props: Props) {
   };
 
   const tableData = selectedImageItems?.map((item, i) => {
-    //need object to update here in useeffect after item delete
+    //need object to update here in usEeffect after item delete
     return {
       key: item.item_id,
       itemName: item.item_name,
@@ -132,7 +132,7 @@ export default function AnalyticsPage(props: Props) {
     };
   });
 
-  const columns = [
+  const columns: any = [
     {
       title: "Item Name",
       dataIndex: "itemName",
@@ -142,6 +142,7 @@ export default function AnalyticsPage(props: Props) {
       title: "Affilate Link",
       dataIndex: "affilateLink",
       key: "link",
+      responsive: ["md"],
     },
     {
       title: "Clicks",

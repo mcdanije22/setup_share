@@ -8,8 +8,9 @@ import {
   Row,
   Typography,
   Space,
-  Menu,
+  List,
   Avatar,
+  Popover 
 } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import styles from "./topNavBar.module.scss";
@@ -23,7 +24,7 @@ const TopNavBar: React.FC = () => {
   const router = useRouter();
   const [drawerStatus, showDrawer] = useState<boolean>(false);
   const { currentUser, setUser } = useContext<any>(UserContext);
-
+//
   useEffect(() => {
     if (!currentUser) {
       reload();
@@ -150,15 +151,15 @@ const TopNavBar: React.FC = () => {
           <Col xs={{ span: 0 }} md={{ span: 8 }}>
             <Row justify="end">
               <Col>
-                <Link href="/dashboard">
+                  <Popover placement="bottomRight" content={[<List><List.Item ><Link href='dashboard'><a style={{color: 'black'}}>Dashboard</a></Link></List.Item><List.Item><a style={{color: 'black'}}>Sign Out</a></List.Item></List>]} trigger="click">
                   <Avatar
                     style={{ cursor: "pointer" }}
                     size="large"
-                    src={`https://avatars.dicebear.com/api/initials/${currentUser.user.username.charAt(
+                    src={`https://avatars.dicebear.com/api/initials/${currentUser.user?.username.charAt(
                       0
                     )}.svg`}
                   />
-                </Link>
+                  </Popover> 
               </Col>
             </Row>
           </Col>
