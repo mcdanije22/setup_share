@@ -10,21 +10,23 @@ import {
   Space,
   List,
   Avatar,
-  Popover 
+  Popover,
 } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import styles from "./topNavBar.module.scss";
 import { UserContext } from "../../utils/context/userContext";
 import { BaseAPI } from "../../utils/constants/common";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 const { Title } = Typography;
 
 const TopNavBar: React.FC = () => {
+  const [cookies, removeCookie] = useCookies<any>(["token"]);
   const router = useRouter();
   const [drawerStatus, showDrawer] = useState<boolean>(false);
   const { currentUser, setUser } = useContext<any>(UserContext);
-//
+  //
   useEffect(() => {
     if (!currentUser) {
       reload();
@@ -54,7 +56,21 @@ const TopNavBar: React.FC = () => {
   const closeDrawer = () => {
     showDrawer(false);
   };
-  console.log(currentUser);
+
+  const logUserOut = async () => {
+    if (currentUser) {
+      try {
+        const data = await axios.get(`${BaseAPI}/user/logout`, {
+          withCredentials: true,
+        });
+        const response = data;
+      } catch (erorr) {
+        console.log(erorr);
+      }
+      setUser(null);
+      router.push("/login");
+    }
+  };
   return (
     <div id={styles.topNavBarContainer}>
       <Drawer
@@ -151,7 +167,24 @@ const TopNavBar: React.FC = () => {
           <Col xs={{ span: 0 }} md={{ span: 8 }}>
             <Row justify="end">
               <Col>
-                  <Popover placement="bottomRight" content={[<List><List.Item ><Link href='dashboard'><a style={{color: 'black'}}>Dashboard</a></Link></List.Item><List.Item><a style={{color: 'black'}}>Sign Out</a></List.Item></List>]} trigger="click">
+                <Popover
+                  placement="bottomRight"
+                  content={[
+                    <List key="1">
+                      <List.Item>
+                        <Link href="dashboard">
+                          <a style={{ color: "black" }}>Dashboard</a>
+                        </Link>
+                      </List.Item>
+                      <List.Item>
+                        <a style={{ color: "black" }} onClick={logUserOut}>
+                          Sign Out
+                        </a>
+                      </List.Item>
+                    </List>,
+                  ]}
+                  trigger="click"
+                >
                   <Avatar
                     style={{ cursor: "pointer" }}
                     size="large"
@@ -159,7 +192,7 @@ const TopNavBar: React.FC = () => {
                       0
                     )}.svg`}
                   />
-                  </Popover> 
+                </Popover>
               </Col>
             </Row>
           </Col>

@@ -235,4 +235,18 @@ userRouter.get(
   }
 );
 
+userRouter.get("/logout", (req: any, res: express.Response) => {
+  //may need to fix as it just creates a new cookie that doesn't have a jwt. Fine for now though.
+  const deleteCookie = () => {
+    var now = new Date();
+    now.setTime(now.getTime());
+    res.cookie("token", {
+      maxAge: 0,
+      httpOnly: true,
+    });
+  };
+  deleteCookie();
+  res.send({ logOut: true });
+});
+
 export default userRouter;
