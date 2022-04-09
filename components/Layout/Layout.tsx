@@ -4,15 +4,6 @@ import styles from "./layout.module.scss";
 import TopNavBar from "../NavMenus/TopNavBar";
 import Footer from "../Footer/Footer";
 
-type Props = {
-  children?: ReactNode;
-  title?: string;
-  keywords: string;
-  description: string;
-  author: string;
-  image_url: string;
-};
-
 const LayoutComponent = ({
   children,
   title = "ShareStation",
@@ -20,7 +11,7 @@ const LayoutComponent = ({
   description = "Setups",
   author = "",
   image_url,
-}: Props) => {
+}: any) => {
   return (
     <div id="layoutcontainer">
       <Head>

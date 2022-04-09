@@ -21,7 +21,6 @@ imageRouter.post(
   async (req: express.Request, res: express.Response) => {
     const file = req.file;
     const result = await uploadFile(file);
-    // may have to add delete logic in different call in order to keep preview
     await unlinkFile(file.path);
     res.send({ aws: result, orgFile: file });
   }

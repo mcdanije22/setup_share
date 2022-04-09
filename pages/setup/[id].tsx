@@ -499,7 +499,7 @@ export default function SetupPage(props: Props) {
                       </Menu>
                     }
                   >
-                    <Button type="primary" ghost onClick={handleModalOpen}>
+                    <Button type="primary" ghost>
                       Share
                     </Button>
                   </Dropdown>,

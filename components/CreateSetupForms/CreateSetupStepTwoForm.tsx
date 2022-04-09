@@ -19,6 +19,7 @@ import {
   ArrowLeftOutlined,
   InboxOutlined,
   CheckCircleTwoTone,
+  ConsoleSqlOutlined,
 } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
@@ -133,7 +134,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
       const pushToAwsList = currentAws.push({
         ...awsData,
       });
-      console.log(currentAws);
+      console.log("test", currentAws);
       setFileList([...currentAws]);
       setStepTwoForm([...currentAws]);
       message.success("sucess");
