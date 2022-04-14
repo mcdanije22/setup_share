@@ -141,8 +141,14 @@ userRouter.post("/login", (req: express.Request, res: express.Response) => {
         "subscription_exp_date"
       )
       .where("email", email);
-    createJWTToken(user[0]);
-    res.send({ user: user[0] });
+    const jwtData = {
+      ...user[0],
+      sessionImagesUploaded: 0,
+    };
+    // createJWTToken(user[0]);
+    // res.send({ user: user[0] });
+    createJWTToken(jwtData);
+    res.send(jwtData);
   };
 
   (async function () {

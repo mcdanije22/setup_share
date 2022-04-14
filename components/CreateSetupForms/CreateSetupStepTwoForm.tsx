@@ -120,6 +120,46 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
   const handleModalCancel = () => {
     setModalStatus(false);
   };
+  // const upload = async (file: any, i: number) => {
+  //   const data = new FormData();
+  //   data.append("image-file", file.originFileObj);
+  //   try {
+  //     const result = await axios.post(`${BaseAPI}/image/upload`, data, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     const awsData = { ...file, ...result.data.aws };
+  //     const currentAws: any = awsList;
+  //     const pushToAwsList = currentAws.push({
+  //       ...awsData,
+  //     });
+  //     console.log("test", result);
+  //     setFileList([...currentAws]);
+  //     setStepTwoForm([...currentAws]);
+  //     message.success("sucess");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const uploadFile = async (values: any) => {
+  //   if (!values.imageFile) {
+  //     handleStepChange(3);
+  //   } else if (fileList.length === 0) {
+  //     message.error("Please upload a photo before continuing");
+  //   } else {
+  //     setLoadingStatus(true);
+  //     const awsData = await values.imageFile.fileList.map(
+  //       async (item: any, i: number) => {
+  //         await upload(item, i);
+  //       }
+  //     );
+  //     sendFormTwoData();
+  //     setLoadingStatus(false);
+  //     handleStepChange(3);
+  //     //likely wont need this list tracking, will look to have custom preview images and single uploads
+  //   }
+  // };
   const upload = async (file: any, i: number) => {
     const data = new FormData();
     data.append("image-file", file.originFileObj);
@@ -129,14 +169,14 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
           "Content-Type": "multipart/form-data",
         },
       });
-      const awsData = { ...file, ...result.data.aws };
-      const currentAws: any = awsList;
-      const pushToAwsList = currentAws.push({
-        ...awsData,
+      const imgData = { ...file, filePath: result.data.filePath };
+      const currentImg: any = awsList;
+      const pushToImgList = currentImg.push({
+        ...imgData,
       });
-      console.log("test", currentAws);
-      setFileList([...currentAws]);
-      setStepTwoForm([...currentAws]);
+      console.log("test", result);
+      setFileList([...currentImg]);
+      setStepTwoForm([...currentImg]);
       message.success("sucess");
     } catch (error) {
       console.log(error);

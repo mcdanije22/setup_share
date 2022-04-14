@@ -6,6 +6,7 @@ import util from "util";
 const unlinkFile = util.promisify(fs.unlink);
 import multer from "multer";
 const upload = multer({ dest: "uploads/" });
+import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 
 const imageRouter = Router();
 
@@ -20,14 +21,27 @@ imageRouter.post(
   upload.single("image-file"),
   async (req: express.Request, res: express.Response) => {
     const file = req.file;
-    const result = await uploadFile(file);
-    await unlinkFile(file.path);
-    res.send({ aws: result, orgFile: file });
+    console.log(file);
+    // const result = await uploadFile(file);
+    // await unlinkFile(file.path);
+    // res.send({ aws: result, orgFile: file, filePath: file.path });
+    res.send({ orgFile: file, filePath: file.path });
+  }
+);
+
+imageRouter.post(
+  "/awsUpload",
+  async (req: express.Request, res: express.Response) => {
+    const { filePath, fileName } = req.body;
+    console.log(filePath);
+    const awsData = await uploadFile({ filePath, fileName });
+    res.send({ awsData });
   }
 );
 
 imageRouter.post(
   "/delete",
+  checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {
     const result = await deleteFile(req.body.key);
     res.send({ message: "deleted" });

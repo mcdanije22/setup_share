@@ -9,12 +9,13 @@ const s3 = new AWS.S3({
 
 const uploadFile = (file) => {
   // Read content from the file
-  const fileContent = fs.createReadStream(file.path);
+  // const fileContent = fs.createReadStream(file.path);
+  const fileContent = fs.createReadStream(file.filePath);
 
   // Setting up S3 upload parameters
   const params = {
     Bucket: process.env.BUCKET_NAME,
-    Key: file.filename, // File name you want to save as in S3
+    Key: file.fileName, // File name you want to save as in S3
     Body: fileContent,
   };
   return s3.upload(params).promise();

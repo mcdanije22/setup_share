@@ -25,7 +25,6 @@ interface Data {
 
 setupRouter.get(
   "/limitCheck",
-  checkAPIAuthMiddleware,
   async (req: express.Request, res: express.Response) => {}
 );
 
