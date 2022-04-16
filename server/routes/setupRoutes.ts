@@ -4,6 +4,10 @@ import deleteFile from "../services/s3_delete";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 import Cookies from "universal-cookie";
 import jwt from "jsonwebtoken";
+import uploadFile from "../services/s3_upload";
+import fs from "fs";
+import util from "util";
+const unlinkFile = util.promisify(fs.unlink);
 
 const setupRouter = Router();
 
@@ -54,12 +58,20 @@ setupRouter.post(
         })
         .returning("setup_id");
       const mapImages = await images.map(async (image, i) => {
+        console.log(image);
+        const { filePath, fileName } = image;
+        const awsData = await uploadFile({
+          filePath,
+          fileName,
+        });
+        console.log(awsData);
+        await unlinkFile(filePath);
         const insertedImage = await db("images")
           .insert({
             user_id: userId,
             setup_id: insertResult[0],
-            image_url: image.link,
-            aws_key: image.key,
+            image_url: awsData.Location,
+            aws_key: awsData.Key,
             image_position: image.imagePosition,
             image_position_number: image.imagePositionNumber,
           })
@@ -77,6 +89,7 @@ setupRouter.post(
           });
         }
       });
+      console.log("test", insertResult[0]);
       res.send({ setup_id: insertResult[0] });
     } catch (e) {
       return res

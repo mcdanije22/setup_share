@@ -25,7 +25,7 @@ imageRouter.post(
     // const result = await uploadFile(file);
     // await unlinkFile(file.path);
     // res.send({ aws: result, orgFile: file, filePath: file.path });
-    res.send({ orgFile: file, filePath: file.path });
+    res.send({ orgFile: file, filePath: file.path, fileName: file.filename });
   }
 );
 
@@ -33,8 +33,8 @@ imageRouter.post(
   "/awsUpload",
   async (req: express.Request, res: express.Response) => {
     const { filePath, fileName } = req.body;
-    console.log(filePath);
     const awsData = await uploadFile({ filePath, fileName });
+    // await unlinkFile(filePath);
     res.send({ awsData });
   }
 );

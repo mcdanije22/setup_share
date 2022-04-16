@@ -8,8 +8,8 @@ const s3 = new AWS.S3({
 });
 
 const uploadFile = (file) => {
+  console.log(file);
   // Read content from the file
-  // const fileContent = fs.createReadStream(file.path);
   const fileContent = fs.createReadStream(file.filePath);
 
   // Setting up S3 upload parameters

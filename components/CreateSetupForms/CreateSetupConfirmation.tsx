@@ -126,15 +126,23 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       return 2;
     }
   };
+
   const SubmitRoomData = async () => {
     setLoading(true);
     let imageFiles: Array<object> = [];
-    const addImages = stepTwoForm.map((item: any, i: number) => {
+    const addImages = await stepTwoForm.map(async (item: any, i: number) => {
+      // const awsData = await axios.post(`${BaseAPI}/image/awsUpload`, {
+      //   filePath: item.filePath,
+      //   fileName: item.fileName,
+      // });
+      // console.log("aws", awsData);
       if (i === 0) {
         imageFiles.push({
           ...stepThreeForm.imageOne,
           link: stepTwoForm[0].Location,
           key: stepTwoForm[0].key,
+          filePath: item.filePath,
+          fileName: item.fileName,
           //test this to add image for ordering
           imagePositionNumber: addImagePositionNumber(
             stepThreeForm.imageOne.imagePosition
@@ -143,8 +151,8 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       } else if (i === 1) {
         imageFiles.push({
           ...stepThreeForm.imageTwo,
-          link: stepTwoForm[1].Location,
-          key: stepTwoForm[1].key,
+          filePath: item.filePath,
+          fileName: item.fileName,
           imagePositionNumber: addImagePositionNumber(
             stepThreeForm.imageTwo.imagePosition
           ),
@@ -152,8 +160,8 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       } else if (i === 2) {
         imageFiles.push({
           ...stepThreeForm.imageThree,
-          link: stepTwoForm[2].Location,
-          key: stepTwoForm[2].key,
+          filePath: item.filePath,
+          fileName: item.fileName,
           imagePositionNumber: addImagePositionNumber(
             stepThreeForm.imageThree.imagePosition
           ),

@@ -43,7 +43,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
   const [fileList, setFileList] = useState<Array<any>>([]);
   const [isLoading, setLoadingStatus] = useState(false);
   const [modalStatus, setModalStatus] = useState<boolean>(false);
-  const [awsList, setAwsList] = useState([]);
+  const [imageList, setImageList] = useState([]);
   const [warningModal, setWarningModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -169,8 +169,12 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
           "Content-Type": "multipart/form-data",
         },
       });
-      const imgData = { ...file, filePath: result.data.filePath };
-      const currentImg: any = awsList;
+      const imgData = {
+        ...file,
+        filePath: result.data.filePath,
+        fileName: result.data.fileName,
+      };
+      const currentImg: any = imageList;
       const pushToImgList = currentImg.push({
         ...imgData,
       });
