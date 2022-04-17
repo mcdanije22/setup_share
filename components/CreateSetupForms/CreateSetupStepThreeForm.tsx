@@ -56,6 +56,7 @@ interface Area {
   coords: Array<number>;
   preFillColor: string;
   fillColor: string;
+  strokeColor: string;
   url: string;
 }
 
@@ -133,8 +134,9 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
         name: "",
         shape: "poly",
         coords: [...tempCoordList],
-        preFillColor: "green",
-        fillColor: "blue",
+        preFillColor: "rgba(0, 255, 0, 0.3)",
+        fillColor: "transparent",
+        strokeColor: "black",
         url: "",
       },
       ...tempAreas,
@@ -463,10 +465,16 @@ const CreateSetupStepThreeForm: React.FC<Props> = ({
                     return (
                       <List.Item
                         key={item.id}
-                        actions={[<DeleteTwoTone />]}
-                        onClick={() => {
-                          removeItem(item.id);
-                        }}
+                        actions={[
+                          <Button
+                            type="link"
+                            onClick={() => {
+                              removeItem(item.id);
+                            }}
+                          >
+                            <DeleteTwoTone />
+                          </Button>,
+                        ]}
                       >
                         <List.Item.Meta title={item.name} />
                       </List.Item>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// @ts-ignore
 import ImageMapper from "react-image-mapper";
 import {
   MobileWidth,
@@ -13,9 +14,10 @@ interface Props {
   src: string;
   areas: Array<Item>;
   name: string;
-  highlightItem: (id: string) => void;
+  highlightItem: (id: string | null) => void;
   onLoadScreenType: string;
   handleModalOpen: any;
+  showHighlighting: boolean;
 }
 interface Item {
   coords: number[];
@@ -33,12 +35,12 @@ const ImageMapContainer = ({
   highlightItem,
   onLoadScreenType,
   handleModalOpen,
+  showHighlighting,
 }: Props) => {
   var MAP = {
     name: name,
     areas: [...areas],
   };
-  console.log(areas);
   return (
     <ImageMapper
       src={`${src}`}
@@ -64,6 +66,11 @@ const ImageMapContainer = ({
       }}
       onClick={(area: Item) => {
         handleModalOpen(area);
+      }}
+      onMouseLeave={() => {
+        if (!showHighlighting) {
+          highlightItem(null);
+        }
       }}
     />
   );

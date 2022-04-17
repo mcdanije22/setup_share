@@ -251,11 +251,10 @@ export default function SetupPage(props: Props) {
       hideHighlighting();
     }
   }
-  const highlightItem = (id: string) => {
+  const highlightItem = (id: string | null) => {
     setImageAreas([]);
     createCurrentImageAreasList(false, id);
     setDataPageInfo();
-    setHighlightingStatus(false);
   };
   //Ugly logic but it works. Nested if statements cause react to crash on max updates on itemslist state
   const mobileToDesktopCoords = (itemsList: Array<ImageItemsObject>) => {
@@ -396,7 +395,6 @@ export default function SetupPage(props: Props) {
     setCurrentItem(null);
     setModalStatus(false);
   };
-  console.log(getSetUpInfo[0].username);
   return (
     <Layout
       title={`${getSetUpInfo[0].username}'s ${getSetUpInfo[0].setup_title} setup`}
@@ -461,17 +459,17 @@ export default function SetupPage(props: Props) {
               <PageHeader
                 //need user route here. Can't put link on top of avatar
                 title={[
-                  <Title level={3} style={{ margin: "0" }}>
+                  <Title key="1" level={3} style={{ margin: "0" }}>
                     {getSetUpInfo[0].username}
                   </Title>,
                 ]}
                 //TODO: need to change url when site name chosen
                 extra={[
                   <Dropdown
-                    key="1"
+                    key="0"
                     overlay={
                       <Menu>
-                        <Menu.Item>
+                        <Menu.Item key="1">
                           <a
                             href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
                             target="_blank"
@@ -480,7 +478,7 @@ export default function SetupPage(props: Props) {
                             Facebook
                           </a>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item key="2">
                           <a
                             href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
                             target="_blank"
@@ -488,7 +486,7 @@ export default function SetupPage(props: Props) {
                             Twitter
                           </a>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item key="3">
                           <a
                             href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
                             target="_blank"
@@ -537,6 +535,7 @@ export default function SetupPage(props: Props) {
                         highlightItem={highlightItem}
                         onLoadScreenType={onLoadScreenType}
                         handleModalOpen={handleModalOpen}
+                        showHighlighting={showHighlighting}
                       />
                     </div>
                   );

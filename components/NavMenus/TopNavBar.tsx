@@ -170,13 +170,13 @@ const TopNavBar: React.FC = () => {
                 <Popover
                   placement="bottomRight"
                   content={[
-                    <List key="1">
-                      <List.Item>
-                        <Link href="dashboard">
+                    <List key="0">
+                      <List.Item key="1">
+                        <Link href="/dashboard">
                           <a style={{ color: "black" }}>Dashboard</a>
                         </Link>
                       </List.Item>
-                      <List.Item>
+                      <List.Item key="2">
                         <a style={{ color: "black" }} onClick={logUserOut}>
                           Sign Out
                         </a>
@@ -186,6 +186,7 @@ const TopNavBar: React.FC = () => {
                   trigger="click"
                 >
                   <Avatar
+                    key="3"
                     style={{ cursor: "pointer" }}
                     size="large"
                     src={`https://avatars.dicebear.com/api/initials/${currentUser.user?.username.charAt(
