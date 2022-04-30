@@ -4,7 +4,7 @@ import { Menu } from "antd";
 import { DashboardOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
-const SideNavBar: React.FC = ({ user }: any) => {
+const SideNavBar = ({ user }: any) => {
   const router = useRouter();
   return (
     <div

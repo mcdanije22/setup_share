@@ -21,7 +21,7 @@ import { useCookies } from "react-cookie";
 
 const { Title } = Typography;
 
-const TopNavBar: React.FC = () => {
+const TopNavBar = () => {
   const [cookies, removeCookie] = useCookies<any>(["token"]);
   const router = useRouter();
   const [drawerStatus, showDrawer] = useState<boolean>(false);
