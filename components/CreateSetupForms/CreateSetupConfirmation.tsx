@@ -131,11 +131,6 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     setLoading(true);
     let imageFiles: Array<object> = [];
     const addImages = await stepTwoForm.map(async (item: any, i: number) => {
-      // const awsData = await axios.post(`${BaseAPI}/image/awsUpload`, {
-      //   filePath: item.filePath,
-      //   fileName: item.fileName,
-      // });
-      // console.log("aws", awsData);
       if (i === 0) {
         imageFiles.push({
           ...stepThreeForm.imageOne,
@@ -195,7 +190,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     handleSubmitModalCancel();
     setLoading(false);
   };
-  console.log(currentUser);
+
   if (loading) {
     return <div>test</div>;
   } else {

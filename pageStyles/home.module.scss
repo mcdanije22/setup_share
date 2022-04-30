@@ -1,0 +1,58 @@
+$desktop: 992px;
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+@include desktop {
+  .signUpFooter {
+    text-align: left;
+  }
+}
+
+#landingPageContainer {
+  :global {
+    .ant-layout-header,
+    .ant-layout-content,
+    .ant-layout-footer {
+      background: white;
+      padding: 0;
+    }
+    .containerSpace {
+      margin-top: 6rem;
+    }
+    .landingImage {
+      border-radius: 0.5rem;
+    }
+    .ant-list-item {
+      border: none;
+      .anticon,
+      .anticon-check {
+        color: #4e89ff;
+        font-size: 1.2rem;
+      }
+    }
+    .landingTitle {
+      font-size: 4rem;
+      text-align: center;
+      margin: 0;
+    }
+    .titleDescription {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    .signUpFooter {
+      text-align: center;
+      @include desktop {
+        text-align: left;
+      }
+    }
+  }
+  .ant-drawer-header {
+    border-bottom: 0;
+    .ant-drawer-title {
+      font-size: 1.5rem;
+    }
+  }
+}
