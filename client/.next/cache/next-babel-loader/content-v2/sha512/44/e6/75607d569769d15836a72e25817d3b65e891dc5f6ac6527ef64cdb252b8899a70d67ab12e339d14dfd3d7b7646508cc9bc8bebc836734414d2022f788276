@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var BaseAPI = \"http://localhost:5000\";","map":{"version":3,"sources":["/Users/joshmcdaniel/Documents/work/repos/setup_share/utils/constants/common.tsx"],"names":["BaseAPI"],"mappings":"AAAA,OAAO,IAAMA,OAAO,GAAG,uBAAhB","sourcesContent":["export const BaseAPI = \"http://localhost:5000\";\n"]},"metadata":{},"sourceType":"module"}
