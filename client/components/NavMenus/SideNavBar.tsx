@@ -1,4 +1,4 @@
-import styles from "./sideNavbar.module.scss";
+import styles from "./sideNavBar.module.scss";
 import Link from "next/link";
 import { Menu } from "antd";
 import { DashboardOutlined } from "@ant-design/icons";

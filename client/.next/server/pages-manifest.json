@@ -1,10 +1,14 @@
 {
   "/_app": "pages/_app.js",
+  "/analytics/[id]": "pages/analytics/[id].js",
+  "/api/hello": "pages/api/hello.js",
+  "/createroom": "pages/createroom.js",
+  "/dashboard": "pages/dashboard.js",
+  "/": "pages/index.html",
+  "/login": "pages/login.js",
+  "/register": "pages/register.js",
+  "/setup/[id]": "pages/setup/[id].js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/dashboard": "pages/dashboard.js",
-  "/login": "pages/login.js",
-  "/analytics/[id]": "pages/analytics/[id].js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js"
+  "/404": "pages/404.html"
 }

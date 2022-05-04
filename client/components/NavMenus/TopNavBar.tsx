@@ -26,7 +26,7 @@ const TopNavBar = () => {
   const router = useRouter();
   const [drawerStatus, showDrawer] = useState<boolean>(false);
   const { currentUser, setUser } = useContext<any>(UserContext);
-  //
+
   useEffect(() => {
     if (!currentUser) {
       reload();
