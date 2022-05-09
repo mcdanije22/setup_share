@@ -4,6 +4,7 @@ COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "tsconfig.js
 COPY . .
 RUN npm install 
 ENV NODE_ENV=production
+ENV GENERATE_SOURCEMAP=false
 RUN npm run build 
 # FROM nginx
 # EXPOSE 3000
