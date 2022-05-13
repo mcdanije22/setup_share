@@ -12,13 +12,13 @@ services:
     ports:
       - 80:80
       - 443:443
-    certbot:
-      image: certbot/certbot
-      container_name: certbot
-      volumes:
-        - ./certbot/conf:/etc/letsencrypt
-        - ./certbot/www:/var/www/certbot
-      command: certonly --webroot -w /var/www/certbot --force-renewal --email mcdanije22@gmail.com -d mysetupshare.com --agree-tos
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email mcdanije22@gmail.com -d mysetupshare.com --agree-tos
   client:
     image: client
     build:
