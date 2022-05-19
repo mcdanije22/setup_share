@@ -54,6 +54,7 @@ interface SetupObject {
   user_id: string;
   username: string;
   image_id: string;
+  subscription_exp_date: Date;
 }
 interface ImageItemsObject {
   item_id: string;
@@ -101,10 +102,20 @@ export default function SetupPage(props: Props) {
   const [cookies, setCookies] = useCookies<any>(["visitor"]);
   const [isOpen, setModalStatus] = useState<boolean>(false);
   const [currentItem, setCurrentItem] = useState<MapAreaItem | null>();
+  const [subscriptionStatus, setSubscriptionStatus] = useState<boolean>(false);
   // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
 
   useEffect(() => {
     setupCookieClickFunction();
+  }, []);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const d1 = new Date(getSetUpInfo[0]?.subscription_exp_date);
+    console.log("3", d1 < currentDate);
+    if (getSetUpInfo[0]?.subscription_exp_date > currentDate) {
+      setSubscriptionStatus(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -566,6 +577,7 @@ export default function SetupPage(props: Props) {
               </Divider>
               <ItemList
                 itemList={imageAreas}
+                subscriptionStatus={subscriptionStatus}
                 itemCookieClickFunction={itemCookieClickFunction}
               />
             </Col>
@@ -618,6 +630,7 @@ export default function SetupPage(props: Props) {
                   </Row>
                   <ItemList
                     itemList={imageAreas}
+                    subscriptionStatus={subscriptionStatus}
                     itemCookieClickFunction={itemCookieClickFunction}
                   />
                 </TabPane>

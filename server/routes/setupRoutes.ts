@@ -117,7 +117,8 @@ setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
         "images.image_position_number",
         "images.setup_id",
         "users.user_id",
-        "users.username"
+        "users.username",
+        "users.subscription_exp_date"
       );
     const getImageItems = await db("image_items")
       .where("image_items.setup_id", req.params.id)
