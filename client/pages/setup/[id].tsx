@@ -86,7 +86,7 @@ export default function SetupPage(props: Props) {
     []
   );
   const [imageAreas, setImageAreas] = useState<Array<MapAreaItem>>([]);
-  const { getSetUpInfo, getImageItems } = props;
+  const { getSetUpInfo, getImageItems, subscriptionStatus } = props;
   const [imagePositions, setPositionList] = useState<Array<string>>([]);
   const [rightSideImageEnd, setRightSideEnd] = useState(false);
   const [leftSideImageEnd, setLeftSideEnd] = useState(false);
@@ -102,19 +102,12 @@ export default function SetupPage(props: Props) {
   const [cookies, setCookies] = useCookies<any>(["visitor"]);
   const [isOpen, setModalStatus] = useState<boolean>(false);
   const [currentItem, setCurrentItem] = useState<MapAreaItem | null>();
-  const [subscriptionStatus, setSubscriptionStatus] = useState<boolean>(false);
   // const isLaptop = useMediaQuery({ minWidth: 992, maxWidth: 1439 });
+
+  console.log(props);
 
   useEffect(() => {
     setupCookieClickFunction();
-  }, []);
-
-  useEffect(() => {
-    const currentDate = new Date();
-    const d1 = new Date(getSetUpInfo[0]?.subscription_exp_date);
-    if (d1 > currentDate) {
-      setSubscriptionStatus(true);
-    }
   }, []);
 
   useEffect(() => {
@@ -673,12 +666,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   try {
     const response = await axios.get(`${BaseAPI}/setup/${id}`);
-    const setUpPageData = await response.data;
+    let setUpPageData = await response.data;
     const currentDate = new Date();
-    const d1 = new Date(setUpPageData[0]?.subscription_exp_date);
+    const d1 = new Date(setUpPageData.getSetUpInfo[0]?.subscription_exp_date);
     const subscriptionStatus = d1 > currentDate;
-    console.log(setUpPageData);
-    //TODO: send sub status as a prop instead of dealing with state
+    setUpPageData = { ...setUpPageData, subscriptionStatus };
     return {
       props: setUpPageData,
     };
