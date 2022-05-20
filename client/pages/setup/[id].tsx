@@ -35,7 +35,7 @@ import styles from "./setupPage.module.scss";
 import layoutStyles from "../../components/Layout/layout.module.scss";
 import ImageMapContainer from "../../components/imageMapContainer/ImageMapContainer";
 import { useMediaQuery } from "react-responsive";
-import ItemList from "../../components/ItemList";
+import ItemList from "../../components/ItemList/ItemList";
 import { useCookies } from "react-cookie";
 
 const { Link, Title, Text } = Typography;
@@ -112,8 +112,7 @@ export default function SetupPage(props: Props) {
   useEffect(() => {
     const currentDate = new Date();
     const d1 = new Date(getSetUpInfo[0]?.subscription_exp_date);
-    console.log("3", d1 < currentDate);
-    if (getSetUpInfo[0]?.subscription_exp_date > currentDate) {
+    if (d1 > currentDate) {
       setSubscriptionStatus(true);
     }
   }, []);
@@ -371,7 +370,6 @@ export default function SetupPage(props: Props) {
     return response.data;
   };
   const itemCookieClickFunction = async (itemId: string) => {
-    console.log(itemId);
     if (!cookies.visitor) {
       const initialData = {
         setups: [],
@@ -547,6 +545,7 @@ export default function SetupPage(props: Props) {
                         onLoadScreenType={onLoadScreenType}
                         handleModalOpen={handleModalOpen}
                         showHighlighting={showHighlighting}
+                        subscriptionStatus={subscriptionStatus}
                       />
                     </div>
                   );
@@ -579,6 +578,7 @@ export default function SetupPage(props: Props) {
                 itemList={imageAreas}
                 subscriptionStatus={subscriptionStatus}
                 itemCookieClickFunction={itemCookieClickFunction}
+                handleModalOpen={handleModalOpen}
               />
             </Col>
             <Col
@@ -632,6 +632,7 @@ export default function SetupPage(props: Props) {
                     itemList={imageAreas}
                     subscriptionStatus={subscriptionStatus}
                     itemCookieClickFunction={itemCookieClickFunction}
+                    handleModalOpen={handleModalOpen}
                   />
                 </TabPane>
                 <TabPane tab="Description" key="2">
@@ -673,6 +674,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const response = await axios.get(`${BaseAPI}/setup/${id}`);
     const setUpPageData = await response.data;
+    const currentDate = new Date();
+    const d1 = new Date(setUpPageData[0]?.subscription_exp_date);
+    const subscriptionStatus = d1 > currentDate;
+    console.log(setUpPageData);
+    //TODO: send sub status as a prop instead of dealing with state
     return {
       props: setUpPageData,
     };

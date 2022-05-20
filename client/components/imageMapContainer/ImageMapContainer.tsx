@@ -18,6 +18,7 @@ interface Props {
   onLoadScreenType: string;
   handleModalOpen: any;
   showHighlighting: boolean;
+  subscriptionStatus: boolean;
 }
 interface Item {
   coords: number[];
@@ -36,6 +37,7 @@ const ImageMapContainer = ({
   onLoadScreenType,
   handleModalOpen,
   showHighlighting,
+  subscriptionStatus,
 }: Props) => {
   var MAP = {
     name: name,
@@ -65,7 +67,9 @@ const ImageMapContainer = ({
         highlightItem(area.id);
       }}
       onClick={(area: Item) => {
-        handleModalOpen(area);
+        if (subscriptionStatus) {
+          handleModalOpen(area);
+        }
       }}
       onMouseLeave={() => {
         if (!showHighlighting) {

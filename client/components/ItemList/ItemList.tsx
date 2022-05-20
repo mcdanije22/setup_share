@@ -1,5 +1,5 @@
 import { Row, Col, Typography, Divider } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, SelectOutlined } from "@ant-design/icons";
 const { Link } = Typography;
 
 interface Item {
@@ -14,12 +14,14 @@ interface Props {
   itemList: Array<Item>;
   subscriptionStatus: boolean;
   itemCookieClickFunction: (id: string) => void;
+  handleModalOpen: any;
 }
 
 const ItemList = ({
   itemList,
   itemCookieClickFunction,
   subscriptionStatus,
+  handleModalOpen,
 }: Props) => {
   return (
     <div>
@@ -27,19 +29,21 @@ const ItemList = ({
         return (
           <div key={i}>
             <Row justify="space-between">
-              <Col key={i}>
-                {i + 1}.{" "}
-                <Link
-                  onClick={() => itemCookieClickFunction(item.id)}
-                  // style={{ color: "black" }}
-                  //onhover underline?
-                  href={`${item.href}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.name}
-                </Link>
+              <Col key={i} style={{ fontSize: "1.5rem" }}>
+                {i + 1}. {item.name}
               </Col>
+              {subscriptionStatus && (
+                <Col style={{ alignSelf: "end" }}>
+                  <SelectOutlined
+                    style={{ fontSize: "1rem" }}
+                    // onClick={() => {
+                    //   handleModalOpen(item);
+                    //   itemCookieClickFunction(item.id);
+                    // }}
+                    onClick={() => handleModalOpen(item)}
+                  />
+                </Col>
+              )}
               {/* <EyeOutlined */}
               {/*   onClick={() => { */}
               {/*     highlightItem(item.id); */}
