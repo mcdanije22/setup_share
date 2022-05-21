@@ -10,6 +10,7 @@ import {
   Space,
   List,
   Avatar,
+  message,
   Popover,
 } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
@@ -64,11 +65,14 @@ const TopNavBar = () => {
           withCredentials: true,
         });
         const response = data;
-      } catch (erorr) {
-        console.log(erorr);
+        setUser(null);
+        message.success("Logged out sucessfully");
+        setTimeout(async () => {
+          await router.push("/login");
+        }, 50);
+      } catch (error) {
+        console.log(error);
       }
-      setUser(null);
-      router.push("/login");
     }
   };
   return (
@@ -132,7 +136,7 @@ const TopNavBar = () => {
       >
         <Col xs={{ flex: "auto" }} lg={{ span: 8 }}>
           <Title level={3} key="1">
-            <Link href="/" key="2">
+            <Link href={currentUser ? "/dashboard" : "/"} key="2">
               <a style={{ color: "black" }}>ShareStation</a>
             </Link>
           </Title>

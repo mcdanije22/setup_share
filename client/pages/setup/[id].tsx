@@ -76,6 +76,7 @@ interface MapAreaItem {
 interface Props {
   getSetUpInfo: Array<SetupObject>;
   getImageItems: Array<ImageItemsObject>;
+  subscriptionStatus: boolean;
 }
 
 export default function SetupPage(props: Props) {
