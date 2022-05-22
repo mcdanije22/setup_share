@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <div id={styles.landingPageContainer}>
       <Drawer
-        title="shareStation"
+        title="MySetupShare"
         placement="right"
         closable={true}
         onClose={closeDrawer}
@@ -106,7 +106,7 @@ export default function Home() {
       <Row justify="center">
         <Col xs={{ span: 22 }} lg={{ span: 16 }}>
           <Head>
-            <title>shareStation</title>
+            <title>MySetupShare</title>
             <link rel="icon" href="/icon.png" />
           </Head>
           <Layout>
@@ -115,7 +115,7 @@ export default function Home() {
                 <Col xs={{ flex: "auto" }} lg={{ span: 8 }}>
                   <Title level={3} key="1" style={{ padding: "1rem 0" }}>
                     <Link href="/" key="2">
-                      <a style={{ color: "black" }}>shareStation</a>
+                      <a style={{ color: "black" }}>MySetupShare</a>
                     </Link>
                   </Title>
                 </Col>

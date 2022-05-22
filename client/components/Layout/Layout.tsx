@@ -6,7 +6,7 @@ import Footer from "../Footer/Footer";
 
 const LayoutComponent = ({
   children,
-  title = "ShareStation",
+  title = "MySetupShare",
   keywords = "Setups",
   description = "Setups",
   author = "",
@@ -15,7 +15,7 @@ const LayoutComponent = ({
   return (
     <div id="layoutcontainer">
       <Head>
-        <title>{`${title} | ShareStation`}</title>
+        <title>{`${title} | MySetupShare`}</title>
         <meta name="og:keywords" content={`${keywords}`} />
         <meta name="og:description" content={`${description}`} />
         <meta name="og:author" content={`${author}`} />

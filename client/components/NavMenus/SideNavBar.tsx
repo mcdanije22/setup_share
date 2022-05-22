@@ -15,7 +15,7 @@ const SideNavBar = ({ user }: any) => {
       }}
     >
       <div id={styles.logoSection}>
-        <h1>ShareStation</h1>
+        <h1>MySetupShare</h1>
       </div>
       <Menu
         theme="dark"

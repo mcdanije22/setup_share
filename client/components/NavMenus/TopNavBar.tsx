@@ -76,7 +76,7 @@ const TopNavBar = () => {
   return (
     <div id={styles.topNavBarContainer}>
       <Drawer
-        title="ShareStation"
+        title="MySetupShare"
         placement="right"
         closable={true}
         onClose={closeDrawer}
@@ -135,7 +135,7 @@ const TopNavBar = () => {
         <Col xs={{ flex: "auto" }} lg={{ span: 8 }}>
           <Title level={3} key="1">
             <Link href={currentUser ? "/dashboard" : "/"} key="2">
-              <a style={{ color: "black" }}>ShareStation</a>
+              <a style={{ color: "black" }}>MySetupShare</a>
             </Link>
           </Title>
         </Col>

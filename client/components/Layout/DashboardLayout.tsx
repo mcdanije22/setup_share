@@ -34,7 +34,7 @@ type Props = {
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const DashboardLayout = ({ children, title = "ShareStation" }: Props) => {
+const DashboardLayout = ({ children, title = "MySetupShare" }: Props) => {
   const { currentUser, setUser } = useContext<any>(UserContext);
   const { Title, Text } = Typography;
   const [drawerStatus, showDrawer] = useState<boolean>(false);
@@ -70,7 +70,7 @@ const DashboardLayout = ({ children, title = "ShareStation" }: Props) => {
   return (
     <div id={styles.layoutcontainer}>
       <Head>
-        <title>{`${title} | ShareStation`}</title>
+        <title>{`${title} | MySetupShare`}</title>
         <link rel="icon" href="/icon.png" />
       </Head>
       <Layout>

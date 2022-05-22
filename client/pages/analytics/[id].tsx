@@ -328,7 +328,7 @@ export default function AnalyticsPage(props: Props) {
                 <Menu>
                   <Menu.Item>
                     <a
-                      href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${setUpInfo[0].setup_id}`}
+                      href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmysetupshare.com/setup/${setUpInfo[0].setup_id}`}
                       target="_blank"
                       rel="noopener"
                     >
@@ -337,7 +337,7 @@ export default function AnalyticsPage(props: Props) {
                   </Menu.Item>
                   <Menu.Item>
                     <a
-                      href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${setUpInfo[0].setup_id}`}
+                      href={`https://twitter.com/intent/tweet?url=https%3a%2f%2fmysetupshare.com/setup/${setUpInfo[0].setup_id}`}
                       target="_blank"
                     >
                       Twitter
@@ -345,7 +345,7 @@ export default function AnalyticsPage(props: Props) {
                   </Menu.Item>
                   <Menu.Item>
                     <a
-                      href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${setUpInfo[0].setup_id}`}
+                      href={`https://www.reddit.com/submit?url=https%3a%2f%2fmysetupshare.com/setup/${setUpInfo[0].setup_id}`}
                       target="_blank"
                     >
                       Reddit
