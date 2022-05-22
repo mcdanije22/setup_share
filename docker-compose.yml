@@ -36,6 +36,8 @@ services:
     ports:
       - 3000:3000
   server:
+    depends_on:
+      - postgres
     image: server
     build:
       context: server
