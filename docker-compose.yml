@@ -40,3 +40,5 @@ services:
       NODE_ENV: production
     ports:
       - 5000:5000
+volumes:
+  database-data:
