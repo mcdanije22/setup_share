@@ -5,8 +5,6 @@ module.exports = {
     client: "postgresql",
     connection: {
       database: "share_station",
-      user: "root",
-      password: "password",
     },
   },
 
@@ -29,8 +27,8 @@ module.exports = {
   production: {
     client: "postgresql",
     connection: {
-      database: "my_db",
-      user: "username",
+      database: "share_station",
+      user: "root",
       password: "password",
     },
     pool: {
