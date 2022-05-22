@@ -67,9 +67,7 @@ const TopNavBar = () => {
         const response = data;
         setUser(null);
         message.success("Logged out sucessfully");
-        setTimeout(async () => {
-          await router.push("/login");
-        }, 50);
+        await router.push("/login?prior=true");
       } catch (error) {
         console.log(error);
       }

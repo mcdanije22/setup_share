@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Row, Col, Form, Input, Button, message, Typography } from "antd";
 import axios from "axios";
 import { GetServerSideProps } from "next";
@@ -18,6 +18,7 @@ export default function LoginPage() {
   const { setUser } = useContext<any>(UserContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { query } = useRouter();
 
   const userLogin = async (values: User) => {
     const { email, password } = values;
@@ -58,16 +59,13 @@ export default function LoginPage() {
           id={styles.formWindow}
         >
           <div style={{ textAlign: "center" }}>
-            <Title level={2}>ShareStation</Title>
-            <Title level={3}>Sign In</Title>
-            <Text>To Continue</Text>
+            <Title level={2}>MySetupShare</Title>
+            <Title level={3} style={{ marginTop: "0" }}>
+              {query.prior ? "Signed out" : "Sign In"}
+            </Title>
+            <Text>{query.prior ? "Sign in Again?" : "To Continue"}</Text>
           </div>
-          <Form
-            labelCol={{ span: 24 }}
-            name="login"
-            onFinish={userLogin}
-            // onFinishFailed={onFinishFailed}
-          >
+          <Form labelCol={{ span: 24 }} name="login" onFinish={userLogin}>
             <Form.Item
               label="Email"
               name="email"

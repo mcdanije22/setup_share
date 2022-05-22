@@ -67,9 +67,10 @@ export default function RegisterPage() {
           id={styles.formWindow}
         >
           <div style={{ textAlign: "center" }}>
-            <Title level={2}>ShareStation</Title>
-            <Title level={3}>Sign In</Title>
-            <Text>To Continue</Text>
+            <Title level={2}>MySetupShare</Title>
+            <Title level={3} style={{ marginTop: "0" }}>
+              Register?
+            </Title>
           </div>
           <Form
             name="register"

@@ -255,4 +255,11 @@ userRouter.get("/logout", (req: any, res: express.Response) => {
   res.send({ logOut: true });
 });
 
+userRouter.get(
+  "/subscriptionLevelCheck",
+  async (req: express.Request, res: express.Response) => {
+    const getUserSubscriptionLevel = await db("setups");
+  }
+);
+
 export default userRouter;

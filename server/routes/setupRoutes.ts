@@ -27,11 +27,6 @@ interface Data {
   subscription_exp_date: Date;
 }
 
-setupRouter.get(
-  "/limitCheck",
-  async (req: express.Request, res: express.Response) => {}
-);
-
 setupRouter.post(
   "/create",
   checkAPIAuthMiddleware,
