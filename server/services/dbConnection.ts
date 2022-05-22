@@ -3,8 +3,8 @@ const db = require("knex")({
   version: "7.2",
   connection: {
     host: "127.0.0.1",
-    // user: "your_database_user",
-    // password: "your_database_password",
+    user: "root",
+    password: "password",
     database: "share_station",
   },
 });
