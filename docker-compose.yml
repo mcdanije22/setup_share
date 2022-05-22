@@ -1,20 +1,6 @@
 version: "1.0"
 
-volumes:
-  database-data:
 services:
-  database:
-    image: "postgres:14"
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: share_station
-    ports:
-      - "5432:5432"
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
-    volumes:
-      - database-data:/var/lib/postgresql/12/main/
   nginx:
     depends_on:
       - server
@@ -36,8 +22,6 @@ services:
     ports:
       - 3000:3000
   server:
-    depends_on:
-      - postgres
     image: server
     build:
       context: server
