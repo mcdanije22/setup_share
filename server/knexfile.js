@@ -5,6 +5,8 @@ module.exports = {
     client: "postgresql",
     connection: {
       database: "share_station",
+      user: "root",
+      password: "password",
     },
   },
 
