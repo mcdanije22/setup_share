@@ -2,7 +2,7 @@ const db = require("knex")({
   client: "pg",
   version: "7.2",
   connection: {
-    host: "postgresql_database",
+    host: "172.17.0.1",
     user: "root",
     password: "password",
     database: "share_station",
