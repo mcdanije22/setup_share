@@ -33,7 +33,6 @@ services:
   postgresql_database:
     image: postgres:latest
     environment:
-      - DATABASE_URL=postgres://root:password@postgresql_database:5432/share_station
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=share_station
