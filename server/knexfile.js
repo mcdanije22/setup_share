@@ -3,18 +3,14 @@
 module.exports = {
   development: {
     client: "postgresql",
-    connection: {
-      database: "share_station",
-    },
+    connection:
+      "postgres://root:password@postgresql_database:5432/share_station",
   },
 
   staging: {
     client: "postgresql",
-    connection: {
-      database: "share_station",
-      user: "root",
-      password: "password",
-    },
+    connection:
+      "postgres://root:password@postgresql_database:5432/share_station",
     pool: {
       min: 2,
       max: 10,
@@ -26,11 +22,8 @@ module.exports = {
 
   production: {
     client: "postgresql",
-    connection: {
-      database: "share_station",
-      user: "root",
-      password: "password",
-    },
+    connection:
+      "postgres://root:password@postgresql_database:5432/share_station",
     pool: {
       min: 2,
       max: 10,
