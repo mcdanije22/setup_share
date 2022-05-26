@@ -1,4 +1,5 @@
-exports.up = function (knex) {
+exports.up = function async (knex) {
+  await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
   const date = knex.fn.now();
 
   return knex.schema.createTable("users", (table) => {
