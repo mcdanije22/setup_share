@@ -1,11 +1,13 @@
+require("dotenv").config();
+
 const db = require("knex")({
   client: "pg",
   version: "7.2",
   connection: {
-    host: "postgres://root:password@postgresql_database:5432/share_station",
-    user: "root",
-    password: "password",
-    database: "share_station",
+    host: process.env.DB_URL,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
   },
 });
 export default db;
