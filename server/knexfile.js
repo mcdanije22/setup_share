@@ -1,8 +1,7 @@
-import dotenv from "dotenv";
-import path from "path";
+const path = require("path");
 
-dotenv.config({
-  path: path.resolve(__dirname, "..", ".env.sample"),
+require("dotenv").config({
+  path: path.resolve(__dirname, `..`, `.env.${process.env.NODE_ENV}`),
 });
 
 module.exports = {
@@ -10,6 +9,12 @@ module.exports = {
     client: "postgresql",
     connection: {
       database: "share_station",
+    },
+    migrations: {
+      tableName: "knex_migrations",
+    },
+    seeds: {
+      directory: "./seeds",
     },
   },
 
@@ -34,6 +39,9 @@ module.exports = {
     },
     migrations: {
       tableName: "knex_migrations",
+    },
+    seeds: {
+      directory: "./seeds",
     },
   },
 };
