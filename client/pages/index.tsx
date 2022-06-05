@@ -48,14 +48,15 @@ export default function Home() {
 
   const listData = [
     {
-      title: "More Efficiency",
-      text: "Finding all the tools to speed up your work flow in one place",
+      title: "Links",
+      text: "The ability to link your audience to products you find most useful",
     },
     {
-      title: "Easy access to inspiration",
-      text: "Be able to save and access your creative inspiration instantly",
+      title: "Ease",
+      text: "Ease to share, add descriptions and highlights",
     },
     {
+      //TODO: come back
       title: "Mobility",
       text: "Gather information and ideas on the go",
     },
@@ -158,18 +159,20 @@ export default function Home() {
             <Content style={{ padding: "4rem 0" }}>
               <Row justify="center">
                 <Col>
-                  <Title className="landingTitle">Jumpstart your next</Title>
+                  <Title className="landingTitle">
+                    Simplify sharing your personal setups
+                  </Title>
                 </Col>
               </Row>
               <Row justify="center">
                 <Col>
-                  <Title className="landingTitle">project</Title>
+                  <Title className="landingTitle">to your audience</Title>
                 </Col>
               </Row>
               <Row justify="center">
                 <Col className="titleDescription">
                   <Text type="secondary">
-                    An all in one solution to plan your next code project
+                    An all in one solution to showcase everything in your setup
                   </Text>
                 </Col>
               </Row>
@@ -181,7 +184,7 @@ export default function Home() {
                       size="large"
                       style={{ borderRadius: ".5rem", padding: "0 1.5rem" }}
                     >
-                      Start planning for free
+                      Start sharing for free
                     </Button>
                   </Link>
                 </Col>
@@ -209,7 +212,7 @@ export default function Home() {
               </Row>
               <Row>
                 <Col>
-                  <Title level={5}>When coding a project, you need:</Title>
+                  <Title level={5}>When sharing a setup, you need:</Title>
                 </Col>
               </Row>
               <Row>
@@ -242,14 +245,12 @@ export default function Home() {
                 <Space direction="horizontal" size="large">
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24, order: 2 }} lg={{ span: 8, order: 1 }}>
-                      <Title level={4}>Develop a Plan</Title>
+                      <Title level={4}>Upload your images!</Title>
                       <Text>
-                        Plan out your next code project and keep your goal in
-                        sight. Plan out specific goals for what you want to
-                        accomplish with the application, your target audience
-                        needs, and a feature wishlist. Planning will stop you
-                        from writing excess code that you will scrap later
-                        because you didn't have a clear plan of what was needed.
+                        Upload up to three of your best images that showcase the
+                        setup. Choose the order in which the images are shown
+                        for the best viewing experience by using an image for
+                        the left, main(front) and, right.
                       </Text>
                     </Col>
                     <Col
@@ -270,7 +271,7 @@ export default function Home() {
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24 }} lg={{ span: 14 }}>
                       <Image
-                        src="/"
+                        src="/add_item.gif"
                         alt="Screen shot of inspiration section"
                         width={3360}
                         height={1828}
@@ -278,12 +279,13 @@ export default function Home() {
                       />
                     </Col>
                     <Col xs={{ span: 24 }} lg={{ span: 8 }}>
-                      <Title level={4}>Add Inspiration</Title>
+                      <Title level={4}>Add your links!</Title>
                       <Text>
-                        Easily add and keep track of what sites and photos
-                        inspire you, all in one place. Avoid losing photos and
-                        websites you find when planning your next project by
-                        saving them in one place.
+                        Easily add and highlight the items in your setup! Add
+                        highlights to the items in your setup so that your
+                        audience can effortlessly get information on what you
+                        use. Add your personal affiliate links for all of the
+                        items you are sending your audience.
                       </Text>
                     </Col>
                   </Row>
@@ -291,14 +293,14 @@ export default function Home() {
                 <Space direction="horizontal" size="large">
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24, order: 2 }} lg={{ span: 8, order: 1 }}>
-                      <Title level={4}>Save Code</Title>
+                      <Title level={4}>Track everything!</Title>
                       <Text>
-                        Found code that you will need later? Save it for later,
-                        don't lose it! Save Code you find while researching your
-                        new project idea and be able to save it for later.
-                        Document the code block with notes on why it's useful.
-                        Syntax highlighting for several different languages,
-                        readability is never an issue!
+                        Obtained detailed analytics on your setup! Get
+                        information on things such as how many unique visits its
+                        receiving or how many times an item in your setup is
+                        clicked. Giving you the ability to see what your
+                        audience likes and doesn't like within your setup so
+                        that you can adjust for the future.
                       </Text>
                     </Col>
                     <Col
