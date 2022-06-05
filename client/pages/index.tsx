@@ -49,16 +49,15 @@ export default function Home() {
   const listData = [
     {
       title: "Links",
-      text: "The ability to link your audience to products you find most useful",
+      text: "The ability to link your audience to products you find most useful.",
+    },
+    {
+      title: "Share",
+      text: "Share everything that makes your setup unique, productive and aesthetic.",
     },
     {
       title: "Ease",
-      text: "Ease to share, add descriptions and highlights",
-    },
-    {
-      //TODO: come back
-      title: "Mobility",
-      text: "Gather information and ideas on the go",
+      text: "Easily create setups, add items and track what matters.",
     },
   ];
 
