@@ -9,7 +9,9 @@ $desktop: 992px;
     text-align: left;
   }
 }
-
+.containerSpace {
+  margin-top: 6rem;
+}
 #landingPageContainer {
   :global {
     .ant-layout-header,
@@ -17,9 +19,6 @@ $desktop: 992px;
     .ant-layout-footer {
       background: white;
       padding: 0;
-    }
-    .containerSpace {
-      margin-top: 6rem;
     }
     .landingImage {
       border-radius: 0.5rem;
@@ -53,6 +52,21 @@ $desktop: 992px;
     border-bottom: 0;
     .ant-drawer-title {
       font-size: 1.5rem;
+    }
+  }
+  .cardOptions {
+    background: #ffffff0f;
+    border-radius: 1rem;
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    ul {
+      list-style: none;
+      padding: 0;
     }
   }
 }

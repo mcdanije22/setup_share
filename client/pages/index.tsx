@@ -20,6 +20,7 @@ import {
   Tabs,
   List,
   BackTop,
+  Card,
 } from "antd";
 import { CheckOutlined, MenuOutlined } from "@ant-design/icons";
 import Link from "next/link";
@@ -104,7 +105,7 @@ export default function Home() {
       </Drawer>
       <BackTop />
       <Row justify="center">
-        <Col xs={{ span: 22 }} lg={{ span: 16 }}>
+        <Col xs={{ span: 22 }} lg={{ span: 18 }}>
           <Head>
             <title>MySetupShare</title>
             <link rel="icon" href="/icon.png" />
@@ -193,10 +194,10 @@ export default function Home() {
                   <Text type="secondary">No Credit card required!</Text>
                 </Col>
               </Row>
-              <Row justify="center" className="containerSpace">
+              <Row justify="center" className={styles.containerSpace}>
                 <Col span={24}>
                   <Image
-                    src="/"
+                    src="/main.png"
                     alt="Screen shot of main page for app"
                     width={3360}
                     height={1828}
@@ -231,7 +232,7 @@ export default function Home() {
                   />
                 </Col>
               </Row>
-              <Row justify="center" className="containerSpace">
+              <Row justify="center" className={styles.containerSpace}>
                 <Col>
                   <Title level={2}>How it works</Title>
                 </Col>
@@ -317,6 +318,36 @@ export default function Home() {
                   </Row>
                 </Space>
               </Space>
+
+              <Row justify="center" className={styles.containerSpace}>
+                <Col className={styles.cardOptions}>
+                  <div>
+                    <Title level={2}>Starter</Title>
+                    <ul>
+                      <li>- one</li>
+                      <li>- one</li>
+                      <li>- one</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <Title level={3}>$0</Title>
+                    <Button ghost type="primary" shape="round">
+                      Sign up!
+                    </Button>
+                  </div>
+                </Col>
+                <Col className={styles.cardOptions}>
+                  <div>
+                    <Title level={2}>hobbyist</Title>
+                  </div>
+                </Col>
+                <Col className={styles.cardOptions}>
+                  <div>
+                    <Title level={2}>Professional</Title>
+                  </div>
+                </Col>
+              </Row>
+
               <Row justify="space-between" style={{ margin: "6rem 0" }}>
                 <Col
                   xs={{ span: 24 }}
