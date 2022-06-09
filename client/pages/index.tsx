@@ -197,13 +197,13 @@ export default function Home() {
                 </Col>
               </Row>
               <Row justify="center" className={styles.containerSpace}>
-                <Col span={24}>
+                <Col span={24} className={styles.infoImage}>
                   <Image
                     src="/main.png"
                     alt="Screen shot of main page for app"
                     width={3360}
                     height={1828}
-                    className="landingImage"
+                    priority
                   />
                 </Col>
               </Row>
@@ -214,7 +214,9 @@ export default function Home() {
               </Row>
               <Row>
                 <Col>
-                  <Title level={5}>When sharing a setup, you need:</Title>
+                  <Title level={5} style={{ marginTop: "2rem" }}>
+                    When sharing a setup, you need:
+                  </Title>
                 </Col>
               </Row>
               <Row>
@@ -234,7 +236,7 @@ export default function Home() {
                   />
                 </Col>
               </Row>
-              <Row justify="center" className={styles.containerSpace}>
+              <Row className={styles.containerSpace} id={styles.headerResponse}>
                 <Col>
                   <Title level={2}>How it works</Title>
                 </Col>
@@ -316,13 +318,14 @@ export default function Home() {
                     <Col
                       xs={{ span: 24, order: 1 }}
                       lg={{ span: 14, order: 2 }}
+                      className={styles.infoImage}
                     >
                       <Image
                         src="/analytics.png"
                         alt="Screen shot of analytics dashboard"
-                        width={900}
-                        height={600}
-                        className={styles.landingImage}
+                        width={2810}
+                        height={1482}
+                        priority
                       />
                     </Col>
                   </Row>
@@ -378,7 +381,6 @@ export default function Home() {
                   </div>
                 </Col>
               </Row>
-
               <Row justify="space-between" style={{ margin: "6rem 0" }}>
                 <Col
                   xs={{ span: 24 }}
