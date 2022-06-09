@@ -186,12 +186,12 @@ export default function SetupPage(props: Props) {
   ) => {
     let fill = "";
     if (status) {
-      fill = "rgba(0, 255, 0, 0.3)";
+      fill = "rgba(0,255,0,0.3)";
     } else {
       fill = "";
     }
     if (id !== null && item.item_id == id) {
-      fill = "rgba(0, 255, 0, 0.3)";
+      fill = "rgba(0,255,0,0.3)";
     }
     return {
       id: item.item_id,
@@ -442,7 +442,11 @@ export default function SetupPage(props: Props) {
             <Col span={24}>
               <Title
                 level={1}
-                style={{ textAlign: "center", marginBottom: "0" }}
+                style={{
+                  textAlign: "center",
+                  marginBottom: "0",
+                  fontSize: "2.5rem",
+                }}
               >
                 {getSetUpInfo[0].setup_title}
               </Title>
@@ -451,7 +455,7 @@ export default function SetupPage(props: Props) {
               <Title
                 level={2}
                 type="secondary"
-                style={{ textAlign: "center", fontSize: ".8rem" }}
+                style={{ textAlign: "center", fontSize: "1.2rem" }}
               >
                 {getSetUpInfo[0].setup_type}
               </Title>
@@ -652,7 +656,9 @@ export default function SetupPage(props: Props) {
                   <Divider>
                     <Title level={3}>About This Setup</Title>
                   </Divider>
-                  {getSetUpInfo[0].setup_description}
+                  <Text style={{ fontSize: "1.2rem" }}>
+                    {getSetUpInfo[0].setup_description}
+                  </Text>
                 </div>
               </Col>
             </Col>

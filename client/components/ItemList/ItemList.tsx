@@ -29,7 +29,7 @@ const ItemList = ({
         return (
           <div key={i}>
             <Row justify="space-between">
-              <Col key={i} style={{ fontSize: "1.5rem" }}>
+              <Col key={i} style={{ fontSize: "1.2rem" }}>
                 {i + 1}. {item.name}
               </Col>
               {subscriptionStatus && (

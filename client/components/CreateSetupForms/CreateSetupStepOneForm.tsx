@@ -82,7 +82,10 @@ const CreateSetupStepOneForm: React.FC<Props> = ({
             ]}
           >
             <Select
-              style={{ borderBottom: "1px solid #d9d9d9", width: "90%" }}
+              style={{
+                borderBottom: "1px solid #d9d9d9",
+                width: "90%",
+              }}
               bordered={false}
             >
               <Option value="Desk Setup">Desk Setup</Option>

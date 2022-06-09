@@ -38,7 +38,7 @@ export default function CreateRoomPage() {
     imageTwo: null,
     imageThree: null,
   });
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const [availImagePositions, setAvailImagePositions] = useState([
     "Main",
     "Left",

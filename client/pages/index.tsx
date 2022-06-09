@@ -159,14 +159,16 @@ export default function Home() {
             <Content style={{ padding: "4rem 0" }}>
               <Row justify="center">
                 <Col>
-                  <Title className="landingTitle">
+                  <Title level={1} className="landingTitle">
                     Simplify sharing your personal setups
                   </Title>
                 </Col>
               </Row>
               <Row justify="center">
                 <Col>
-                  <Title className="landingTitle">to your audience</Title>
+                  <Title level={1} className="landingTitle">
+                    to your audience
+                  </Title>
                 </Col>
               </Row>
               <Row justify="center">
@@ -258,8 +260,8 @@ export default function Home() {
                       lg={{ span: 14, order: 2 }}
                     >
                       <Image
-                        src="/"
-                        alt="Screen shot of overview section"
+                        src="/slide_show.gif"
+                        alt="Screen shot of overview sides"
                         width={3360}
                         height={1828}
                         className={styles.landingImage}
@@ -267,12 +269,16 @@ export default function Home() {
                     </Col>
                   </Row>
                 </Space>
-                <Space direction="horizontal" size="large">
+                <Space
+                  direction="horizontal"
+                  size="large"
+                  className={styles.containerSpace}
+                >
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24 }} lg={{ span: 14 }}>
                       <Image
                         src="/add_item.gif"
-                        alt="Screen shot of inspiration section"
+                        alt="Screen record of adding items"
                         width={3360}
                         height={1828}
                         className="landingImage"
@@ -290,7 +296,11 @@ export default function Home() {
                     </Col>
                   </Row>
                 </Space>
-                <Space direction="horizontal" size="large">
+                <Space
+                  direction="horizontal"
+                  size="large"
+                  className={styles.containerSpace}
+                >
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24, order: 2 }} lg={{ span: 8, order: 1 }}>
                       <Title level={4}>Track everything!</Title>
@@ -308,42 +318,63 @@ export default function Home() {
                       lg={{ span: 14, order: 2 }}
                     >
                       <Image
-                        src="/"
-                        alt="Screen shot of adding a code snippet"
-                        width={3360}
-                        height={1828}
+                        src="/analytics.png"
+                        alt="Screen shot of analytics dashboard"
+                        width={900}
+                        height={600}
                         className={styles.landingImage}
                       />
                     </Col>
                   </Row>
                 </Space>
               </Space>
-
               <Row justify="center" className={styles.containerSpace}>
                 <Col className={styles.cardOptions}>
-                  <div>
-                    <Title level={2}>Starter</Title>
+                  <Title level={2}>Starter</Title>
+                  <div className={styles.cardMainContent}>
                     <ul>
-                      <li>- one</li>
-                      <li>- one</li>
-                      <li>- one</li>
+                      <li>Lorem Ipsum has been the industry</li>
+                      <li>Lorem Ipsum has been the industry</li>
+                      <li>Lorem Ipsum has been the industry</li>
                     </ul>
                   </div>
-                  <div>
-                    <Title level={3}>$0</Title>
-                    <Button ghost type="primary" shape="round">
+                  <div className={styles.cardFooterContent}>
+                    <Title level={3}>FREE</Title>
+                    <Button ghost type="primary" shape="round" size="large">
                       Sign up!
                     </Button>
                   </div>
                 </Col>
                 <Col className={styles.cardOptions}>
-                  <div>
-                    <Title level={2}>hobbyist</Title>
+                  <Title level={2}>hobbyist</Title>
+                  <div className={styles.cardMainContent}>
+                    <ul>
+                      <li>Lorem Ipsum has been the industry</li>
+                      <li>Lorem Ipsum has been the industry</li>
+                      <li>Lorem Ipsum has been the industry</li>
+                    </ul>
+                  </div>
+                  <div className={styles.cardFooterContent}>
+                    <Title level={3}>$19.99/mo</Title>
+                    <Button ghost type="primary" shape="round" size="large">
+                      Sign up!
+                    </Button>
                   </div>
                 </Col>
                 <Col className={styles.cardOptions}>
-                  <div>
-                    <Title level={2}>Professional</Title>
+                  <Title level={2}>Professional</Title>
+                  <div className={styles.cardMainContent}>
+                    <ul>
+                      <li>Lorem Ipsum has been the industry</li>
+                      <li>Lorem Ipsum has been the industry</li>
+                      <li>Lorem Ipsum has been the industry</li>
+                    </ul>
+                  </div>
+                  <div className={styles.cardFooterContent}>
+                    <Title level={3}>$49.99/mo</Title>
+                    <Button ghost type="primary" shape="round" size="large">
+                      Sign up!
+                    </Button>
                   </div>
                 </Col>
               </Row>

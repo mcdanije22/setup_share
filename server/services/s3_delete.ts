@@ -1,5 +1,8 @@
 import AWS from "aws-sdk";
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({
+  path: path.resolve(__dirname, `..`, `.env.${process.env.NODE_ENV}`),
+});
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.S3_BUCKET_ID,

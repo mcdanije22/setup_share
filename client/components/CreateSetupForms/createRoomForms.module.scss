@@ -8,6 +8,13 @@
     }
   }
 }
+#stepOneFormContainer {
+  :global {
+    .ant-select-selector {
+      padding-left: 0;
+    }
+  }
+}
 #stepTwoFormContainer {
   :global {
     .ant-upload-list-picture-card-container {
