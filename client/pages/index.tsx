@@ -82,11 +82,11 @@ export default function Home() {
               <a style={{ color: "black" }}>Login</a>
             </Link>
           </Col>
-          <Col span={24}>
+          {/* <Col span={24}>
             <Link href="/register">
               <a style={{ color: "black" }}>Sign up</a>
             </Link>
-          </Col>
+          </Col> */}
           <Col span={24}>
             <Link
               href="http://localhost:3000/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2"
@@ -134,11 +134,11 @@ export default function Home() {
                           <a style={{ color: "black" }}>Login</a>
                         </Link>
                       </Col>
-                      <Col>
+                      {/* <Col>
                         <Link href="/register">
                           <a style={{ color: "black" }}>Sign up</a>
                         </Link>
-                      </Col>
+                      </Col> */}
                       <Link
                         href="http://localhost:3000/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2"
                         passHref

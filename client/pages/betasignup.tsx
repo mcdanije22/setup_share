@@ -17,13 +17,30 @@ interface User {
   password: string;
 }
 
+interface Form {
+  status: string;
+  message: string;
+  onValidated: any;
+}
+
+interface Render {
+  subscribe: any;
+  status: string;
+  message: string;
+}
+
+interface FormData {
+  EMAIL: string;
+  LNAME: string;
+}
+
 export default function BetaSignup() {
   const URL = process.env.MAILCHIMP_URL;
   const router = useRouter();
   const { query } = useRouter();
 
-  const CustomForm = ({ status, message, onValidated }) => {
-    let email;
+  const CustomForm = ({ status, message, onValidated }: Form) => {
+    let email: any;
     const submit = () => {
       email &&
         email.value.indexOf("@") > -1 &&
@@ -111,11 +128,11 @@ export default function BetaSignup() {
             url={
               "https://mysetupshare.us10.list-manage.com/subscribe/post?u=804125a815c985d0d5f8277c9&amp;id=ca27d7cb29"
             }
-            render={({ subscribe, status, message }) => (
+            render={({ subscribe, status, message }: Render) => (
               <CustomForm
                 status={status}
                 message={message}
-                onValidated={(formData) => subscribe(formData)}
+                onValidated={(formData: FormData) => subscribe(formData)}
               />
             )}
           />
@@ -124,22 +141,3 @@ export default function BetaSignup() {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  try {
-    const cookie = context.req.headers.cookie;
-    const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
-    const data = await response.data;
-    //If logged in already with cookie, redirect to dashboard page
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/dashboard",
-      },
-    };
-  } catch (error) {
-    return {
-      props: {},
-    };
-  }
-};

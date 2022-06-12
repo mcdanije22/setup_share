@@ -163,20 +163,26 @@ export default function RegisterPage() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  try {
-    const cookie = context.req.headers.cookie;
-    const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
-    const data = await response.data;
-    //If logged in already with cookie, redirect to dashboard page
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/dashboard",
-      },
-    };
-  } catch (error) {
-    return {
-      props: {},
-    };
-  }
+  // try {
+  //   const cookie = context.req.headers.cookie;
+  //   const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
+  //   const data = await response.data;
+  //   //If logged in already with cookie, redirect to dashboard page
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: "/dashboard",
+  //     },
+  //   };
+  // } catch (error) {
+  //   return {
+  //     props: {},
+  //   };
+  // }
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/",
+    },
+  };
 };
