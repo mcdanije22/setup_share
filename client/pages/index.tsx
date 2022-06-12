@@ -83,23 +83,29 @@ export default function Home() {
             </Link>
           </Col>
           <Col span={24}>
-            <Link href="/signup">
+            <Link href="/register">
               <a style={{ color: "black" }}>Sign up</a>
             </Link>
           </Col>
           <Col span={24}>
-            <Button
-              // onClick={demoLogin}
-              type="primary"
-              size="large"
-              style={{
-                borderRadius: ".5rem",
-                padding: "0 1.5rem",
-                width: "100%",
-              }}
+            <Link
+              href="http://localhost:3000/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2"
+              passHref
             >
-              Live demo
-            </Button>
+              <a target="_blank">
+                <Button
+                  type="primary"
+                  size="large"
+                  style={{
+                    borderRadius: ".5rem",
+                    padding: "0 1.5rem",
+                    width: "100%",
+                  }}
+                >
+                  Live demo
+                </Button>
+              </a>
+            </Link>
           </Col>
         </Row>
       </Drawer>
@@ -129,20 +135,28 @@ export default function Home() {
                         </Link>
                       </Col>
                       <Col>
-                        <Link href="/signup">
+                        <Link href="/register">
                           <a style={{ color: "black" }}>Sign up</a>
                         </Link>
                       </Col>
-                      <Col>
-                        <Button
-                          // onClick={demoLogin}
-                          type="primary"
-                          size="large"
-                          style={{ borderRadius: ".5rem", padding: "0 1.5rem" }}
-                        >
-                          Live demo
-                        </Button>
-                      </Col>
+                      <Link
+                        href="http://localhost:3000/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2"
+                        passHref
+                      >
+                        <a target="_blank">
+                          <Button
+                            type="primary"
+                            size="large"
+                            style={{
+                              borderRadius: ".5rem",
+                              padding: "0 1.5rem",
+                              width: "100%",
+                            }}
+                          >
+                            Live demo
+                          </Button>
+                        </a>
+                      </Link>
                     </Space>
                   </Row>
                 </Col>
@@ -180,7 +194,7 @@ export default function Home() {
               </Row>
               <Row justify="center" style={{ marginTop: "2rem" }}>
                 <Col>
-                  <Link href="/signup">
+                  <a href="#signupArea">
                     <Button
                       type="primary"
                       size="large"
@@ -188,7 +202,7 @@ export default function Home() {
                     >
                       Start sharing for free
                     </Button>
-                  </Link>
+                  </a>
                 </Col>
               </Row>
               <Row justify="center" style={{ marginTop: ".5rem" }}>
@@ -197,7 +211,11 @@ export default function Home() {
                 </Col>
               </Row>
               <Row justify="center" className={styles.containerSpace}>
-                <Col span={24} className={styles.infoImage}>
+                <Col
+                  span={24}
+                  className={styles.infoImage}
+                  style={{ backgroundColor: "#f7f7f8" }}
+                >
                   <Image
                     src="/main.png"
                     alt="Screen shot of main page for app"
@@ -254,7 +272,7 @@ export default function Home() {
                         Upload up to three of your best images that showcase the
                         setup. Choose the order in which the images are shown
                         for the best viewing experience by using an image for
-                        the left, main(front) and, right.
+                        the left, front and, right.
                       </Text>
                     </Col>
                     <Col
@@ -307,12 +325,12 @@ export default function Home() {
                     <Col xs={{ span: 24, order: 2 }} lg={{ span: 8, order: 1 }}>
                       <Title level={4}>Track everything!</Title>
                       <Text>
-                        Obtained detailed analytics on your setup! Get
-                        information on things such as how many unique visits its
-                        receiving or how many times an item in your setup is
-                        clicked. Giving you the ability to see what your
-                        audience likes and doesn't like within your setup so
-                        that you can adjust for the future.
+                        Obtain detailed analytics on your setup! Get information
+                        on things such as how many unique visits its receiving
+                        or how many times an item in your setup is clicked.
+                        Giving you the ability to see what your audience likes
+                        and doesn't like within your setup so that you can
+                        adjust for the future.
                       </Text>
                     </Col>
                     <Col
@@ -331,7 +349,11 @@ export default function Home() {
                   </Row>
                 </Space>
               </Space>
-              <Row justify="center" className={styles.containerSpace}>
+              <Row
+                justify="center"
+                className={styles.containerSpace}
+                id="signupArea"
+              >
                 <Col className={styles.cardOptions}>
                   <Title level={2}>Starter</Title>
                   <div className={styles.cardMainContent}>
@@ -343,9 +365,11 @@ export default function Home() {
                   </div>
                   <div className={styles.cardFooterContent}>
                     <Title level={3}>FREE</Title>
-                    <Button ghost type="primary" shape="round" size="large">
-                      Sign up!
-                    </Button>
+                    <Link href="/betasignup?level=starter">
+                      <Button ghost type="primary" shape="round" size="large">
+                        Sign up!
+                      </Button>
+                    </Link>
                   </div>
                 </Col>
                 <Col className={styles.cardOptions}>
@@ -359,9 +383,11 @@ export default function Home() {
                   </div>
                   <div className={styles.cardFooterContent}>
                     <Title level={3}>$19.99/mo</Title>
-                    <Button ghost type="primary" shape="round" size="large">
-                      Sign up!
-                    </Button>
+                    <Link href="/betasignup?level=mid">
+                      <Button ghost type="primary" shape="round" size="large">
+                        Sign up!
+                      </Button>
+                    </Link>
                   </div>
                 </Col>
                 <Col className={styles.cardOptions}>
@@ -375,13 +401,15 @@ export default function Home() {
                   </div>
                   <div className={styles.cardFooterContent}>
                     <Title level={3}>$49.99/mo</Title>
-                    <Button ghost type="primary" shape="round" size="large">
-                      Sign up!
-                    </Button>
+                    <Link href="/betasignup?level=pro">
+                      <Button ghost type="primary" shape="round" size="large">
+                        Sign up!
+                      </Button>
+                    </Link>
                   </div>
                 </Col>
               </Row>
-              <Row justify="space-between" style={{ margin: "6rem 0" }}>
+              {/* <Row justify="space-between" style={{ margin: "6rem 0" }}>
                 <Col
                   xs={{ span: 24 }}
                   lg={{ span: 18 }}
@@ -412,17 +440,14 @@ export default function Home() {
                     </Button>
                   </Link>
                 </Col>
-              </Row>
+              </Row> */}
             </Content>
           </Layout>
           <Layout>
             <Footer style={{ padding: "2rem 0" }}>
               <Divider style={{ marginBottom: "2rem" }} />
-              <Row justify="space-between">
-                <Text>© 2021 All rights reserved.</Text>
-                <Text>
-                  Made by <a href="https://www.joshmcdaniel.com/">Josh</a>
-                </Text>
+              <Row justify="center">
+                <Text>© {new Date().getFullYear()} All rights reserved.</Text>
               </Row>
             </Footer>
           </Layout>

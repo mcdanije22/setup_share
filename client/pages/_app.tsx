@@ -12,8 +12,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         {/* This ways to add css on global website use local asset folder withhtml link tag */}
-        <link href="../Roboto/Roboto-Regular.ttf" rel="stylesheet" />
-        <link href="../OpenSans/OpenSans.ttf" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <UserContext.Provider value={{ currentUser, setUser }}>
         <Component {...pageProps} />

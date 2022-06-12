@@ -57,13 +57,13 @@ export default function LoginPage() {
           lg={{ span: 12 }}
           xl={{ span: 8 }}
           id={styles.formWindow}
+          style={{ minHeight: "400px" }}
         >
           <div style={{ textAlign: "center" }}>
-            <Title level={2}>MySetupShare</Title>
-            <Title level={3} style={{ marginTop: "0" }}>
-              {query.prior ? "Signed out" : "Sign In"}
-            </Title>
-            <Text>{query.prior ? "Sign in Again?" : "To Continue"}</Text>
+            <Title level={1}>{query.prior ? "Logged out" : "Log in"}</Title>
+            <Text style={{ fontSize: "1.2rem" }}>
+              {query.prior ? "Log in Again?" : ""}
+            </Text>
           </div>
           <Form labelCol={{ span: 24 }} name="login" onFinish={userLogin}>
             <Form.Item

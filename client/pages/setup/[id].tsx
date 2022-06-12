@@ -478,7 +478,7 @@ export default function SetupPage(props: Props) {
                       <Menu>
                         <Menu.Item key="1">
                           <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                            href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmysetupshare.com//setup/${getSetUpInfo[0].setup_id}`}
                             target="_blank"
                             rel="noopener"
                           >
@@ -487,7 +487,7 @@ export default function SetupPage(props: Props) {
                         </Menu.Item>
                         <Menu.Item key="2">
                           <a
-                            href={`https://twitter.com/intent/tweet?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                            href={`https://twitter.com/intent/tweet?url=https%3a%2f%2fmysetupshare.com/setup/${getSetUpInfo[0].setup_id}`}
                             target="_blank"
                           >
                             Twitter
@@ -495,7 +495,7 @@ export default function SetupPage(props: Props) {
                         </Menu.Item>
                         <Menu.Item key="3">
                           <a
-                            href={`https://www.reddit.com/submit?url=https%3a%2f%2flocalhost:3000/setup/${getSetUpInfo[0].setup_id}`}
+                            href={`https://www.reddit.com/submit?url=https%3a%2f%2fmysetupshare.com/setup/${getSetUpInfo[0].setup_id}`}
                             target="_blank"
                           >
                             Reddit
