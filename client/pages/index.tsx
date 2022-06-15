@@ -89,7 +89,7 @@ export default function Home() {
           </Col> */}
           <Col span={24}>
             <Link
-              href="http://localhost:3000/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2"
+              href={`${process.env.BASE_URL}/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2`}
               passHref
             >
               <a target="_blank">
@@ -140,7 +140,7 @@ export default function Home() {
                         </Link>
                       </Col> */}
                       <Link
-                        href="http://localhost:3000/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2"
+                        href={`${process.env.BASE_URL}/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2`}
                         passHref
                       >
                         <a target="_blank">
@@ -213,14 +213,16 @@ export default function Home() {
               <Row justify="center" className={styles.containerSpace}>
                 <Col
                   span={24}
-                  className={styles.infoImage}
-                  style={{ backgroundColor: "#f7f7f8" }}
+                  id={styles.heroImage}
+                  style={{
+                    backgroundColor: "#f7f7f8",
+                  }}
                 >
                   <Image
                     src="/main.png"
                     alt="Screen shot of main page for app"
-                    width={3360}
-                    height={1828}
+                    layout="fill"
+                    placeholder="blur"
                     priority
                   />
                 </Col>
@@ -343,7 +345,7 @@ export default function Home() {
                         alt="Screen shot of analytics dashboard"
                         width={2810}
                         height={1482}
-                        priority
+                        placeholder="blur"
                       />
                     </Col>
                   </Row>

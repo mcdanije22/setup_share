@@ -1,6 +1,12 @@
 $desktop: 992px;
+$tablet: 768px;
 @mixin desktop {
   @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (min-width: #{$tablet}) {
     @content;
   }
 }
@@ -8,9 +14,9 @@ $desktop: 992px;
   .signUpFooter {
     text-align: left;
   }
-  #headerResponse {
-    justify-content: center;
-  }
+}
+#headerResponse {
+  justify-content: center;
 }
 .containerSpace {
   margin-top: 6rem;
@@ -19,6 +25,28 @@ $desktop: 992px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  height: 200px;
+  @include tablet {
+    height: 400px;
+  }
+  @include desktop {
+    width: 300px;
+    height: 400px;
+  }
+}
+#heroImage {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  height: 250px;
+  @include tablet {
+    height: 400px;
+  }
+  @include desktop {
+    width: 1000px;
+    height: 600px;
+  }
 }
 #landingPageContainer {
   :global {
