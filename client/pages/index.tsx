@@ -218,12 +218,21 @@ export default function Home() {
                     backgroundColor: "#f7f7f8",
                   }}
                 >
-                  <Image
+                  {/* <Image
                     src="/main.jpg"
                     alt="Screen shot of main page for app"
                     layout="fill"
                     placeholder="blur"
                     priority={true}
+                  /> */}
+                  <img
+                    src="/main.jpg"
+                    alt="Screen shot of main page for app"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: ".5rem",
+                    }}
                   />
                 </Col>
               </Row>
@@ -280,13 +289,23 @@ export default function Home() {
                     <Col
                       xs={{ span: 24, order: 1 }}
                       lg={{ span: 14, order: 2 }}
+                      className={styles.landingImage}
                     >
-                      <Image
+                      {/* <Image
                         src="/slide_show.gif"
                         alt="Screen shot of overview sides"
                         width={3360}
                         height={1828}
                         className={styles.landingImage}
+                      /> */}
+                      <img
+                        src="/slide_show.gif"
+                        alt="Screen shot of overview sides"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: ".5rem",
+                        }}
                       />
                     </Col>
                   </Row>
@@ -297,13 +316,26 @@ export default function Home() {
                   className={styles.containerSpace}
                 >
                   <Row justify="space-between" gutter={[0, 48]}>
-                    <Col xs={{ span: 24 }} lg={{ span: 14 }}>
-                      <Image
+                    <Col
+                      xs={{ span: 24 }}
+                      lg={{ span: 14 }}
+                      className={styles.landingImage}
+                    >
+                      {/* <Image
                         src="/add_item.gif"
                         alt="Screen record of adding items"
                         width={3360}
                         height={1828}
                         className="landingImage"
+                      /> */}
+                      <img
+                        src="/add_item.gif"
+                        alt="Screen record of adding items"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: ".5rem",
+                        }}
                       />
                     </Col>
                     <Col xs={{ span: 24 }} lg={{ span: 8 }}>
@@ -340,11 +372,16 @@ export default function Home() {
                       lg={{ span: 14, order: 2 }}
                       className={styles.infoImage}
                     >
-                      <Image
+                      {/* <Image
                         src="/analytics.jpg"
                         alt="Screen shot of analytics dashboard"
                         layout="fill"
                         placeholder="blur"
+                      /> */}
+                      <img
+                        src="/analytics.jpg"
+                        alt="Screen shot of analytics dashboard"
+                        style={{ width: "100%", height: "100%" }}
                       />
                     </Col>
                   </Row>
