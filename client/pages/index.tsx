@@ -219,7 +219,7 @@ export default function Home() {
                   }}
                 >
                   <Image
-                    src="/main.png"
+                    src="/main.jpg"
                     alt="Screen shot of main page for app"
                     layout="fill"
                     placeholder="blur"
@@ -341,7 +341,7 @@ export default function Home() {
                       className={styles.infoImage}
                     >
                       <Image
-                        src="/analytics.png"
+                        src="/analytics.jpg"
                         alt="Screen shot of analytics dashboard"
                         width={2810}
                         height={1482}

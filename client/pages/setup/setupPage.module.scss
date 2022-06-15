@@ -4,29 +4,33 @@ $desktop: 1024px;
     @content;
   }
 }
-#setupPageContainer{
+#setupPageContainer {
   min-height: 100vh;
   :global {
-    .ant-page-header, .ant-page-header-ghost, .ant-page-header-compact{
-      padding:0;
+    .ant-page-header,
+    .ant-page-header-ghost,
+    .ant-page-header-compact {
+      padding: 0;
       padding-bottom: 1rem;
     }
-   .anticon, .anticon-heart{
-     font-size:1.5rem;
-     cursor: pointer;
+    .anticon,
+    .anticon-heart {
+      font-size: 1.5rem;
+      cursor: pointer;
     }
-   .ant-page-header-heading-extra{
+    .ant-page-header-heading-extra {
       display: flex;
-      align-items:center;
-   }
-   .ant-tabs, .ant-tabs-top, .ant-tabs-mobile{
-     padding: 1rem;
-   }
-  
-     }
-       @include desktop {
-     img{
-       border-radius: .5rem;
-     } 
+      align-items: center;
     }
+    .ant-tabs,
+    .ant-tabs-top,
+    .ant-tabs-mobile {
+      padding: 1rem;
+    }
+  }
+  @include desktop {
+    img {
+      border-radius: 0.5rem;
+    }
+  }
 }
