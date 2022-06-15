@@ -223,7 +223,7 @@ export default function Home() {
                     alt="Screen shot of main page for app"
                     layout="fill"
                     placeholder="blur"
-                    priority
+                    priority={true}
                   />
                 </Col>
               </Row>
@@ -343,8 +343,7 @@ export default function Home() {
                       <Image
                         src="/analytics.jpg"
                         alt="Screen shot of analytics dashboard"
-                        width={2810}
-                        height={1482}
+                        layout="fill"
                         placeholder="blur"
                       />
                     </Col>
