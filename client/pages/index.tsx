@@ -24,7 +24,6 @@ import {
 } from "antd";
 import { CheckOutlined, MenuOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
@@ -211,20 +210,7 @@ export default function Home() {
                 </Col>
               </Row>
               <Row justify="center" className={styles.containerSpace}>
-                <Col
-                  span={24}
-                  id={styles.heroImage}
-                  style={{
-                    backgroundColor: "#f7f7f8",
-                  }}
-                >
-                  {/* <Image
-                    src="/main.jpg"
-                    alt="Screen shot of main page for app"
-                    layout="fill"
-                    placeholder="blur"
-                    priority={true}
-                  /> */}
+                <Col span={24} id={styles.heroImage}>
                   <img
                     src="/main.jpg"
                     alt="Screen shot of main page for app"
@@ -291,13 +277,6 @@ export default function Home() {
                       lg={{ span: 14, order: 2 }}
                       className={styles.landingImage}
                     >
-                      {/* <Image
-                        src="/slide_show.gif"
-                        alt="Screen shot of overview sides"
-                        width={3360}
-                        height={1828}
-                        className={styles.landingImage}
-                      /> */}
                       <img
                         src="/slide_show.gif"
                         alt="Screen shot of overview sides"
@@ -321,13 +300,6 @@ export default function Home() {
                       lg={{ span: 14 }}
                       className={styles.landingImage}
                     >
-                      {/* <Image
-                        src="/add_item.gif"
-                        alt="Screen record of adding items"
-                        width={3360}
-                        height={1828}
-                        className="landingImage"
-                      /> */}
                       <img
                         src="/add_item.gif"
                         alt="Screen record of adding items"
@@ -372,12 +344,6 @@ export default function Home() {
                       lg={{ span: 14, order: 2 }}
                       className={styles.infoImage}
                     >
-                      {/* <Image
-                        src="/analytics.jpg"
-                        alt="Screen shot of analytics dashboard"
-                        layout="fill"
-                        placeholder="blur"
-                      /> */}
                       <img
                         src="/analytics.jpg"
                         alt="Screen shot of analytics dashboard"
