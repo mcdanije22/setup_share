@@ -94,7 +94,7 @@ setupRouter.post(
   }
 );
 setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
-  console.log("test", db);
+  console.log("test", process.env.DB_URL);
   try {
     const getSetUpInfo = await db("setups")
       .innerJoin("users", "setups.user_id", "users.user_id")
