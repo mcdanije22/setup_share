@@ -53,6 +53,8 @@ services:
       - 5000:5000
     links:
       - postgresql_database
+    volumes:
+      - "./:/src"
 volumes:
   database-data:
   pgadmin:
