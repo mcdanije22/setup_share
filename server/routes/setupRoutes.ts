@@ -94,6 +94,7 @@ setupRouter.post(
   }
 );
 setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
+  console.log("test", db);
   try {
     const getSetUpInfo = await db("setups")
       .innerJoin("users", "setups.user_id", "users.user_id")
@@ -130,7 +131,7 @@ setupRouter.get("/:id", async (req: express.Request, res: express.Response) => {
       res.send({ getSetUpInfo, getImageItems });
     }
   } catch (e) {
-    res.status(404).send("Setup does not exist");
+    res.status(404).send("Setup does not exist!");
   }
 });
 
