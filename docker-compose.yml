@@ -5,9 +5,9 @@ services:
     container_name: postgresql_database
     image: postgres:latest
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=share_station
     env_file: .env
     ports:
       - "5432:5432"
@@ -42,6 +42,7 @@ services:
       dockerfile: ./Dockerfile
     depends_on:
       - postgresql_database
+    command: bash -c 'while !</dev/tcp/postgresql_database/5432; do sleep 1; done; npm start'
     environment:
       NODE_ENV: production
       DB_HOST: postgresql_database
