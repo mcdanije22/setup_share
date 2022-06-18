@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "tsconfig.json", "next-env.d.ts", "./"]
 COPY . .
 RUN npm install 
-RUN apk update && apk add git
+RUN apk update && apk add git && apk add bash
 RUN git clone https://github.com/vishnubob/wait-for-it.git
 ENV NODE_ENV=production
 RUN npm run build 

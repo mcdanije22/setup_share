@@ -13,7 +13,7 @@ RUN rm /etc/nginx/conf.d/*
 # *.conf files in conf.d/ dir get included in main config
 COPY ./default.conf /etc/nginx/conf.d/
 
-RUN apk update && apk add git
+RUN apk update && apk add git && apk add bash
 RUN git clone https://github.com/vishnubob/wait-for-it.git
 
 # Expose the listening port
