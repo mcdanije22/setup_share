@@ -26,7 +26,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    command: ["/wait", "nginx", "-g", "daemon off;"]
   client:
     image: client
     build:
