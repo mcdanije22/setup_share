@@ -13,6 +13,9 @@ RUN rm /etc/nginx/conf.d/*
 # *.conf files in conf.d/ dir get included in main config
 COPY ./default.conf /etc/nginx/conf.d/
 
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
 # Expose the listening port
 EXPOSE 80 443
 
