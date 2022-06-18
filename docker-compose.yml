@@ -15,9 +15,6 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/
   nginx:
-    depends_on:
-      - server
-      - client
     restart: always
     build:
       dockerfile: ./Dockerfile
