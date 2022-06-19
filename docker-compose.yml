@@ -29,7 +29,7 @@ services:
     ports:
       - 5000:5000
   postgresql_database:
-    image: postgres
+    image: postgres:12.2-alpine
     container_name: postgresql_database
     environment:
       - POSTGRES_USER=root
