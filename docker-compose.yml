@@ -36,6 +36,7 @@ services:
   postgresql_database:
     image: postgres
     container_name: postgresql_database
+    user: root
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
