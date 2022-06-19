@@ -32,10 +32,16 @@ module.exports = {
 
   production: {
     client: "postgresql",
-    connection: process.env.DB_URL,
-    pool: {
-      min: 2,
-      max: 10,
+    // connection: process.env.DB_URL,
+    // pool: {
+    //   min: 2,
+    //   max: 10,
+    // },
+    connection: {
+      host: "postgresql_database",
+      user: "root",
+      password: "password",
+      database: "share_station",
     },
     migrations: {
       tableName: "knex_migrations",
