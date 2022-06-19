@@ -35,7 +35,7 @@ services:
   postgresql_database:
     image: postgres
     environment:
-      POSTGRES_USER: root
+      POSTGRES_USER: docker
       POSTGRES_PASSWORD: password
       POSTGRES_DB: share_station
     env_file: .env
