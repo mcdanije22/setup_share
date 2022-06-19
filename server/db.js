@@ -6,6 +6,6 @@ module.exports = knex({
     host: "db",
     user: "docker",
     password: "123456",
-    database: "docker",
+    database: "share_station",
   },
 });
