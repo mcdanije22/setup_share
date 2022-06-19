@@ -26,14 +26,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    command:
-      [
-        "./wait-for-it/wait-for-it.sh",
-        "postgresql_database:5432",
-        "nginx",
-        "-g",
-        "daemon off;",
-      ]
   client:
     image: client
     build:
@@ -44,14 +36,6 @@ services:
     env_file: ./client/.env.local
     ports:
       - 3000:3000
-    command:
-      [
-        "./wait-for-it/wait-for-it.sh",
-        "postgresql_database:5432",
-        "--",
-        "npm",
-        "start",
-      ]
   server:
     image: server
     build:
@@ -59,14 +43,6 @@ services:
       dockerfile: ./Dockerfile
     depends_on:
       - postgresql_database
-    command:
-      [
-        "./wait-for-it/wait-for-it.sh",
-        "postgresql_database:5432",
-        "--",
-        "npm",
-        "start",
-      ]
     environment:
       NODE_ENV: production
       DB_HOST: postgresql_database
