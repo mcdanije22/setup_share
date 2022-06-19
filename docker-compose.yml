@@ -9,6 +9,8 @@ services:
     environment:
       NODE_ENV: production
     env_file: ./client/.env.local
+    expose:
+      - 3000
     ports:
       - 3000:3000
   server:
@@ -26,6 +28,8 @@ services:
       DB_PASSWORD: password
       DB_NAME: share_station
     env_file: ./server/.env
+    expose:
+      - 5000
     ports:
       - 5000:5000
   postgresql_database:
@@ -36,6 +40,8 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=share_station
     env_file: .env
+    expose:
+      - 5432
     ports:
       - 5432:5432
     restart: always
