@@ -36,9 +36,10 @@ services:
     image: postgres:12.2-alpine
     container_name: postgresql_database
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=share_station
+      - POSTGRES_USER:root
+      - POSTGRES_PASSWORD:password
+      - POSTGRES_DB:share_station
+      - database-data:/var/lib/postgresql/data/
     env_file: .env
     expose:
       - 5432
