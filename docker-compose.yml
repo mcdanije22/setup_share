@@ -32,14 +32,8 @@ services:
       - 5000
     ports:
       - 5000:5000
-     command:
-      [
-        "./wait-for-it/wait-for-it.sh",
-        "postgresql_database:5432",
-        "--",
-        "npm",
-        "start",
-      ]
+    command:
+      ["./wait-for-it.sh", "postgresql_database:5432", "--", "npm", "start"]
   postgresql_database:
     image: postgres
     container_name: postgresql_database
