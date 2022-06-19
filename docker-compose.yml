@@ -28,8 +28,6 @@ services:
     env_file: ./server/.env
     ports:
       - 5000:5000
-    links:
-      - postgresql_database
   postgresql_database:
     container_name: postgresql_database
     image: postgres:latest
@@ -56,4 +54,3 @@ services:
       - 443:443
 volumes:
   database-data:
-  pgadmin:
