@@ -2,10 +2,6 @@ FROM node:lts-alpine
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "tsconfig.json", "./"]
-RUN apk update && apk add git
-RUN git clone https://github.com/vishnubob/wait-for-it.git
-COPY wait-for-it.sh ./
-RUN chmod +x ./wait-for-it.sh .
 RUN npm install -g ts-node
 RUN npm install --production --silent && mv node_modules ../
 ENV GENERATE_SOURCEMAP=false
