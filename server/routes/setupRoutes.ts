@@ -1,5 +1,6 @@
 import express, { Router } from "express";
-import db from "../services/dbConnection";
+// import db from "../services/dbConnection";
+import db from "../db";
 import deleteFile from "../services/s3_delete";
 import checkAPIAuthMiddleware from "../middlewares/checkAPIAuthMiddleware";
 import Cookies from "universal-cookie";
