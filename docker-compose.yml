@@ -38,7 +38,7 @@ services:
     container_name: postgresql_database
     user: root
     environment:
-      POSTGRES_USER: root
+      PGUSER: root
       POSTGRES_PASSWORD: password
       POSTGRES_DB: share_station
     env_file: .env
