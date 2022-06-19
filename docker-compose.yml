@@ -33,13 +33,12 @@ services:
     ports:
       - 5000:5000
   postgresql_database:
-    image: postgres:12.2-alpine
+    image: postgres
     container_name: postgresql_database
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       POSTGRES_DB: share_station
-      database-data: /var/lib/postgresql/data/
     env_file: .env
     expose:
       - 5432
@@ -47,7 +46,7 @@ services:
       - 5432:5432
     restart: always
     volumes:
-      - database-data:/var/lib/postgresql/data/
+      - ./database-data:/var/lib/postgresql/data
   nginx:
     depends_on:
       - server
