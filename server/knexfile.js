@@ -39,9 +39,9 @@ module.exports = {
     // },
     connection: {
       host: "postgresql_database",
-      user: "postgres",
+      user: "docker",
       password: "password",
-      database: "postgres",
+      database: "docker",
     },
     migrations: {
       tableName: "knex_migrations",
