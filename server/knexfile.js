@@ -4,6 +4,7 @@ require("dotenv").config({
   path: path.resolve(__dirname, `..`, `.env.${process.env.NODE_ENV}`),
 });
 
+console.log(NODE_ENV);
 module.exports = {
   development: {
     client: "postgresql",
