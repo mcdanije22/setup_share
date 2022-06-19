@@ -1,6 +1,6 @@
-FROM node:lts-alpine
+FROM node:12
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json", "npm-shrinkwrap.json*", "tsconfig.json", "next-env.d.ts", "./"]
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "tsconfig.json", "next-env.d.ts", "./"]
 COPY . .
 RUN npm install 
 ENV NODE_ENV=production
