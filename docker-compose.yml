@@ -34,7 +34,6 @@ services:
       - 5000:5000
   postgresql_database:
     image: postgres
-    container_name: postgresql_database
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
