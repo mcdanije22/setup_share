@@ -38,9 +38,9 @@ module.exports = {
     //   max: 10,
     // },
     connection: {
-      host: "postgresql_database",
+      host: "db",
       user: "docker",
-      password: "password",
+      password: "123456",
       database: "docker",
     },
     migrations: {
