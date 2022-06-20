@@ -12,7 +12,6 @@ import styles from "../components/CreateSetupForms/createRoomForms.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
 import { UserContextRenew } from "../utils/helperFunctions/userContextRenew";
-import { BaseAPI } from "../utils/constants/common";
 import axios from "axios";
 
 const { Title } = Typography;
@@ -67,9 +66,12 @@ export default function CreateRoomPage() {
 
   const reload = async () => {
     try {
-      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.BASE_API}/user/usercontext`,
+        {
+          withCredentials: true,
+        }
+      );
       const userInfo = await response.data;
       setUser(userInfo);
     } catch (error) {

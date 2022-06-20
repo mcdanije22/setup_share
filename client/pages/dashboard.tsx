@@ -6,7 +6,6 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import { Button, PageHeader } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { GetServerSideProps } from "next";
-import { BaseAPI } from "../utils/constants/common";
 import axios from "axios";
 import { pageAuthCheck } from "../utils/helperFunctions/pageAuthCheck";
 import ProjectsList from "../components/projectList/ProjectList";
@@ -44,9 +43,12 @@ export default function Dashboard(props: Props) {
 
   const reload = async () => {
     try {
-      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.BASE_API}/user/usercontext`,
+        {
+          withCredentials: true,
+        }
+      );
       const userInfo = await response.data;
       setUser(userInfo);
     } catch (error) {
@@ -86,7 +88,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (authCheck.props?.data.authd) {
     try {
       const response = await axios.get(
-        `${BaseAPI}/user/dashboard/${authCheck.props.data.user}`
+        `${process.env.BASE_API}/user/dashboard/${authCheck.props.data.user}`
       );
       const userDashboardInfo = await response.data;
       return {

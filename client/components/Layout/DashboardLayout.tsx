@@ -25,7 +25,6 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { UserContext } from "../../utils/context/userContext";
-import { BaseAPI } from "../../utils/constants/common";
 
 type Props = {
   children?: ReactNode;
@@ -53,9 +52,12 @@ const DashboardLayout = ({ children, title = "MySetupShare" }: Props) => {
 
   const reload = async () => {
     try {
-      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.BASE_API}/user/usercontext`,
+        {
+          withCredentials: true,
+        }
+      );
       const userInfo = await response.data;
       setUser(userInfo);
     } catch (error) {

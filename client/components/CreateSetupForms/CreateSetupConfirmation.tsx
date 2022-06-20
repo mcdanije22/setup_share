@@ -19,7 +19,6 @@ import {
 } from "antd";
 import { UserContext } from "../../utils/context/userContext";
 import { useRouter } from "next/router";
-import { BaseAPI } from "../../utils/constants/common";
 import {
   ArrowRightOutlined,
   ArrowLeftOutlined,
@@ -172,9 +171,13 @@ const CreateSetupConfirmation: React.FC<Props> = ({
       createdScreenType: onLoadScreenType,
     };
     try {
-      const submitRoom = await axios.post(`${BaseAPI}/setup/create`, roomData, {
-        withCredentials: true,
-      });
+      const submitRoom = await axios.post(
+        `${process.env.BASE_API}/setup/create`,
+        roomData,
+        {
+          withCredentials: true,
+        }
+      );
       const response = submitRoom;
       setSubmissionSetup_id(response.data.setup_id);
       setDataSubmitStatus(true);

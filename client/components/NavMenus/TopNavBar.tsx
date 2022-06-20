@@ -16,7 +16,6 @@ import {
 import { MenuOutlined } from "@ant-design/icons";
 import styles from "./topNavBar.module.scss";
 import { UserContext } from "../../utils/context/userContext";
-import { BaseAPI } from "../../utils/constants/common";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 
@@ -36,9 +35,12 @@ const TopNavBar = () => {
 
   const reload = async () => {
     try {
-      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.BASE_API}/user/usercontext`,
+        {
+          withCredentials: true,
+        }
+      );
       const userInfo = await response.data;
       setUser(userInfo);
     } catch (error) {
@@ -61,7 +63,7 @@ const TopNavBar = () => {
   const logUserOut = async () => {
     if (currentUser) {
       try {
-        const data = await axios.get(`${BaseAPI}/user/logout`, {
+        const data = await axios.get(`${process.env.BASE_API}/user/logout`, {
           withCredentials: true,
         });
         const response = data;

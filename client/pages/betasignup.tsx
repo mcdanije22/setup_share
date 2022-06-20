@@ -4,7 +4,6 @@ import { ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/login.module.scss";
 import Link from "next/link";
 // @ts-ignore

@@ -5,7 +5,6 @@ import dashboardStyles from "../../../components/Layout/DashboardLayout.module.s
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 import { GetServerSideProps } from "next";
 import { pageAuthCheck } from "../../utils/helperFunctions/pageAuthCheck";
-import { BaseAPI } from "../../utils/constants/common";
 import axios from "axios";
 import {
   Card,
@@ -87,9 +86,12 @@ export default function AnalyticsPage(props: Props) {
 
   const reload = async () => {
     try {
-      const response = await axios.get(`${BaseAPI}/user/usercontext`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.BASE_API}/user/usercontext`,
+        {
+          withCredentials: true,
+        }
+      );
       const userInfo = await response.data;
       setUser(userInfo);
     } catch (error) {
@@ -191,7 +193,7 @@ export default function AnalyticsPage(props: Props) {
     setLoading(true);
     try {
       const response = await axios.put(
-        `${BaseAPI}/setup/item/delete`,
+        `${process.env.BASE_API}/setup/item/delete`,
         {
           itemId: selectedItem?.key,
           userId: currentUser.user.user_id,
@@ -221,7 +223,7 @@ export default function AnalyticsPage(props: Props) {
   const deleteSetup = async () => {
     try {
       const response = await axios.put(
-        `${BaseAPI}/setup/delete`,
+        `${process.env.BASE_API}/setup/delete`,
         {
           setupId: setUpInfo[0].setup_id,
           userId: currentUser.user.user_id,
@@ -425,7 +427,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const authCheck = await pageAuthCheck(context);
   if (authCheck.props?.data.authd) {
     try {
-      const response = await axios.get(`${BaseAPI}/user/analytics/${id}`);
+      const response = await axios.get(
+        `${process.env.BASE_API}/user/analytics/${id}`
+      );
       const setupAnalyticsInfo = await response.data;
       if (setupAnalyticsInfo.setUpInfo.length === 0) {
         return {

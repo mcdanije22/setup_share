@@ -8,7 +8,6 @@ import {
   LaptopWidth,
   LaptopHeight,
 } from "../../utils/constants/screenSize";
-import { BaseAPI } from "../../utils/constants/common";
 import axios from "axios";
 import {
   Row,
@@ -316,7 +315,7 @@ export default function SetupPage(props: Props) {
   };
   const visitUpdate = async () => {
     const response = await axios.put(
-      `${BaseAPI}/setup/trackVisit`,
+      `${process.env.BASE_API}/setup/trackVisit`,
       {
         setupId: getSetUpInfo[0].setup_id,
         setupUserId: getSetUpInfo[0].user_id,
@@ -354,7 +353,7 @@ export default function SetupPage(props: Props) {
   };
   const itemClickUpdate = async (itemId: string) => {
     const response = await axios.put(
-      `${BaseAPI}/setup/trackItemClick`,
+      `${process.env.BASE_API}/setup/trackItemClick`,
       {
         itemId: itemId,
         setupUserId: getSetUpInfo[0].user_id,
@@ -672,7 +671,7 @@ export default function SetupPage(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   try {
-    const response = await axios.get(`${BaseAPI}/setup/${id}`);
+    const response = await axios.get(`${process.env.BASE_API}/setup/${id}`);
     let setUpPageData = await response.data;
     const currentDate = new Date();
     const d1 = new Date(setUpPageData.getSetUpInfo[0]?.subscription_exp_date);

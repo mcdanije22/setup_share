@@ -3,7 +3,6 @@ import { Row, Col, Form, Input, Button, message, Typography } from "antd";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { BaseAPI } from "../utils/constants/common";
 import styles from "../pageStyles/register.module.scss";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
 
@@ -36,13 +35,16 @@ export default function RegisterPage() {
     } else {
       try {
         setLoading(true);
-        const registerUser = await axios.post(`${BaseAPI}/user/register`, {
-          first_name,
-          last_name,
-          username,
-          email,
-          password,
-        });
+        const registerUser = await axios.post(
+          `${process.env.BASE_API}/user/register`,
+          {
+            first_name,
+            last_name,
+            username,
+            email,
+            password,
+          }
+        );
         const response = registerUser;
         message.success("Registration successful");
         setTimeout(async () => {
@@ -165,7 +167,7 @@ export default function RegisterPage() {
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   // try {
   //   const cookie = context.req.headers.cookie;
-  //   const response = await axios.post(`${BaseAPI}/user/pageauth`, { cookie });
+  //   const response = await axios.post(`${process.env.BASE_API}/user/pageauth`, { cookie });
   //   const data = await response.data;
   //   //If logged in already with cookie, redirect to dashboard page
   //   return {
