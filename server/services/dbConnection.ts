@@ -9,7 +9,7 @@ const db = require("knex")({
   client: "pg",
   version: "7.2",
   connection: {
-    host: "db",
+    host: process.env.POSTGRES_HOST,
     user:
       process.env.NODE_ENV === "development" ? "" : process.env.POSTGRES_USER,
     password:
