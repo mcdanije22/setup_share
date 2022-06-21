@@ -97,11 +97,11 @@ const TopNavBar = () => {
                 <a style={{ color: "black" }}>Login</a>
               </Link>
             </Col>
-            <Col span={24}>
-              <Link href="/signup">
+            {/* <Col span={24}>
+              <Link href="/register">
                 <a style={{ color: "black" }}>Register</a>
               </Link>
-            </Col>
+            </Col> */}
           </Row>
         ) : (
           <Row
@@ -150,11 +150,11 @@ const TopNavBar = () => {
                     <a style={{ color: "black" }}>Login</a>
                   </Link>
                 </Col>
-                <Col>
-                  <Link href="/signup">
+                {/* <Col>
+                  <Link href="/register">
                     <a style={{ color: "black" }}>Register</a>
                   </Link>
-                </Col>
+                </Col> */}
                 <Col>
                   <Button
                     type="primary"
