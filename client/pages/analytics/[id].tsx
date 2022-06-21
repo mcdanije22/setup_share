@@ -87,7 +87,7 @@ export default function AnalyticsPage(props: Props) {
   const reload = async () => {
     try {
       const response = await axios.get(
-        `${process.env.BASE_API}/user/usercontext`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/usercontext`,
         {
           withCredentials: true,
         }
@@ -193,7 +193,7 @@ export default function AnalyticsPage(props: Props) {
     setLoading(true);
     try {
       const response = await axios.put(
-        `${process.env.BASE_API}/setup/item/delete`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/setup/item/delete`,
         {
           itemId: selectedItem?.key,
           userId: currentUser.user.user_id,
@@ -223,7 +223,7 @@ export default function AnalyticsPage(props: Props) {
   const deleteSetup = async () => {
     try {
       const response = await axios.put(
-        `${process.env.BASE_API}/setup/delete`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/setup/delete`,
         {
           setupId: setUpInfo[0].setup_id,
           userId: currentUser.user.user_id,
@@ -428,7 +428,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (authCheck.props?.data.authd) {
     try {
       const response = await axios.get(
-        `${process.env.BASE_API}/user/analytics/${id}`
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/analytics/${id}`
       );
       const setupAnalyticsInfo = await response.data;
       if (setupAnalyticsInfo.setUpInfo.length === 0) {

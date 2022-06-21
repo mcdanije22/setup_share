@@ -24,7 +24,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const getUser = await axios.post(
-        `${process.env.BASE_API}/user/login`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/login`,
         {
           email,
           password,
@@ -108,9 +108,12 @@ export default function LoginPage() {
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   try {
     const cookie = context.req.headers.cookie;
-    const response = await axios.post(`${process.env.BASE_API}/user/pageauth`, {
-      cookie,
-    });
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/pageauth`,
+      {
+        cookie,
+      }
+    );
     const data = await response.data;
     //If logged in already with cookie, redirect to dashboard page
     return {

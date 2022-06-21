@@ -6,9 +6,12 @@ export const pageAuthCheck = async (context: any) => {
     // const cookie = context.req.headers.cookie.replace("token=", "");
     const cookie = context.req.headers.cookie;
     //here
-    const response = await axios.post(`${process.env.BASE_API}/user/pageauth`, {
-      cookie,
-    });
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/pageauth`,
+      {
+        cookie,
+      }
+    );
     const data = await response.data;
     return {
       props: { data },

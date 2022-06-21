@@ -172,7 +172,7 @@ const CreateSetupConfirmation: React.FC<Props> = ({
     };
     try {
       const submitRoom = await axios.post(
-        `${process.env.BASE_API}/setup/create`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/setup/create`,
         roomData,
         {
           withCredentials: true,

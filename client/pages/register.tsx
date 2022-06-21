@@ -36,7 +36,7 @@ export default function RegisterPage() {
       try {
         setLoading(true);
         const registerUser = await axios.post(
-          `${process.env.BASE_API}/user/register`,
+          `${process.env.NEXT_PUBLIC_BASE_API}/user/register`,
           {
             first_name,
             last_name,
@@ -167,7 +167,7 @@ export default function RegisterPage() {
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   // try {
   //   const cookie = context.req.headers.cookie;
-  //   const response = await axios.post(`${process.env.BASE_API}/user/pageauth`, { cookie });
+  //   const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API}/user/pageauth`, { cookie });
   //   const data = await response.data;
   //   //If logged in already with cookie, redirect to dashboard page
   //   return {

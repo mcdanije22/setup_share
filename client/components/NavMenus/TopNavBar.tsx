@@ -36,7 +36,7 @@ const TopNavBar = () => {
   const reload = async () => {
     try {
       const response = await axios.get(
-        `${process.env.BASE_API}/user/usercontext`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/usercontext`,
         {
           withCredentials: true,
         }
@@ -63,9 +63,12 @@ const TopNavBar = () => {
   const logUserOut = async () => {
     if (currentUser) {
       try {
-        const data = await axios.get(`${process.env.BASE_API}/user/logout`, {
-          withCredentials: true,
-        });
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_API}/user/logout`,
+          {
+            withCredentials: true,
+          }
+        );
         const response = data;
         setUser(null);
         message.success("Logged out sucessfully");

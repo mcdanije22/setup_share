@@ -1,8 +1,5 @@
-import { useState, useContext, useEffect } from "react";
 import { Row, Col, Form, Input, Button, message, Typography } from "antd";
 import { ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
-import axios from "axios";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import styles from "../pageStyles/login.module.scss";
 import Link from "next/link";
@@ -124,9 +121,7 @@ export default function BetaSignup() {
             </Text>
           </div>
           <MailchimpSubscribe
-            url={
-              "https://mysetupshare.us10.list-manage.com/subscribe/post?u=804125a815c985d0d5f8277c9&amp;id=ca27d7cb29"
-            }
+            url={process.env.NEXT_PUBLIC_MAILCHIMP_URL}
             render={({ subscribe, status, message }: Render) => (
               <CustomForm
                 status={status}

@@ -3,7 +3,7 @@ import axios from "axios";
 export const UserContextRenew = async () => {
   try {
     const response = await axios.get(
-      `${process.env.BASE_API}/user/usercontext`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/usercontext`,
       {
         withCredentials: true,
       }

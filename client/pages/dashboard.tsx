@@ -44,7 +44,7 @@ export default function Dashboard(props: Props) {
   const reload = async () => {
     try {
       const response = await axios.get(
-        `${process.env.BASE_API}/user/usercontext`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/usercontext`,
         {
           withCredentials: true,
         }
@@ -88,7 +88,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (authCheck.props?.data.authd) {
     try {
       const response = await axios.get(
-        `${process.env.BASE_API}/user/dashboard/${authCheck.props.data.user}`
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/dashboard/${authCheck.props.data.user}`
       );
       const userDashboardInfo = await response.data;
       return {

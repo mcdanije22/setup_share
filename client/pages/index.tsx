@@ -88,7 +88,7 @@ export default function Home() {
           </Col> */}
           <Col span={24}>
             <Link
-              href={`${process.env.BASE_URL}/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2`}
+              href={`${process.env.NEXT_PUBLIC_BASE_URL}/setup/7a0fa791-4975-4ed0-9516-dc933d4b0ea2`}
               passHref
             >
               <a target="_blank">

@@ -315,7 +315,7 @@ export default function SetupPage(props: Props) {
   };
   const visitUpdate = async () => {
     const response = await axios.put(
-      `${process.env.BASE_API}/setup/trackVisit`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/setup/trackVisit`,
       {
         setupId: getSetUpInfo[0].setup_id,
         setupUserId: getSetUpInfo[0].user_id,
@@ -353,7 +353,7 @@ export default function SetupPage(props: Props) {
   };
   const itemClickUpdate = async (itemId: string) => {
     const response = await axios.put(
-      `${process.env.BASE_API}/setup/trackItemClick`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/setup/trackItemClick`,
       {
         itemId: itemId,
         setupUserId: getSetUpInfo[0].user_id,
@@ -671,7 +671,9 @@ export default function SetupPage(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   try {
-    const response = await axios.get(`${process.env.BASE_API}/setup/${id}`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API}/setup/${id}`
+    );
     let setUpPageData = await response.data;
     const currentDate = new Date();
     const d1 = new Date(setUpPageData.getSetUpInfo[0]?.subscription_exp_date);

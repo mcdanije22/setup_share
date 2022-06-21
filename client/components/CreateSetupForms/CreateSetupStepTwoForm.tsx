@@ -78,9 +78,12 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     }
   };
   const deleteS3File = async (key: number) => {
-    const result = await axios.post(`${process.env.BASE_API}/image/delete`, {
-      key,
-    });
+    const result = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_API}/image/delete`,
+      {
+        key,
+      }
+    );
   };
   //deletes all images in filelist from s3 when one image is removed
   const onRemove = async (file: any) => {
@@ -123,7 +126,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
   //   const data = new FormData();
   //   data.append("image-file", file.originFileObj);
   //   try {
-  //     const result = await axios.post(`${process.env.BASE_API}/image/upload`, data, {
+  //     const result = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API}/image/upload`, data, {
   //       headers: {
   //         "Content-Type": "multipart/form-data",
   //       },
@@ -164,7 +167,7 @@ const CreateSetupStepTwoForm: React.FC<Props> = ({
     data.append("image-file", file.originFileObj);
     try {
       const result = await axios.post(
-        `${process.env.BASE_API}/image/upload`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/image/upload`,
         data,
         {
           headers: {
