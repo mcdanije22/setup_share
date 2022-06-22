@@ -22,7 +22,7 @@ import {
   BackTop,
   Card,
 } from "antd";
-import { CheckOutlined, MenuOutlined } from "@ant-design/icons";
+import { CheckOutlined, MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -265,7 +265,7 @@ export default function Home() {
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24, order: 2 }} lg={{ span: 8, order: 1 }}>
                       <Title level={4}>Upload your images!</Title>
-                      <Text>
+                      <Text className={styles.landingText}>
                         Upload up to three of your best images that showcase the
                         setup. Choose the order in which the images are shown
                         for the best viewing experience by using an image for
@@ -312,7 +312,7 @@ export default function Home() {
                     </Col>
                     <Col xs={{ span: 24 }} lg={{ span: 8 }}>
                       <Title level={4}>Add your links!</Title>
-                      <Text>
+                      <Text className={styles.landingText}>
                         Easily add and highlight the items in your setup! Add
                         highlights to the items in your setup so that your
                         audience can effortlessly get information on what you
@@ -330,7 +330,7 @@ export default function Home() {
                   <Row justify="space-between" gutter={[0, 48]}>
                     <Col xs={{ span: 24, order: 2 }} lg={{ span: 8, order: 1 }}>
                       <Title level={4}>Track everything!</Title>
-                      <Text>
+                      <Text className={styles.landingText}>
                         Obtain detailed analytics on your setup! Get information
                         on things such as how many unique visits its receiving
                         or how many times an item in your setup is clicked.
@@ -362,9 +362,19 @@ export default function Home() {
                   <Title level={2}>Starter</Title>
                   <div className={styles.cardMainContent}>
                     <ul>
-                      <li>Lorem Ipsum has been the industry</li>
-                      <li>Lorem Ipsum has been the industry</li>
-                      <li>Lorem Ipsum has been the industry</li>
+                      <span>
+                        <CheckOutlined /> <li>One setup per account</li>
+                      </span>
+                      <span>
+                        <CheckOutlined /> <li>One Image per account</li>
+                      </span>
+                      <span>
+                        <CheckOutlined /> <li>Five items per setup</li>
+                      </span>
+                      <span>
+                        <CloseOutlined style={{ color: "#FF4140" }} />
+                        <li>No personal affiliate linking</li>
+                      </span>
                     </ul>
                   </div>
                   <div className={styles.cardFooterContent}>
@@ -380,9 +390,19 @@ export default function Home() {
                   <Title level={2}>hobbyist</Title>
                   <div className={styles.cardMainContent}>
                     <ul>
-                      <li>Lorem Ipsum has been the industry</li>
-                      <li>Lorem Ipsum has been the industry</li>
-                      <li>Lorem Ipsum has been the industry</li>
+                      <span>
+                        <CheckOutlined /> <li>Three setups per account</li>
+                      </span>
+                      <span>
+                        <CheckOutlined /> <li>Two Images per setup</li>
+                      </span>
+                      <span>
+                        <CheckOutlined /> <li>Seven items per setup</li>
+                      </span>
+                      <span>
+                        <CheckOutlined />
+                        <li>Personal affiliate linking per item</li>
+                      </span>
                     </ul>
                   </div>
                   <div className={styles.cardFooterContent}>
@@ -398,9 +418,19 @@ export default function Home() {
                   <Title level={2}>Professional</Title>
                   <div className={styles.cardMainContent}>
                     <ul>
-                      <li>Lorem Ipsum has been the industry</li>
-                      <li>Lorem Ipsum has been the industry</li>
-                      <li>Lorem Ipsum has been the industry</li>
+                      <span>
+                        <CheckOutlined /> <li>Five setups per account</li>
+                      </span>
+                      <span>
+                        <CheckOutlined /> <li>Three Images per setup</li>
+                      </span>
+                      <span>
+                        <CheckOutlined /> <li>Unlimited items per setup</li>
+                      </span>
+                      <span>
+                        <CheckOutlined />
+                        <li>Personal affiliate linking per item</li>
+                      </span>
                     </ul>
                   </div>
                   <div className={styles.cardFooterContent}>

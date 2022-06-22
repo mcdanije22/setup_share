@@ -48,6 +48,9 @@ $tablet: 768px;
     height: 600px;
   }
 }
+.landingText {
+  font-size: 1rem;
+}
 #landingPageContainer {
   :global {
     .ant-layout-header,
@@ -63,7 +66,7 @@ $tablet: 768px;
       border: none;
       .anticon,
       .anticon-check {
-        color: #4e89ff;
+        color: #33cfc8;
         font-size: 1.2rem;
       }
     }
@@ -72,6 +75,7 @@ $tablet: 768px;
       text-align: center;
       margin: 0;
     }
+
     .titleDescription {
       font-size: 1.2rem;
       text-align: center;
@@ -94,7 +98,7 @@ $tablet: 768px;
     background: #ffffff0f;
     border-radius: 1rem;
     width: 400px;
-    height: 400px;
+    height: 440px;
     padding: 20px;
     margin: 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -118,7 +122,18 @@ $tablet: 768px;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 140px;
+      height: 200px;
+      ul {
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          span {
+            padding-right: 0.5rem;
+            color: #33cfc8;
+          }
+        }
+      }
     }
     .cardFooterContent {
       h3 {
