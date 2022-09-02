@@ -38,13 +38,6 @@ export default function Home() {
   const closeDrawer = () => {
     showDrawer(false);
   };
-  // const demoLogin = () => {
-  //   signIn("username-login", {
-  //     email: "john.smith@gmail.com",
-  //     password: "abc",
-  //     callbackUrl: "/dashboard",
-  //   });
-  // };
 
   const listData = [
     {
@@ -212,7 +205,7 @@ export default function Home() {
               <Row justify="center" className={styles.containerSpace}>
                 <Col span={24} id={styles.heroImage}>
                   <img
-                    src="/main.jpg"
+                    src="/main.png"
                     alt="Screen shot of main page for app"
                     style={{
                       width: "100%",

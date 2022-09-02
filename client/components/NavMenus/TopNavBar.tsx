@@ -92,7 +92,7 @@ const TopNavBar = () => {
           <Row
             justify="center"
             gutter={[0, 32]}
-            style={{ width: "100%", textAlign: "center" }}
+            style={{ width: "100%", textAlign: "center", alignItems: "center" }}
             id={styles.topNavBar}
           >
             <Col span={24}>
@@ -158,7 +158,7 @@ const TopNavBar = () => {
                     <a style={{ color: "black" }}>Register</a>
                   </Link>
                 </Col> */}
-                <Col>
+                {/* <Col>
                   <Button
                     type="primary"
                     size="large"
@@ -166,7 +166,7 @@ const TopNavBar = () => {
                   >
                     Live demo
                   </Button>
-                </Col>
+                </Col> */}
               </Space>
             </Row>
           </Col>
