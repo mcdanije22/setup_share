@@ -92,7 +92,7 @@ const TopNavBar = () => {
           <Row
             justify="center"
             gutter={[0, 32]}
-            style={{ width: "100%", textAlign: "center", alignItems: "center" }}
+            style={{ width: "100%", textAlign: "center" }}
             id={styles.topNavBar}
           >
             <Col span={24}>
@@ -132,9 +132,10 @@ const TopNavBar = () => {
       <Row
         justify="space-between"
         style={{
-          padding: "1rem",
+          padding: "1rem 4rem",
           borderBottom: "1px solid #D9D9D9",
           boxShadow: "0 8px 12px -4px #D9D9D9",
+          alignItems: "center",
         }}
       >
         <Col xs={{ flex: "auto" }} lg={{ span: 8 }}>
